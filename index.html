@@ -342,7 +342,7 @@
         <div class="ct">What are we actually installing — and why?</div>
         <p>There are two things to install, and they do different jobs:</p>
         <ul style="margin:8px 0 4px;">
-          <li><b>Node.js</b> — a runtime that lets your computer run JavaScript programs. The MongoDB MCP server (which connects Bob to your database in Step 02) is a JavaScript program, so Node needs to be on your machine to launch it. You won't write any JavaScript yourself.</li>
+          <li><b>Node.js 18+</b> — a runtime that lets your computer run JavaScript programs. The MongoDB MCP server (which connects Bob to your database in Step 02) is a JavaScript program, so Node needs to be on your machine to launch it. You won't write any JavaScript yourself. <b>Version 18 or higher is required.</b></li>
           <li><b>uv</b> — a tool that handles Python for you. It downloads and installs the right version of Python automatically, then creates an isolated sandbox (called a virtual environment) inside your <code class="ic">mongo-lab</code> folder. This means the Python libraries for this workshop stay contained to this folder and don't interfere with anything else on your computer. You never manually install Python, and you never "activate" anything — <code class="ic">uv run</code> handles it transparently.</li>
         </ul>
       </div>
@@ -352,7 +352,7 @@
         <div class="ct">What are we actually installing — and why?</div>
         <p>There are two things to install, and they do different jobs:</p>
         <ul style="margin:8px 0 4px;">
-          <li><b>Node.js</b> — a runtime that lets your computer run JavaScript programs. The MongoDB MCP server (which connects Bob to your database in Step 02) is a JavaScript program, so Node needs to be on your machine to launch it. You won't write any JavaScript yourself.</li>
+          <li><b>Node.js 18+</b> — a runtime that lets your computer run JavaScript programs. The MongoDB MCP server (which connects Bob to your database in Step 02) is a JavaScript program, so Node needs to be on your machine to launch it. You won't write any JavaScript yourself. <b>Version 18 or higher is required.</b></li>
           <li><b>uv</b> — a tool that handles Python for you. It downloads and installs the right version of Python automatically, then creates an isolated sandbox (called a virtual environment) inside your <code class="ic">mongo-lab</code> folder. This means the Python libraries for this workshop stay contained to this folder and don't interfere with anything else on your computer. You never manually install Python, and you never "activate" anything — <code class="ic">uv run</code> handles it transparently.</li>
         </ul>
       </div>
@@ -362,7 +362,7 @@
         <div class="ct">What are we actually installing — and why?</div>
         <p>There are two things to install, and they do different jobs:</p>
         <ul style="margin:8px 0 4px;">
-          <li><b>Node.js</b> — a runtime that lets your computer run JavaScript programs. The MongoDB MCP server (which connects Bob to your database in Step 02) is a JavaScript program, so Node needs to be on your machine to launch it. You won't write any JavaScript yourself.</li>
+          <li><b>Node.js 18+</b> — a runtime that lets your computer run JavaScript programs. The MongoDB MCP server (which connects Bob to your database in Step 02) is a JavaScript program, so Node needs to be on your machine to launch it. You won't write any JavaScript yourself. <b>Version 18 or higher is required.</b></li>
           <li><b>uv</b> — a tool that handles Python for you. It downloads and installs the right version of Python automatically, then creates an isolated sandbox (called a virtual environment) inside your <code class="ic">mongo-lab</code> folder. This means the Python libraries for this workshop stay contained to this folder and don't interfere with anything else on your computer. You never manually install Python, and you never "activate" anything — <code class="ic">uv run</code> handles it transparently.</li>
         </ul>
       </div>
@@ -409,11 +409,23 @@
             <div class="os-flag">macOS</div>
             <p><b>Step 2a — Install Homebrew.</b> Homebrew is a package manager for macOS — it's the easiest way to install Node. Paste this and press <kbd>Return</kbd>:</p>
             <div class="cmd"><pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre></div>
-            <p>It will ask for your Mac password (nothing shows as you type — that's normal). Press <kbd>Return</kbd> when it asks you to proceed.</p>
-            <p><b>Step 2b — Add Homebrew to your PATH</b> so your terminal can find it:</p>
+            <p>It will ask for your Mac password — <b>nothing shows as you type, that's normal</b>. Just type it and press <kbd>Return</kbd>. When it asks <i>"Press RETURN/ENTER to continue or any other key to abort"</i>, press <kbd>Return</kbd>. This step can take <b>several minutes</b> — wait until the cursor reappears before continuing.</p>
+            <p><b>Step 2b — Make your terminal aware of Homebrew.</b> Paste both lines together and press <kbd>Return</kbd>:</p>
+            <div class="note">
+              <div class="nt">What does this do?</div>
+              <p>This tells your terminal where to find Homebrew. Without it, commands like <code class="ic">brew</code> won't be recognised. You only need to do this once.</p>
+            </div>
             <div class="cmd"><pre><code>echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
 eval "$(/opt/homebrew/bin/brew shellenv)"</code></pre></div>
-            <p><b>Step 2c — Install Node</b> using Homebrew:</p>
+            <details class="fix">
+              <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> you get "No such file or directory" after step 2b</summary>
+              <div class="fixbody">
+                <p>Your Mac may be an older Intel model. Try this version instead:</p>
+                <div class="cmd"><pre><code>echo 'eval "$(/usr/local/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/usr/local/bin/brew shellenv)"</code></pre></div>
+              </div>
+            </details>
+            <p><b>Step 2c — Install Node</b> using Homebrew. This can take <b>3–5 minutes</b> — leave the terminal running and wait:</p>
             <div class="cmd"><pre><code>brew install node</code></pre></div>
             <p><b>Step 2d — Install uv</b> (this also installs Python automatically when you use it):</p>
             <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
@@ -423,17 +435,22 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</code></pre></div>
 
           <div class="os-block" data-os="win">
             <div class="os-flag">Windows</div>
-            <p><b>Step 2a — Install Node.</b> Go to <a class="inline" href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org/download</a> in your browser. Click the <b>LTS</b> download button, run the installer, and click through (all defaults are fine). This puts Node and <code class="ic">npx</code> on your computer automatically.</p>
-            <p><b>Step 2b — Install uv.</b> Paste this into PowerShell and press <kbd>Enter</kbd>:</p>
+            <p><b>Step 2a — Install Node.</b> Go to <a class="inline" href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org/download</a> in your browser. Look for the large green button labelled <b>Download Node.js (LTS)</b> and click it. A <code class="ic">.msi</code> installer file will download — open it, click <b>Next</b> through every screen, and click <b>Finish</b>. All defaults are correct — don't change anything.</p>
+            <div class="note">
+              <div class="nt">Close and reopen PowerShell after Node installs</div>
+              <p>Once the Node installer finishes, <b>close your PowerShell window completely</b> and reopen it (Win + R → type <b>powershell</b> → Enter). This is required so PowerShell can find the newly installed Node commands.</p>
+            </div>
+            <p><b>Step 2b — Install uv.</b> In your freshly reopened PowerShell, paste this and press <kbd>Enter</kbd>:</p>
             <div class="cmd"><pre><code>powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre></div>
-            <p>When it finishes, <b>close PowerShell and reopen it</b> (Win + R → powershell → Enter) so the new <code class="ic">uv</code> command is available.</p>
+            <p>When it finishes, <b>close PowerShell and reopen it once more</b> (Win + R → powershell → Enter) so the new <code class="ic">uv</code> command is available.</p>
           </div>
 
           <div class="os-block" data-os="linux">
             <div class="os-flag">Linux</div>
-            <p><b>Step 2a — Install Node.</b> Paste this and press <kbd>Enter</kbd> (it may ask for your password):</p>
-            <div class="cmd"><pre><code>sudo apt update && sudo apt install -y nodejs npm</code></pre></div>
-            <p>On Fedora/RHEL use <code class="ic">sudo dnf install nodejs npm</code>. On Arch use <code class="ic">sudo pacman -S nodejs npm</code>.</p>
+            <p><b>Step 2a — Install Node 18+.</b> Paste this and press <kbd>Enter</kbd>. It may ask for your password — <b>nothing shows as you type, that's normal</b>. This can take <b>a few minutes</b>:</p>
+            <div class="cmd"><pre><code>curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs</code></pre></div>
+            <p>On Fedora/RHEL use <code class="ic">sudo dnf install nodejs</code> (ensure the version is 18+). On Arch use <code class="ic">sudo pacman -S nodejs npm</code>.</p>
             <p><b>Step 2b — Install uv:</b></p>
             <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
             <p><b>Step 2c — Reload your terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
@@ -445,7 +462,7 @@ eval "$(/opt/homebrew/bin/brew shellenv)"</code></pre></div>
         <li class="step">
           <span class="badge">3</span>
           <div class="stitle">Confirm Node and uv are installed</div>
-          <p>Let's verify everything installed correctly. Run each command below — each one should print back a version number (e.g. <code class="ic">v22.0.0</code>). If any of them say <i>"command not found"</i>, see the fix below.</p>
+          <p>Let's verify everything installed correctly. Run each command below — each one should print back a version number. Node must be <b>v18 or higher</b> (e.g. <code class="ic">v18.0.0</code> or above). If any of them say <i>"command not found"</i>, see the fix below.</p>
 
           <div class="os-block" data-os="mac">
             <div class="os-flag">macOS</div>
@@ -478,6 +495,10 @@ uv --version</code></pre></div>
           <span class="badge">4</span>
           <div class="stitle">Create the project folder and set up Python</div>
           <p>This step creates your <code class="ic">mongo-lab</code> working folder and uses <code class="ic">uv</code> to set up a Python sandbox inside it — downloading Python itself if needed, then installing the two libraries the workshop scripts require: <b>pymongo</b> (talks to MongoDB) and <b>pypdf</b> (reads PDF files).</p>
+          <div class="note">
+            <div class="nt">If you see "already exists" or "file exists" — that's fine</div>
+            <p>If you've run this step before, <code class="ic">mkdir</code> may say the folder already exists. That's not an error — just keep going and run the remaining lines. Everything will work correctly.</p>
+          </div>
           <p>Copy and paste the whole block into your terminal at once, then press <kbd>Enter</kbd>:</p>
 
           <div class="os-block" data-os="mac">
@@ -522,11 +543,9 @@ uv add pymongo pypdf</code></pre></div>
             <li><code class="ic">policy_plus_extra.pdf</code></li>
             <li><code class="ic">load_policies.py</code></li>
             <li><code class="ic">answer_key.csv</code></li>
-            <li><code class="ic">MCP Credentials.docx</code> — contains your connection string, client ID, and client secret for Step 02</li>
-            <li><code class="ic">SKILL.md</code> — reference skill for Bob (optional but recommended)</li>
           </ul>
           <figure class="shot">
-            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, answer_key.csv, and MCP Credentials.docx">
+            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, and answer_key.csv">
             <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
           </figure>
           <div class="note">
@@ -535,15 +554,11 @@ uv add pymongo pypdf</code></pre></div>
           </div>
           <div class="os-block" data-os="mac">
             <div class="os-flag">macOS</div>
-            <p>Move the downloaded files from your Downloads folder into <code class="ic">~/mongo-lab</code>:</p>
-            <div class="cmd"><pre><code>mv ~/Downloads/policy_basic.pdf \
-   ~/Downloads/policy_plus.pdf \
-   ~/Downloads/policy_plus_extra.pdf \
-   ~/Downloads/load_policies.py \
-   ~/Downloads/answer_key.csv \
-   ~/Downloads/SKILL.md \
-   ~/mongo-lab/</code></pre></div>
-            <p>Or drag the files from your Downloads folder into <code class="ic">~/mongo-lab</code> in Finder.</p>
+            <p>Open <b>Finder</b> (click the smiley face icon in your Dock, or press <kbd>⌘ Cmd</kbd> + <kbd>N</kbd>). Your <b>Downloads</b> folder is listed in the left sidebar — click it to see the files. Now open a second Finder window by pressing <kbd>⌘ Cmd</kbd> + <kbd>N</kbd> again. In this new window, click your home folder in the sidebar (it has your name) and open the <code class="ic">mongo-lab</code> folder. Place the two windows side by side, select all 5 workshop files in the Downloads window, and drag them into <code class="ic">mongo-lab</code>.</p>
+            <figure class="shot narrow">
+              <img src="img/placeholder-drag-mac.png" alt="[placeholder] Dragging workshop files from Downloads into mongo-lab in Finder">
+              <figcaption>Drag all workshop files from <b>Downloads</b> into <b>mongo-lab</b> in Finder.</figcaption>
+            </figure>
           </div>
         </li>
 
@@ -583,7 +598,7 @@ uv add pymongo pypdf</code></pre></div>
         <li class="step">
           <span class="badge">3</span>
           <div class="stitle">Confirm Node and uv are installed</div>
-          <p>Run each command below — each one should print back a version number (e.g. <code class="ic">v22.0.0</code>):</p>
+          <p>Run each command below — each one should print back a version number. Node must be <b>v18 or higher</b>.</p>
           <div class="os-block" data-os="win">
             <div class="os-flag">Windows</div>
             <div class="cmd"><pre><code>node --version
@@ -625,11 +640,9 @@ uv add pymongo pypdf</code></pre></div>
             <li><code class="ic">policy_plus_extra.pdf</code></li>
             <li><code class="ic">load_policies.py</code></li>
             <li><code class="ic">answer_key.csv</code></li>
-            <li><code class="ic">MCP Credentials.docx</code> — contains your connection string, client ID, and client secret for Step 02</li>
-            <li><code class="ic">SKILL.md</code> — reference skill for Bob (optional but recommended)</li>
           </ul>
           <figure class="shot">
-            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, answer_key.csv, and MCP Credentials.docx">
+            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, and answer_key.csv">
             <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
           </figure>
           <div class="note">
@@ -638,15 +651,11 @@ uv add pymongo pypdf</code></pre></div>
           </div>
           <div class="os-block" data-os="win">
             <div class="os-flag">Windows</div>
-            <p>Move the downloaded files into <code class="ic">mongo-lab</code> in <b>PowerShell</b>:</p>
-            <div class="cmd"><pre><code>Move-Item "$HOME\Downloads\policy_basic.pdf", `
-  "$HOME\Downloads\policy_plus.pdf", `
-  "$HOME\Downloads\policy_plus_extra.pdf", `
-  "$HOME\Downloads\load_policies.py", `
-  "$HOME\Downloads\answer_key.csv", `
-  "$HOME\Downloads\SKILL.md" `
-  "$HOME\mongo-lab\"</code></pre></div>
-            <p>Or drag the files from your Downloads folder into <code class="ic">%USERPROFILE%\mongo-lab</code> in File Explorer.</p>
+            <p>Press <kbd>⊞ Win</kbd> + <kbd>E</kbd> to open <b>File Explorer</b>. Click <b>Downloads</b> in the left sidebar. Now open a second File Explorer window by pressing <kbd>⊞ Win</kbd> + <kbd>E</kbd> again. In this new window, click <b>This PC</b> → open your user folder (it has your name) → open <code class="ic">mongo-lab</code>. Place the two windows side by side, select all 5 workshop files in the Downloads window, and drag them into <code class="ic">mongo-lab</code>.</p>
+            <figure class="shot narrow">
+              <img src="img/placeholder-drag-win.png" alt="[placeholder] Dragging workshop files from Downloads into mongo-lab in File Explorer">
+              <figcaption>Drag all workshop files from <b>Downloads</b> into <b>mongo-lab</b> in File Explorer.</figcaption>
+            </figure>
           </div>
         </li>
         <li class="step done">
@@ -672,9 +681,10 @@ uv add pymongo pypdf</code></pre></div>
           <p>Click the copy button on each code block, paste it into your terminal, and press <kbd>Enter</kbd>. Wait for each command to finish before running the next.</p>
           <div class="os-block" data-os="linux">
             <div class="os-flag">Linux</div>
-            <p><b>Step 2a — Install Node.</b> Paste this and press <kbd>Enter</kbd> (it may ask for your password):</p>
-            <div class="cmd"><pre><code>sudo apt update && sudo apt install -y nodejs npm</code></pre></div>
-            <p>On Fedora/RHEL use <code class="ic">sudo dnf install nodejs npm</code>. On Arch use <code class="ic">sudo pacman -S nodejs npm</code>.</p>
+            <p><b>Step 2a — Install Node 18+.</b> Paste this and press <kbd>Enter</kbd> (it may ask for your password):</p>
+            <div class="cmd"><pre><code>curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+sudo apt install -y nodejs</code></pre></div>
+            <p>On Fedora/RHEL use <code class="ic">sudo dnf install nodejs</code> (ensure the version is 18+). On Arch use <code class="ic">sudo pacman -S nodejs npm</code>.</p>
             <p><b>Step 2b — Install uv:</b></p>
             <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
             <p><b>Step 2c — Reload your terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
@@ -684,7 +694,7 @@ uv add pymongo pypdf</code></pre></div>
         <li class="step">
           <span class="badge">3</span>
           <div class="stitle">Confirm Node and uv are installed</div>
-          <p>Run each command below — each one should print back a version number (e.g. <code class="ic">v22.0.0</code>):</p>
+          <p>Run each command below — each one should print back a version number. Node must be <b>v18 or higher</b>.</p>
           <div class="os-block" data-os="linux">
             <div class="os-flag">Linux</div>
             <div class="cmd"><pre><code>node --version
@@ -725,11 +735,9 @@ uv add pymongo pypdf</code></pre></div>
             <li><code class="ic">policy_plus_extra.pdf</code></li>
             <li><code class="ic">load_policies.py</code></li>
             <li><code class="ic">answer_key.csv</code></li>
-            <li><code class="ic">MCP Credentials.docx</code> — contains your connection string, client ID, and client secret for Step 02</li>
-            <li><code class="ic">SKILL.md</code> — reference skill for Bob (optional but recommended)</li>
           </ul>
           <figure class="shot">
-            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, answer_key.csv, and MCP Credentials.docx">
+            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, and answer_key.csv">
             <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
           </figure>
           <div class="note">
@@ -738,14 +746,11 @@ uv add pymongo pypdf</code></pre></div>
           </div>
           <div class="os-block" data-os="linux">
             <div class="os-flag">Linux</div>
-            <p>Move the downloaded files into <code class="ic">mongo-lab</code>:</p>
-            <div class="cmd"><pre><code>mv ~/Downloads/policy_basic.pdf \
-   ~/Downloads/policy_plus.pdf \
-   ~/Downloads/policy_plus_extra.pdf \
-   ~/Downloads/load_policies.py \
-   ~/Downloads/answer_key.csv \
-   ~/Downloads/SKILL.md \
-   ~/mongo-lab/</code></pre></div>
+            <p>Open your <b>file manager</b> (look for an icon labelled Files, Nautilus, or Dolphin in your taskbar or application menu). Navigate to your <b>Downloads</b> folder. Open a second file manager window using <kbd>Ctrl</kbd> + <kbd>N</kbd>, then navigate to your home folder and open <code class="ic">mongo-lab</code>. Place the two windows side by side, select all 5 workshop files in the Downloads window, and drag them into <code class="ic">mongo-lab</code>.</p>
+            <figure class="shot narrow">
+              <img src="img/placeholder-drag-linux.png" alt="[placeholder] Dragging workshop files from Downloads into mongo-lab in the file manager">
+              <figcaption>Drag all workshop files from <b>Downloads</b> into <b>mongo-lab</b> in your file manager.</figcaption>
+            </figure>
           </div>
         </li>
         <li class="step done">
@@ -766,7 +771,7 @@ uv add pymongo pypdf</code></pre></div>
           <li class="step">
             <span class="badge">1</span>
             <div class="stitle">Open the VM in your browser and log in</div>
-            <p>Your instructor will share a URL — it opens a Linux desktop inside your browser tab. Open the link, enter the username and password your instructor provided, and you'll land on a Linux desktop.</p>
+            <p>A link will be provided to access the VM — it opens a Linux desktop inside your browser tab. Open the link, enter the username and password your instructor provided, and you'll land on a Linux desktop.</p>
             <div class="note">
               <div class="nt">Everything runs inside this browser tab</div>
               <p>Treat the VM desktop like a separate computer. Files you download, commands you run, and Bob itself all live inside the VM — nothing touches your physical laptop.</p>
@@ -788,9 +793,10 @@ uv add pymongo pypdf</code></pre></div>
             <span class="badge">3</span>
             <div class="stitle">Install Node and uv</div>
             <p>Paste each block into the terminal and press <kbd>Enter</kbd>, waiting for each to finish before running the next — you'll know it's done when the cursor reappears on a new line.</p>
-            <p><b>Step 3a — Install Node:</b></p>
-            <div class="cmd"><pre><code>sudo dnf install -y nodejs npm</code></pre></div>
-            <p>It will ask for your password — type it and press <kbd>Enter</kbd> (nothing shows as you type, that's normal).</p>
+            <p><b>Step 3a — Install Node 18+.</b> This can take <b>a few minutes</b> — leave the terminal running and wait:</p>
+            <div class="cmd"><pre><code>sudo dnf module enable nodejs:18 -y
+sudo dnf install -y nodejs npm</code></pre></div>
+            <p>It may ask for your password — <b>nothing shows as you type, that's normal</b>. Type it and press <kbd>Enter</kbd>. After that the install continues automatically — you don't need to type anything else.</p>
             <p><b>Step 3b — Install uv</b> (this also downloads and manages Python for you — you don't need to install Python separately):</p>
             <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
             <p><b>Step 3c — Reload the terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
@@ -800,7 +806,7 @@ uv add pymongo pypdf</code></pre></div>
           <li class="step">
             <span class="badge">4</span>
             <div class="stitle">Confirm Node and uv are installed</div>
-            <p>Run each of these — each should print a version number:</p>
+            <p>Run each of these — each should print a version number. Node must be <b>v18 or higher</b>.</p>
             <div class="cmd"><pre><code>node --version
 npx --version
 uv --version</code></pre></div>
@@ -826,38 +832,34 @@ uv add pymongo pypdf</code></pre></div>
 
           <li class="step">
             <span class="badge">6</span>
-            <div class="stitle">Download and unzip the workshop files inside the VM</div>
+            <div class="stitle">Download the workshop files and add them to mongo-lab</div>
             <p>Open the <b>browser inside the VM</b> (look for Firefox or Chromium in the taskbar or application menu) and go to <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a>. Download the following files individually — do <b>not</b> use the folder-level Download button:</p>
-          <ul>
-            <li><code class="ic">policy_basic.pdf</code></li>
-            <li><code class="ic">policy_plus.pdf</code></li>
-            <li><code class="ic">policy_plus_extra.pdf</code></li>
-            <li><code class="ic">load_policies.py</code></li>
-            <li><code class="ic">answer_key.csv</code></li>
-            <li><code class="ic">MCP Credentials.docx</code> — contains your connection string, client ID, and client secret for Step 02</li>
-            <li><code class="ic">SKILL.md</code> — reference skill for Bob (optional but recommended)</li>
-          </ul>
+            <ul>
+              <li><code class="ic">policy_basic.pdf</code></li>
+              <li><code class="ic">policy_plus.pdf</code></li>
+              <li><code class="ic">policy_plus_extra.pdf</code></li>
+              <li><code class="ic">load_policies.py</code></li>
+              <li><code class="ic">answer_key.csv</code></li>
+            </ul>
             <figure class="shot">
-              <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, answer_key.csv, and MCP Credentials.docx">
+              <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, and answer_key.csv">
               <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
             </figure>
-            <p>Move the downloaded files into <code class="ic">mongo-lab</code>:</p>
-            <div class="cmd"><pre><code>mv ~/Downloads/policy_basic.pdf \
-   ~/Downloads/policy_plus.pdf \
-   ~/Downloads/policy_plus_extra.pdf \
-   ~/Downloads/load_policies.py \
-   ~/Downloads/answer_key.csv \
-   ~/Downloads/SKILL.md \
-   ~/mongo-lab/</code></pre></div>
-            <p>Confirm the files are there:</p>
-            <div class="cmd"><pre><code>ls ~/mongo-lab</code></pre></div>
+            <div class="note">
+              <div class="nt">Password protected</div>
+              <p>The Box folder is password protected — your instructor will give you the password on the day.</p>
+            </div>
+            <p>Once all files are downloaded, open the VM's <b>file manager</b> (look for an icon labelled Files or Nautilus in the taskbar or application menu). Navigate to the <b>Downloads</b> folder. Open a second file manager window using <kbd>Ctrl</kbd> + <kbd>N</kbd>, then navigate to your home folder and open <code class="ic">mongo-lab</code>. Place the two windows side by side, select all 5 workshop files in the Downloads window, and drag them into <code class="ic">mongo-lab</code>.</p>
+            <figure class="shot narrow">
+              <img src="img/placeholder-drag-vm.png" alt="[placeholder] Dragging workshop files from Downloads into mongo-lab in the VM file manager">
+              <figcaption>Drag all workshop files from <b>Downloads</b> into <b>mongo-lab</b> in the VM's file manager.</figcaption>
+            </figure>
           </li>
-
 
           <li class="step done">
             <span class="badge">✓</span>
             <div class="stitle">Checkpoint — VM is fully set up</div>
-            <p>Node, uv, and both Python libraries are installed. Workshop files are in <code class="ic">~/mongo-lab</code>. Bob is open. Continue to <b>Step 01</b> to sign in.</p>
+            <p>Node, uv, and both Python libraries are installed. Workshop files are in <code class="ic">~/mongo-lab</code>. Continue to <b>Step 01</b> to sign in.</p>
           </li>
         </ol>
 
@@ -895,8 +897,8 @@ uv add pymongo pypdf</code></pre></div>
           </ul>
           <div class="os-block" data-os="vm">
             <div class="note">
-              <div class="nt">VM — use the Linux RPM x64 installer</div>
-              <p>On the download page, scroll to the <b>Linux</b> section and choose <b>Linux RPM x64</b>. Once it downloads, open the <b>Downloads</b> folder in the VM's file manager and double-click the <code class="ic">.rpm</code> file to install it. Then launch Bob from the application menu.</p>
+              <div class="nt">VM — Bob is already installed, skip this step</div>
+              <p>Bob is pre-installed on your VM. You don't need to download or install anything. Launch Bob from the application menu and go straight to <b>Step 2 — Sign in</b>.</p>
             </div>
           </div>
         </li>
@@ -907,7 +909,7 @@ uv add pymongo pypdf</code></pre></div>
           <ol class="substeps">
             <li>Click <b>Sign up</b> (or go to <a class="inline" href="https://bob.ibm.com" target="_blank" rel="noopener">bob.ibm.com</a> and choose <b>Try for free</b>).</li>
             <li>Enter your <b>personal email address</b> and create a password — no IBM ID or company account needed.</li>
-            <li>Check your inbox for the verification email and click the confirmation link.</li>
+            <li>Check your inbox for a verification email from IBM Bob and click the confirmation link. <b>If you don't see it after a minute, check your Spam or Junk folder.</b></li>
             <li>Return to Bob and sign in with the same email and password.</li>
           </ol>
           <div class="note">
@@ -930,7 +932,12 @@ uv add pymongo pypdf</code></pre></div>
         <li class="step">
           <span class="badge">3</span>
           <div class="stitle">Open your project folder in Bob</div>
-          <p>Choose <b>File → Open Folder…</b> and navigate to your <code class="ic">mongo-lab</code> folder (<code class="ic">~/mongo-lab</code> on macOS/Linux, <code class="ic">%USERPROFILE%\mongo-lab</code> on Windows). Select it and click <b>Open</b>. Bob will show the Welcome tab with a <b>Restricted Mode</b> badge in the bottom-left — that's your cue for the next step.</p>
+          <p>Choose <b>File → Open Folder…</b> from the menu bar at the top of Bob. Navigate to the <code class="ic">mongo-lab</code> folder you created earlier and click <b>Open</b>.</p>
+          <ul>
+            <li><b>macOS / Linux:</b> it's in your home folder — look for <code class="ic">mongo-lab</code>.</li>
+            <li><b>Windows:</b> open <b>This PC</b>, then your user folder (it has your name), and you'll see <code class="ic">mongo-lab</code> there.</li>
+          </ul>
+          <p>Once opened, Bob will show the Welcome tab with a <b>Restricted Mode</b> badge in the bottom-left — that's your cue for the next step.</p>
           <figure class="shot">
             <img src="img/initalBob.png" alt="Bob after opening a new empty folder, showing the Restricted Mode banner and badge">
             <figcaption>Bob after opening the <b>mongo-lab</b> folder. Notice the <b>Restricted Mode</b> warning at the top and the blue <b>Restricted Mode</b> badge in the status bar bottom-left.</figcaption>
@@ -1034,19 +1041,45 @@ uv add pymongo pypdf</code></pre></div>
           <span class="badge">4</span>
           <div class="stitle">Create a .env file with your credentials</div>
           <p>The <code class="ic">.env</code> file is where your real credentials live. Bob reads it when it starts the MCP server and substitutes the values for the placeholders in <code class="ic">mcp.json</code>. Your credentials stay in <code class="ic">.env</code> and never get pasted into any config or chat message.</p>
-          <p>In Bob's file explorer (left sidebar), click <b>New File</b> and name it <code class="ic">.env</code>. Then add these three lines — replacing each placeholder with the values from your <b>MCP Credentials.docx</b> file. Your instructor will provide all three:</p>
-          <div class="cmd"><pre><code>MDB_MCP_CONNECTION_STRING=your-connection-string-here
-MDB_MCP_API_CLIENT_ID=your-client-id-here
-MDB_MCP_API_CLIENT_SECRET=your-client-secret-here</code></pre></div>
-          <div class="note must">
-            <div class="nt">No quotes around any value</div>
-            <p>Paste each value directly after the <code class="ic">=</code> with no surrounding quotes and no spaces. Your connection string starts with <code class="ic">mongodb+srv://</code> — paste the whole thing as-is.</p>
-          </div>
+
           <div class="callout tip">
             <div class="ct">Why a .env file?</div>
-            <p>A <code class="ic">.env</code> file is a standard way to keep secrets — passwords, API keys, connection strings — separate from your code and config. If you ever share your project or push it to GitHub, the credentials stay on your machine because <code class="ic">.env</code> is never committed. <code class="ic">mcp.json</code> is safe to share; <code class="ic">.env</code> is not.</p>
+            <p>A <code class="ic">.env</code> file is a standard way to keep secrets — connection strings, API keys, client secrets — separate from your code and config. <code class="ic">mcp.json</code> is safe to share; <code class="ic">.env</code> is not.</p>
           </div>
-          <p>Save the file — <kbd>⌘S</kbd> on macOS, <kbd>Ctrl+S</kbd> on Windows/Linux.</p>
+
+          <ol class="substeps">
+            <li>
+              <b>Show the Explorer.</b> If you don't see the file tree on the left, click the top-most icon in the narrow strip on the far left (it looks like two stacked pages), or press <kbd>⌘</kbd><kbd>⇧</kbd><kbd>E</kbd> (Windows/Linux: <kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>E</kbd>). You should see your project folder, <code class="ic">mongo-lab</code>, at the top.
+            </li>
+            <li>
+              <b>Start a new file.</b> Hover your cursor over the <code class="ic">mongo-lab</code> folder name in the tree — a small row of icons appears to its right. Click the <b>New File</b> icon (a page with a small <b>+</b> on it). A blank name box opens in the tree.
+            </li>
+            <li>
+              <b>Name it exactly <code class="ic">.env</code></b> — start with the dot, nothing before it (not <code class="ic">env</code>, not <code class="ic">my.env</code>). Press <kbd>Enter</kbd>. Bob opens the empty file in the editor.
+            </li>
+            <li>
+              <b>Paste these three lines</b> into the file, replacing each placeholder with the values your instructor provides on the day:
+              <div class="cmd" style="margin-top:8px;"><pre><code>MDB_MCP_CONNECTION_STRING=your-connection-string-here
+MDB_MCP_API_CLIENT_ID=your-client-id-here
+MDB_MCP_API_CLIENT_SECRET=your-client-secret-here</code></pre></div>
+              <div class="note must">
+                <div class="nt">No quotes — no spaces — exact format</div>
+                <p>Paste each value directly after the <code class="ic">=</code> with <b>no surrounding quotes</b> and <b>no spaces around the =</b>. The connection string starts with <code class="ic">mongodb+srv://</code> — paste the whole thing as-is. Three lines total, nothing else in the file.</p>
+              </div>
+            </li>
+            <li>
+              <b>Save the file</b> — press <kbd>⌘S</kbd> on macOS or <kbd>Ctrl+S</kbd> on Windows/Linux. The dot (●) on the editor tab turns back into an <b>✕</b> when the file is saved.
+              <details class="fix tip-d" style="margin-top:8px;">
+                <summary><span class="caret">▶</span><span class="wtag">💡 Tip</span> Don't see the dot turn into ✕?</summary>
+                <div class="fixbody"><p>If the tab still shows a dot (●), the file has unsaved changes. Press <kbd>⌘S</kbd> / <kbd>Ctrl+S</kbd> again. If it still doesn't save, click inside the file first to make sure it's the active tab, then try again.</p></div>
+              </details>
+            </li>
+          </ol>
+
+          <figure class="shot narrow">
+            <img src="img/placeholder-env-create.png" alt="[placeholder] Creating a new .env file in Bob's Explorer using the New File icon">
+            <figcaption>Hover over <b>mongo-lab</b> in the Explorer and click the <b>New File</b> icon, then name it <code>.env</code>.</figcaption>
+          </figure>
         </li>
 
         <li class="step">
