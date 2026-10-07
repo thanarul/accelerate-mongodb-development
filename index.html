@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en" data-os="mac">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accelerate MongoDB Development — Insurance Claims Coverage Checker</title>
+<link rel="icon" type="image/png" href="img/bob-favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light;
+    --white:#ffffff;
+    --gray-10:#f4f4f4;
+    --gray-20:#e0e0e0;
+    --gray-30:#c6c6c6;
+    --gray-50:#8d8d8d;
+    --gray-70:#525252;
+    --gray-100:#161616;
+    --blue-60:#0f62fe;
+    --blue-70:#0043ce;
+    --blue-10:#edf5ff;
+    --green-60:#198038;
+    --green-50:#24a148;
+    --green-10:#defbe6;
+    --yellow-20:#fddc69;
+    --yellow-bg:#fcf4d6;
+    --red-60:#da1e28;
+    --red-10:#fff1f1;
+    --sidebar-w:280px;
+    --maxw:800px;
+    --font-sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    --font-mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;font-family:var(--font-sans);color:var(--gray-100);background:var(--white);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{position:fixed;top:0;left:0;right:0;height:56px;z-index:50;background:var(--gray-100);color:var(--white);display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid #000;}
+  .topbar .brand{display:flex;align-items:center;gap:12px;font-weight:600;letter-spacing:-0.01em;font-size:15px;}
+  .topbar .brand .tag{color:var(--gray-30);font-weight:400;}
+  .topbar .brand .dot{width:10px;height:10px;background:var(--blue-60);display:inline-block;}
+  .os-switch{display:flex;align-items:center;gap:0;border:1px solid var(--gray-70);}
+  .os-switch button{display:inline-flex;align-items:center;gap:7px;font-family:var(--font-sans);font-size:13px;font-weight:500;background:transparent;color:var(--gray-30);border:none;padding:7px 14px;cursor:pointer;border-right:1px solid var(--gray-70);transition:background .12s,color .12s;white-space:nowrap;}
+  .os-switch button:last-child{border-right:none;}
+  .os-switch button:hover{background:#2a2a2a;color:var(--white);}
+  .os-switch button.active{background:var(--blue-60);color:var(--white);}
+  .os-switch button svg{width:14px;height:14px;fill:currentColor;flex:none;display:block;}
+  .os-switch .label{display:inline-flex;align-items:center;font-size:11px;color:var(--gray-50);padding:0 12px;white-space:nowrap;text-transform:uppercase;letter-spacing:.08em;border-right:1px solid var(--gray-70);align-self:stretch;}
+
+  /* ---------- Layout ---------- */
+  .layout{display:flex;padding-top:56px;}
+  .sidebar{position:fixed;top:56px;bottom:0;left:0;width:var(--sidebar-w);background:var(--gray-10);border-right:1px solid var(--gray-20);overflow-y:auto;padding:28px 0 60px;}
+  .sidebar h2{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-70);margin:0 24px 12px;font-weight:600;}
+  .nav a{display:flex;gap:12px;align-items:baseline;text-decoration:none;color:var(--gray-70);padding:7px 24px;font-size:14px;border-left:3px solid transparent;line-height:1.35;}
+  .nav a:hover{background:#eaeaea;color:var(--gray-100);}
+  .nav a.active{border-left-color:var(--blue-60);color:var(--gray-100);background:#e8eefc;font-weight:500;}
+  .nav a .n{font-family:var(--font-mono);font-size:12px;color:var(--gray-50);min-width:20px;}
+  .nav a.active .n{color:var(--blue-60);}
+  main{margin-left:var(--sidebar-w);flex:1;min-width:0;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px 120px;}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:72px 0 40px;border-bottom:1px solid var(--gray-20);margin-bottom:8px;}
+  .hero .eyebrow{font-family:var(--font-mono);font-size:13px;color:var(--blue-60);letter-spacing:.04em;margin-bottom:18px;}
+  .hero h1{font-size:52px;line-height:1.02;letter-spacing:-0.03em;margin:0 0 20px;font-weight:600;}
+  .hero p.lede{font-size:19px;color:var(--gray-70);max-width:620px;margin:0 0 28px;}
+  .meta-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;margin-bottom:8px;}
+  .chip{font-family:var(--font-mono);font-size:12px;background:var(--gray-10);border:1px solid var(--gray-20);padding:6px 12px;color:var(--gray-70);}
+  .chip b{color:var(--gray-100);font-weight:600;}
+
+  /* ---------- Sections ---------- */
+  section{padding:52px 0;border-bottom:1px solid var(--gray-20);scroll-margin-top:72px;}
+  .sec-eyebrow{font-family:var(--font-mono);font-size:13px;color:var(--blue-60);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+  .sec-eyebrow .time{color:var(--gray-50);}
+  section h2{font-size:32px;letter-spacing:-0.02em;margin:0 0 12px;font-weight:600;line-height:1.1;}
+  section h3{font-size:18px;margin:34px 0 6px;font-weight:600;letter-spacing:-0.01em;}
+  .intro{font-size:17px;color:var(--gray-70);margin:0 0 8px;max-width:640px;}
+  section p{margin:0 0 14px;}
+  section ul,section ol{margin:0 0 14px;padding-left:22px;}
+  section li{margin-bottom:7px;}
+  a.inline{color:var(--blue-60);text-decoration:none;border-bottom:1px solid var(--gray-30);}
+  a.inline:hover{border-bottom-color:var(--blue-60);}
+  code.ic{font-family:var(--font-mono);font-size:.86em;background:var(--gray-10);border:1px solid var(--gray-20);padding:1px 6px;white-space:nowrap;}
+  kbd{font-family:var(--font-mono);font-size:.8em;background:var(--white);border:1px solid var(--gray-30);border-bottom-width:2px;padding:1px 6px;white-space:nowrap;}
+
+  /* ---------- STEP SPINE ---------- */
+  .steps{list-style:none;margin:26px 0 8px;padding:0;position:relative;}
+  .step{position:relative;padding:0 0 26px 56px;}
+  .step::before{content:"";position:absolute;left:16px;top:6px;bottom:-6px;width:2px;background:var(--gray-20);}
+  .step:last-child::before{display:none;}
+  .step .badge{position:absolute;left:0;top:-2px;width:34px;height:34px;border-radius:50%;background:var(--blue-60);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-weight:600;font-size:15px;z-index:1;}
+  .step .stitle{font-weight:600;font-size:16.5px;margin:4px 0 6px;letter-spacing:-0.01em;}
+  .step p{margin:0 0 10px;}
+  .step ul{margin:6px 0 10px;}
+  .substeps{margin:6px 0 10px;padding-left:22px;}
+  .substeps>li{margin:0 0 12px;padding-left:4px;line-height:1.55;}
+  .substeps>li::marker{font-family:var(--font-mono);font-weight:600;color:var(--blue-60);}
+  .substeps .cmd{margin:8px 0 2px;}
+  .substeps .note{margin:8px 0 2px;}
+  .step.done::before{background:var(--green-50);}
+  .step.done .badge{background:var(--green-50);font-size:17px;}
+  .step.done .stitle{color:var(--green-60);}
+
+  /* ---------- Code blocks ---------- */
+  .cmd{position:relative;background:var(--gray-100);margin:10px 0;border-left:3px solid var(--blue-60);}
+  .cmd pre{margin:0;padding:15px 52px 15px 18px;overflow-x:auto;}
+  .cmd code{font-family:var(--font-mono);font-size:13.5px;color:#f4f4f4;line-height:1.7;white-space:pre;}
+  .cmd .copy{position:absolute;top:8px;right:8px;background:#2a2a2a;color:#c6c6c6;border:1px solid #525252;font-family:var(--font-sans);font-size:11px;padding:5px 9px;cursor:pointer;letter-spacing:.03em;}
+  .cmd .copy:hover{background:#393939;color:#fff;}
+  .cmd .copy.done{background:var(--green-60);color:#fff;border-color:var(--green-60);}
+  .filelabel{font-family:var(--font-mono);font-size:12px;color:var(--gray-70);background:var(--gray-10);border:1px solid var(--gray-20);border-bottom:none;padding:6px 12px;display:inline-block;margin-top:8px;}
+  .filelabel + .cmd{margin-top:0;}
+  .runline{font-size:13px;color:var(--gray-50);margin:2px 0 4px;}
+
+  /* ---------- Inline critical note ---------- */
+  .note{border-left:3px solid var(--yellow-20);background:var(--yellow-bg);padding:11px 15px;margin:10px 0;font-size:14.5px;}
+  .note .nt{font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#8e6a00;margin-bottom:3px;}
+  .note.must{border-left-color:var(--red-60);background:var(--red-10);}
+  .note.must .nt{color:var(--red-60);}
+  .note p:last-child{margin-bottom:0;}
+
+  /* ---------- Collapsible ---------- */
+  details.fix{border:1px solid var(--gray-20);background:var(--white);margin:10px 0;}
+  details.fix > summary{cursor:pointer;list-style:none;padding:10px 14px;font-size:14px;font-weight:500;color:var(--gray-70);display:flex;align-items:center;gap:9px;user-select:none;}
+  details.fix > summary::-webkit-details-marker{display:none;}
+  details.fix > summary .caret{font-family:var(--font-mono);color:var(--gray-50);transition:transform .15s;font-size:12px;}
+  details.fix[open] > summary .caret{transform:rotate(90deg);}
+  details.fix > summary .wtag{font-family:var(--font-mono);font-size:11px;color:#8e6a00;background:var(--yellow-bg);border:1px solid var(--yellow-20);padding:1px 7px;letter-spacing:.03em;}
+  details.fix .fixbody{padding:2px 16px 14px 39px;font-size:14.5px;color:var(--gray-70);}
+  details.fix .fixbody p{margin:0 0 10px;}
+  details.tip-d{border-color:var(--blue-10);}
+  details.tip-d > summary .wtag{color:var(--blue-70);background:var(--blue-10);border-color:#c9ddff;}
+
+  /* generic callout */
+  .callout{border-left:3px solid var(--gray-30);background:var(--gray-10);padding:14px 18px;margin:16px 0;font-size:15px;}
+  .callout .ct{font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px;}
+  .callout p:last-child{margin-bottom:0;}
+  .callout.tip{border-left-color:var(--blue-60);background:var(--blue-10);}
+  .callout.tip .ct{color:var(--blue-70);}
+
+  /* concept cards */
+  .cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin:20px 0;}
+  .card{border:1px solid var(--gray-20);padding:18px;background:var(--white);}
+  .card .cn{font-family:var(--font-mono);font-size:12px;color:var(--blue-60);margin-bottom:8px;}
+  .card h4{margin:0 0 6px;font-size:15px;}
+  .card p{font-size:13.5px;color:var(--gray-70);margin:0;}
+
+
+  /* OS-specific blocks */
+  .os-block{display:none;}
+  html[data-os="mac"] .os-block[data-os="mac"]{display:block;}
+  html[data-os="win"] .os-block[data-os="win"]{display:block;}
+  html[data-os="linux"] .os-block[data-os="linux"]{display:block;}
+  html[data-os="vm"] .os-block[data-os="vm"]{display:block;}
+  .osi{display:none;}
+  html[data-os="mac"] .osi[data-os="mac"]{display:inline;}
+  html[data-os="win"] .osi[data-os="win"]{display:inline;}
+  html[data-os="linux"] .osi[data-os="linux"]{display:inline;}
+  .os-flag{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-50);margin:0 0 4px;display:flex;align-items:center;gap:7px;}
+  .os-flag::before{content:"";width:8px;height:8px;background:var(--blue-60);display:inline-block;}
+
+  /* ---------- Screenshots ---------- */
+  figure.shot{margin:14px 0 16px;border:1px solid var(--gray-20);background:var(--gray-10);}
+  figure.shot img{display:block;width:100%;height:auto;}
+  figure.shot figcaption{font-size:12.5px;color:var(--gray-70);padding:8px 12px;border-top:1px solid var(--gray-20);background:var(--white);}
+  figure.shot figcaption b{color:var(--gray-100);}
+  figure.shot.narrow{max-width:520px;}
+  figure.shot.tiny{max-width:360px;}
+
+  /* ---------- Comparison table ---------- */
+  table.vs{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;}
+  table.vs th,table.vs td{border:1px solid var(--gray-20);padding:9px 12px;text-align:left;vertical-align:top;}
+  table.vs th{background:var(--gray-10);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--gray-70);font-weight:600;}
+  table.vs td.bad{background:var(--red-10);}
+  table.vs td.good{background:var(--green-10);}
+
+  /* ---------- Bob mascot ---------- */
+  .topbar .brand .bobmark{width:28px;height:28px;object-fit:contain;display:block;margin-right:2px;}
+  .hero-top{display:flex;align-items:flex-start;gap:32px;}
+  .hero-copy{flex:1;min-width:0;}
+  .hero-bob{width:180px;height:auto;flex:none;margin-top:4px;filter:drop-shadow(0 10px 24px rgba(0,0,0,.14));}
+  .bob-say{display:flex;align-items:center;gap:16px;border-left:3px solid var(--blue-60);background:var(--blue-10);padding:14px 18px;margin:18px 0;}
+  .bob-say img{width:60px;height:60px;flex:none;object-fit:contain;}
+  .bob-say .ct{font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--blue-70);margin-bottom:3px;}
+  .bob-say p{margin:0;font-size:15px;}
+  .callout.withbob{display:flex;gap:14px;align-items:center;}
+  .callout.withbob img{width:50px;height:50px;flex:none;object-fit:contain;}
+  .callout.withbob > div{flex:1;min-width:0;}
+  .bob-cheer{display:block;width:130px;height:auto;margin:6px auto 18px;filter:drop-shadow(0 8px 18px rgba(0,0,0,.12));}
+  .certbtn{display:inline-block;background:var(--blue-60);color:var(--white);font-weight:600;font-size:15px;padding:12px 22px;text-decoration:none;transition:background .12s;}
+  .certbtn:hover{background:var(--blue-70);}
+  .fineprint{font-size:13px;color:var(--gray-50);margin-top:6px;}
+  .author{display:flex;align-items:center;gap:12px;margin-top:22px;}
+  .author-pfp{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--gray-20);flex:none;}
+  .author-meta{line-height:1.35;}
+  .author-name{font-weight:600;font-size:14px;}
+  .author-role{font-size:13px;color:var(--gray-70);}
+  .author-contact{font-size:13px;color:var(--gray-50);margin-top:2px;}
+  .author-contact a{color:var(--blue-60);text-decoration:none;}
+  .author-contact a:hover{text-decoration:underline;}
+  @media(max-width:720px){.hero-bob{display:none;}}
+  footer{color:var(--gray-50);font-size:13px;padding:32px 0 10px;}
+  .mobile-only{display:none;}
+  #menuBtn{display:none;}
+
+  @media (max-width:960px){
+    .sidebar{transform:translateX(-100%);transition:transform .2s;z-index:40;box-shadow:2px 0 12px rgba(0,0,0,.1);}
+    .sidebar.open{transform:translateX(0);}
+    main{margin-left:0;}
+    #menuBtn{display:inline-flex;background:transparent;border:1px solid var(--gray-70);color:#fff;font-family:var(--font-sans);font-size:13px;padding:6px 12px;cursor:pointer;}
+    .cards{grid-template-columns:1fr;}
+    .hero h1{font-size:38px;}
+    .os-switch button{padding:7px 10px;}
+    .os-switch .label{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <button id="menuBtn" aria-label="Toggle navigation">Menu</button>
+    <img class="bobmark" src="img/bob-head.png" alt="Bob">
+    <span>Accelerate MongoDB Development</span>
+    <span class="tag">· Insurance Claims + IBM Bob</span>
+  </div>
+  <div class="os-switch" role="tablist" aria-label="Choose your operating system">
+    <span class="label">Your OS</span>
+    <button data-set="mac" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>macOS</button>
+    <button data-set="win" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M0 3.449 9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>Windows</button>
+    <button data-set="linux" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 0 0-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 0 0-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139zm.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105a.086.086 0 0 1-.004-.021l-.004-.024a1.807 1.807 0 0 1-.15.706.953.953 0 0 1-.213.335.71.71 0 0 0-.088-.042c-.104-.045-.198-.064-.284-.133a1.312 1.312 0 0 0-.22-.066c.05-.06.146-.133.183-.198.053-.128.082-.264.088-.402v-.02a1.21 1.21 0 0 0-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.26.132a.844.844 0 0 0-.17.334 1.107 1.107 0 0 0-.041.4v.015c.007.135.019.202.057.334-.174-.066-.395-.133-.531-.203a1.402 1.402 0 0 1-.05-.334v-.014c0-.199.03-.4.113-.6.093-.2.207-.4.4-.533.171-.135.376-.198.593-.198zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.328.465.077.19.144.4.157.628v.007c.012.202.008.348-.011.475v.011c-.32.14-.577.278-.792.415-.049-.083-.096-.135-.147-.202a.674.674 0 0 0-.219-.133.626.626 0 0 0-.093-.402.804.804 0 0 0-.235-.267c-.09-.066-.18-.135-.28-.135h-.016c-.093 0-.18.03-.265.135a.906.906 0 0 0-.156.334.902.902 0 0 0-.04.4c0 .134.016.2.056.334-.174-.066-.396-.133-.532-.203a1.402 1.402 0 0 1-.05-.334v-.014c0-.199.03-.4.113-.6.093-.2.207-.4.4-.533a.907.907 0 0 1 .61-.204zM8.235 8.279c.257.017.526.132.797.334.396.293.664.789.664 1.354s-.268 1.06-.664 1.354c-.271.202-.54.317-.797.334-.257-.017-.526-.132-.797-.334-.396-.294-.664-.789-.664-1.354s.268-1.061.664-1.354c.271-.202.54-.317.797-.334z"/></svg>Linux</button>
+    <button data-set="vm" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h2v2H6zm0 4h8v2H6zm4-4h8v2h-8z"/></svg>VM</button>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <h2>Workshop steps</h2>
+    <nav class="nav" id="nav">
+      <a href="#start"><span class="n">00</span><span>Welcome &amp; the problem</span></a>
+      <a href="#prereqs"><span class="n">P</span><span>Prerequisites (before Bob)</span></a>
+      <a href="#bob"><span class="n">01</span><span>Open IBM Bob</span></a>
+      <a href="#connect"><span class="n">02</span><span>Connect MongoDB</span></a>
+      <a href="#data"><span class="n">03</span><span>Explore the database</span></a>
+      <a href="#loadpolicies"><span class="n">04</span><span>Load policy PDFs</span></a>
+      <a href="#kwsearch"><span class="n">05</span><span>Keyword search</span></a>
+      <a href="#askreflect"><span class="n">06</span><span>Reflect in Ask mode</span></a>
+      <a href="#vecsearch"><span class="n">07</span><span>Vector search</span></a>
+      <a href="#grade"><span class="n">08</span><span>Grade the results</span></a>
+      <a href="#autoclaims"><span class="n">09</span><span>Automate claim decisions <span style="font-size:11px;color:var(--green-60);font-weight:600;">OPTIONAL</span></span></a>
+      <a href="#riskreport"><span class="n">10</span><span>Portfolio risk report <span style="font-size:11px;color:var(--green-60);font-weight:600;">OPTIONAL</span></span></a>
+      <a href="#troubleshooting"><span class="n">&#9656;</span><span>Troubleshooting</span></a>
+    </nav>
+  </aside>
+
+  <main>
+  <div class="wrap">
+
+    <!-- HERO -->
+    <div class="hero" id="start">
+      <div class="hero-top">
+        <div class="hero-copy">
+          <div class="eyebrow">HANDS-ON LAB · ~90 MIN</div>
+          <h1>Accelerate MongoDB Development</h1>
+          <p class="lede">A claims adjuster has 58 claims and three insurance policies — <i>Basic</i>, <i>Plus</i>, and <i>Plus Extra</i>. Are these claims actually covered? Today you'll answer that question using <b>MongoDB</b> and <b>IBM Bob</b>, combining live database queries with policy PDF analysis.</p>
+          <div class="author">
+            <div class="author-meta">
+              <div class="author-name">By Thanush Arulanantham</div>
+              <div class="author-role">Customer Success Engineer Intern · IBM</div>
+            </div>
+          </div>
+        </div>
+        <img class="hero-bob" src="img/bob.png" alt="Bob, your build buddy">
+      </div>
+      <div class="meta-row">
+        <span class="chip"><b>Use case:</b> insurance claims coverage checking</span>
+        <span class="chip"><b>Database:</b> MongoDB Atlas</span>
+        <span class="chip"><b>Policies:</b> Basic · Plus · Plus Extra</span>
+        <span class="chip"><b>IDE:</b> IBM Bob</span>
+      </div>
+      <div class="callout tip">
+        <div class="ct">Do this first</div>
+        <p>Pick your setup path in the top-right — <b>macOS</b>, <b>Windows</b>, <b>Linux</b>, or <b>VM</b> (managed/locked-down machine). The Prerequisites section updates to match.</p>
+      </div>
+
+      <h3>The scenario</h3>
+      <p>You're the developer supporting an insurance operations team. There are <b>58 claims</b> in the database (auto, home, life and health) across three statuses: denied, under review, and settled. The team needs to know: <i>were these claims approved or denied correctly?</i></p>
+      <p>The database stores structured fields — claim descriptions, policy types, amounts, statuses — but the actual <b>coverage rules</b> live in three insurance PDFs. Some of these decisions might be wrong. The only way to know is to check each claim against the policy PDF.</p>
+      <p>The problem isn't missing data. It's that <b>matching a claim description to a policy section is a search problem</b> — and traditional keyword search breaks down the moment a claimant writes "deer ran into my car" instead of "animal collision." You need search that understands <i>meaning</i>, not just matching words. That's where embeddings and vector search come in — and where this workshop begins.</p>
+
+      <h3>What you'll build — the same three moves for any search problem</h3>
+      <p>This use case is insurance, but the pattern applies to any domain where you need to match unstructured text against a collection of documents:</p>
+      <div class="cards">
+        <div class="card"><div class="cn">01 · ground</div><h4>Connect data to docs</h4><p>Load the policy PDFs into MongoDB as searchable sections. Now the coverage rules live in the same database as the claims.</p></div>
+        <div class="card"><div class="cn">02 · search</div><h4>Keyword vs vector</h4><p>Run Atlas keyword search first — see where it works and where it fails. Then run vector search using MongoDB's auto-embed and voyage-4. Compare the results.</p></div>
+        <div class="card"><div class="cn">03 · grade</div><h4>Measure the gap</h4><p>Side-by-side: which method matched each claim correctly? The failures reveal exactly why embeddings exist.</p></div>
+      </div>
+
+      <div class="callout tip withbob">
+        <img src="img/bob-head.png" alt="Bob">
+        <div>
+          <div class="ct">No query writing, no embedding code</div>
+          <p>You will not write a search query, call an embedding API, or manage index configuration manually. Bob handles all of that. Your job is to understand what the results mean — and why keyword search sometimes isn't enough.</p>
+        </div>
+      </div>
+
+      <h3>How to read this guide</h3>
+      <p>Every section is a numbered checklist. Do the blue numbered steps in order — that's the whole path. Each section ends on a <b style="color:var(--green-60)">green ✓ checkpoint</b> that tells you exactly what "done" looks like.</p>
+      <p>A grey <b>"⚠ Only if…"</b> bar is a fix for a problem you probably <i>won't</i> hit. Ignore it unless it matches what's on your screen.</p>
+
+      <h3>What you need</h3>
+      <ul>
+        <li>A laptop with internet. No database install, no Docker, no open ports — everything goes out over normal HTTPS.</li>
+        <li>A <b>free Bob account</b> — sign up with your personal email at <a class="inline" href="https://bob.ibm.com" target="_blank" rel="noopener">bob.ibm.com</a>. Step 01 walks you through it.</li>
+        <li>A <b>MongoDB connection string</b> provided by your instructor — you'll add it to your config in Step 02.</li>
+      </ul>
+
+      <div class="callout withbob">
+        <img src="img/bob-head.png" alt="Bob">
+        <div>
+          <div class="ct">Stuck? That's normal</div>
+          <p>Raise a hand — helpers are walking the room. And once Bob is installed, you can ask Bob itself for help right inside the app.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PREREQS -->
+    <section id="prereqs">
+      <div class="sec-eyebrow">PREREQUISITES <span class="time">· ~15 min · do this before opening Bob</span></div>
+      <h2>Prerequisites — set up your machine</h2>
+      <p class="intro os-block" data-os="mac">Before you open Bob, you need to install two tools on your computer: <b>Node</b> and <b>uv</b>. Don't worry if you've never heard of them — this section walks you through everything step by step. Pick your OS in the top-right and the commands will update automatically.</p>
+      <p class="intro os-block" data-os="win">Before you open Bob, you need to install two tools on your computer: <b>Node</b> and <b>uv</b>. Don't worry if you've never heard of them — this section walks you through everything step by step. Pick your OS in the top-right and the commands will update automatically.</p>
+      <p class="intro os-block" data-os="linux">Before you open Bob, you need to install two tools on your computer: <b>Node</b> and <b>uv</b>. Don't worry if you've never heard of them — this section walks you through everything step by step. Pick your OS in the top-right and the commands will update automatically.</p>
+      <p class="intro os-block" data-os="vm">Your instructor has provided a virtual machine — everything is already set up for you. Follow the steps below to connect and get started. No installation needed on your physical laptop.</p>
+
+      <!-- shown for mac / win / linux only -->
+      <div class="os-block" data-os="mac">
+      <div class="callout tip">
+        <div class="ct">What are we actually installing — and why?</div>
+        <p>There are two things to install, and they do different jobs:</p>
+        <ul style="margin:8px 0 4px;">
+          <li><b>Node.js</b> — a runtime that lets your computer run JavaScript programs. The MongoDB MCP server (which connects Bob to your database in Step 02) is a JavaScript program, so Node needs to be on your machine to launch it. You won't write any JavaScript yourself.</li>
+          <li><b>uv</b> — a tool that handles Python for you. It downloads and installs the right version of Python automatically, then creates an isolated sandbox (called a virtual environment) inside your <code class="ic">mongo-lab</code> folder. This means the Python libraries for this workshop stay contained to this folder and don't interfere with anything else on your computer. You never manually install Python, and you never "activate" anything — <code class="ic">uv run</code> handles it transparently.</li>
+        </ul>
+      </div>
+      </div>
+      <div class="os-block" data-os="win">
+      <div class="callout tip">
+        <div class="ct">What are we actually installing — and why?</div>
+        <p>There are two things to install, and they do different jobs:</p>
+        <ul style="margin:8px 0 4px;">
+          <li><b>Node.js</b> — a runtime that lets your computer run JavaScript programs. The MongoDB MCP server (which connects Bob to your database in Step 02) is a JavaScript program, so Node needs to be on your machine to launch it. You won't write any JavaScript yourself.</li>
+          <li><b>uv</b> — a tool that handles Python for you. It downloads and installs the right version of Python automatically, then creates an isolated sandbox (called a virtual environment) inside your <code class="ic">mongo-lab</code> folder. This means the Python libraries for this workshop stay contained to this folder and don't interfere with anything else on your computer. You never manually install Python, and you never "activate" anything — <code class="ic">uv run</code> handles it transparently.</li>
+        </ul>
+      </div>
+      </div>
+      <div class="os-block" data-os="linux">
+      <div class="callout tip">
+        <div class="ct">What are we actually installing — and why?</div>
+        <p>There are two things to install, and they do different jobs:</p>
+        <ul style="margin:8px 0 4px;">
+          <li><b>Node.js</b> — a runtime that lets your computer run JavaScript programs. The MongoDB MCP server (which connects Bob to your database in Step 02) is a JavaScript program, so Node needs to be on your machine to launch it. You won't write any JavaScript yourself.</li>
+          <li><b>uv</b> — a tool that handles Python for you. It downloads and installs the right version of Python automatically, then creates an isolated sandbox (called a virtual environment) inside your <code class="ic">mongo-lab</code> folder. This means the Python libraries for this workshop stay contained to this folder and don't interfere with anything else on your computer. You never manually install Python, and you never "activate" anything — <code class="ic">uv run</code> handles it transparently.</li>
+        </ul>
+      </div>
+      </div>
+
+      <div class="os-block" data-os="mac"><ol class="steps">
+        <!-- STEP 1: Open terminal -->
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Open a terminal</div>
+          <p>A terminal is a text window where you type commands directly to your computer. All of the setup in this section happens here. You only need to open it once — keep it open for the rest of the prerequisites.</p>
+
+          <div class="os-block" data-os="mac">
+            <div class="os-flag">macOS</div>
+            <p>Press <kbd>⌘ Cmd</kbd> + <kbd>Space</kbd> to open Spotlight. Type <b>Terminal</b> and press <kbd>Return</kbd>. A window opens with a blinking cursor — that's your terminal. Leave it open.</p>
+            <details class="fix tip-d">
+              <summary><span class="caret">▶</span><span class="wtag">💡 Tip</span> Already use iTerm2, Warp, or another terminal app?</summary>
+              <div class="fixbody"><p>Any terminal app on macOS works fine. They all run the same commands.</p></div>
+            </details>
+          </div>
+
+          <div class="os-block" data-os="win">
+            <div class="os-flag">Windows</div>
+            <p>Press <kbd>⊞ Win</kbd> + <kbd>R</kbd> at the same time. A small box appears — type <b>powershell</b> and press <kbd>Enter</kbd>. A blue window opens — that's <b>PowerShell</b>, your terminal for this workshop. Leave it open.</p>
+            <div class="note">
+              <div class="nt">Use PowerShell — not Command Prompt</div>
+              <p>Windows has two different terminals: <b>PowerShell</b> (blue, preferred) and <b>Command Prompt</b> (black, older). The commands in this guide are written for PowerShell. If you accidentally opened the wrong one, close it and follow the steps above again.</p>
+            </div>
+          </div>
+
+          <div class="os-block" data-os="linux">
+            <div class="os-flag">Linux</div>
+            <p>Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> — this opens a terminal on most Linux desktops (Ubuntu, Fedora, Mint). If that shortcut doesn't work, right-click an empty area of the desktop and choose <b>Open Terminal</b>, or search for <b>Terminal</b> in your application launcher.</p>
+          </div>
+        </li>
+
+        <!-- STEP 2: Install Node + uv -->
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Install Node and uv</div>
+          <p>Click the copy button on each code block, paste it into your terminal, and press <kbd>Enter</kbd> / <kbd>Return</kbd>. Wait for each command to finish before running the next — you'll know it's done when the cursor reappears on a new line.</p>
+
+          <div class="os-block" data-os="mac">
+            <div class="os-flag">macOS</div>
+            <p><b>Step 2a — Install Homebrew.</b> Homebrew is a package manager for macOS — it's the easiest way to install Node. Paste this and press <kbd>Return</kbd>:</p>
+            <div class="cmd"><pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre></div>
+            <p>It will ask for your Mac password (nothing shows as you type — that's normal). Press <kbd>Return</kbd> when it asks you to proceed.</p>
+            <p><b>Step 2b — Add Homebrew to your PATH</b> so your terminal can find it:</p>
+            <div class="cmd"><pre><code>echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"</code></pre></div>
+            <p><b>Step 2c — Install Node</b> using Homebrew:</p>
+            <div class="cmd"><pre><code>brew install node</code></pre></div>
+            <p><b>Step 2d — Install uv</b> (this also installs Python automatically when you use it):</p>
+            <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
+            <p><b>Step 2e — Reload your terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
+            <div class="cmd"><pre><code>source ~/.zshrc</code></pre></div>
+          </div>
+
+          <div class="os-block" data-os="win">
+            <div class="os-flag">Windows</div>
+            <p><b>Step 2a — Install Node.</b> Go to <a class="inline" href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org/download</a> in your browser. Click the <b>LTS</b> download button, run the installer, and click through (all defaults are fine). This puts Node and <code class="ic">npx</code> on your computer automatically.</p>
+            <p><b>Step 2b — Install uv.</b> Paste this into PowerShell and press <kbd>Enter</kbd>:</p>
+            <div class="cmd"><pre><code>powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre></div>
+            <p>When it finishes, <b>close PowerShell and reopen it</b> (Win + R → powershell → Enter) so the new <code class="ic">uv</code> command is available.</p>
+          </div>
+
+          <div class="os-block" data-os="linux">
+            <div class="os-flag">Linux</div>
+            <p><b>Step 2a — Install Node.</b> Paste this and press <kbd>Enter</kbd> (it may ask for your password):</p>
+            <div class="cmd"><pre><code>sudo apt update && sudo apt install -y nodejs npm</code></pre></div>
+            <p>On Fedora/RHEL use <code class="ic">sudo dnf install nodejs npm</code>. On Arch use <code class="ic">sudo pacman -S nodejs npm</code>.</p>
+            <p><b>Step 2b — Install uv:</b></p>
+            <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
+            <p><b>Step 2c — Reload your terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
+            <div class="cmd"><pre><code>source ~/.bashrc</code></pre></div>
+          </div>
+        </li>
+
+        <!-- STEP 3: Confirm Node and uv -->
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Confirm Node and uv are installed</div>
+          <p>Let's verify everything installed correctly. Run each command below — each one should print back a version number (e.g. <code class="ic">v22.0.0</code>). If any of them say <i>"command not found"</i>, see the fix below.</p>
+
+          <div class="os-block" data-os="mac">
+            <div class="os-flag">macOS</div>
+            <div class="cmd"><pre><code>node --version
+npx --version
+uv --version</code></pre></div>
+          </div>
+          <div class="os-block" data-os="win">
+            <div class="os-flag">Windows</div>
+            <div class="cmd"><pre><code>node --version
+npx --version
+uv --version</code></pre></div>
+          </div>
+          <div class="os-block" data-os="linux">
+            <div class="os-flag">Linux</div>
+            <div class="cmd"><pre><code>node --version
+npx --version
+uv --version</code></pre></div>
+          </div>
+          <details class="fix">
+            <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> a command says "not found"</summary>
+            <div class="fixbody">
+              <p>Close your terminal completely, reopen it, and try again — the most common cause is that the terminal opened before the install finished updating your PATH. If it still fails, re-run step 2 for the tool that's missing.</p>
+            </div>
+          </details>
+        </li>
+
+        <!-- STEP 4: Create project folder + uv init + uv add -->
+        <li class="step">
+          <span class="badge">4</span>
+          <div class="stitle">Create the project folder and set up Python</div>
+          <p>This step creates your <code class="ic">mongo-lab</code> working folder and uses <code class="ic">uv</code> to set up a Python sandbox inside it — downloading Python itself if needed, then installing the two libraries the workshop scripts require: <b>pymongo</b> (talks to MongoDB) and <b>pypdf</b> (reads PDF files).</p>
+          <p>Copy and paste the whole block into your terminal at once, then press <kbd>Enter</kbd>:</p>
+
+          <div class="os-block" data-os="mac">
+            <div class="os-flag">macOS</div>
+            <div class="cmd"><pre><code>mkdir ~/mongo-lab && cd ~/mongo-lab
+uv init
+uv add pymongo pypdf</code></pre></div>
+          </div>
+          <div class="os-block" data-os="win">
+            <div class="os-flag">Windows</div>
+            <div class="cmd"><pre><code>mkdir $HOME\mongo-lab
+cd $HOME\mongo-lab
+uv init
+uv add pymongo pypdf</code></pre></div>
+          </div>
+          <div class="os-block" data-os="linux">
+            <div class="os-flag">Linux</div>
+            <div class="cmd"><pre><code>mkdir ~/mongo-lab && cd ~/mongo-lab
+uv init
+uv add pymongo pypdf</code></pre></div>
+          </div>
+          <p>What each line does: <code class="ic">mkdir</code> creates the folder, <code class="ic">cd</code> moves into it, <code class="ic">uv init</code> sets up the Python sandbox (and downloads Python if you don't have it), <code class="ic">uv add</code> installs the two libraries into that sandbox.</p>
+        </li>
+
+        <!-- STEP 5: Confirm libraries -->
+        <li class="step">
+          <span class="badge">5</span>
+          <div class="stitle">Confirm Python and the libraries are working</div>
+          <p>Paste this into your terminal and press <kbd>Enter</kbd>. It asks <code class="ic">uv</code> to run a quick Python check inside the sandbox:</p>
+          <div class="cmd"><pre><code>uv run python -c "import pymongo, pypdf; print('pymongo', pymongo.version, '| pypdf', pypdf.__version__)"</code></pre></div>
+          <p>You should see a line like <code class="ic">pymongo 4.x.x | pypdf 5.x.x</code>. That confirms Python is running inside the sandbox and both libraries are installed correctly. If you see an <code class="ic">ImportError</code> instead, re-run step 4.</p>
+        </li>
+
+        <!-- STEP 6: Download workshop files -->
+        <li class="step">
+          <span class="badge">6</span>
+          <div class="stitle">Download the workshop files and add them to mongo-lab</div>
+          <p>Open the shared workshop folder at <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a> and download the following files individually — do <b>not</b> use the folder-level Download button:</p>
+          <ul>
+            <li><code class="ic">policy_basic.pdf</code></li>
+            <li><code class="ic">policy_plus.pdf</code></li>
+            <li><code class="ic">policy_plus_extra.pdf</code></li>
+            <li><code class="ic">load_policies.py</code></li>
+            <li><code class="ic">answer_key.csv</code></li>
+            <li><code class="ic">MCP Credentials.docx</code> — contains your connection string, client ID, and client secret for Step 02</li>
+            <li><code class="ic">SKILL.md</code> — reference skill for Bob (optional but recommended)</li>
+          </ul>
+          <figure class="shot">
+            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, answer_key.csv, and MCP Credentials.docx">
+            <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
+          </figure>
+          <div class="note">
+            <div class="nt">Password protected</div>
+            <p>The Box folder is password protected — your instructor will give you the password on the day.</p>
+          </div>
+          <div class="os-block" data-os="mac">
+            <div class="os-flag">macOS</div>
+            <p>Move the downloaded files from your Downloads folder into <code class="ic">~/mongo-lab</code>:</p>
+            <div class="cmd"><pre><code>mv ~/Downloads/policy_basic.pdf \
+   ~/Downloads/policy_plus.pdf \
+   ~/Downloads/policy_plus_extra.pdf \
+   ~/Downloads/load_policies.py \
+   ~/Downloads/answer_key.csv \
+   ~/Downloads/SKILL.md \
+   ~/mongo-lab/</code></pre></div>
+            <p>Or drag the files from your Downloads folder into <code class="ic">~/mongo-lab</code> in Finder.</p>
+          </div>
+        </li>
+
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — your machine is ready</div>
+          <p>Node, uv, and both Python libraries are installed. Workshop files are in <code class="ic">mongo-lab</code>. You're ready for Step 01.</p>
+        </li>
+      </ol></div>
+      <div class="os-block" data-os="win"><ol class="steps">
+        <!-- STEP 1: Open terminal -->
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Open a terminal</div>
+          <p>A terminal is a text window where you type commands directly to your computer. All of the setup in this section happens here. You only need to open it once — keep it open for the rest of the prerequisites.</p>
+          <div class="os-block" data-os="win">
+            <div class="os-flag">Windows</div>
+            <p>Press <kbd>⊞ Win</kbd> + <kbd>R</kbd> at the same time. A small box appears — type <b>powershell</b> and press <kbd>Enter</kbd>. A blue window opens — that's <b>PowerShell</b>, your terminal for this workshop. Leave it open.</p>
+            <div class="note">
+              <div class="nt">Use PowerShell — not Command Prompt</div>
+              <p>Windows has two different terminals: <b>PowerShell</b> (blue, preferred) and <b>Command Prompt</b> (black, older). The commands in this guide are written for PowerShell. If you accidentally opened the wrong one, close it and follow the steps above again.</p>
+            </div>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Install Node and uv</div>
+          <p>Click the copy button on each code block, paste it into your terminal, and press <kbd>Enter</kbd>. Wait for each command to finish before running the next — you'll know it's done when the cursor reappears on a new line.</p>
+          <div class="os-block" data-os="win">
+            <div class="os-flag">Windows</div>
+            <p><b>Step 2a — Install Node.</b> Go to <a class="inline" href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org/download</a> in your browser. Click the <b>LTS</b> download button, run the installer, and click through (all defaults are fine). This puts Node and <code class="ic">npx</code> on your computer automatically.</p>
+            <p><b>Step 2b — Install uv.</b> Paste this into PowerShell and press <kbd>Enter</kbd>:</p>
+            <div class="cmd"><pre><code>powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre></div>
+            <p>When it finishes, <b>close PowerShell and reopen it</b> (Win + R → powershell → Enter) so the new <code class="ic">uv</code> command is available.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Confirm Node and uv are installed</div>
+          <p>Run each command below — each one should print back a version number (e.g. <code class="ic">v22.0.0</code>):</p>
+          <div class="os-block" data-os="win">
+            <div class="os-flag">Windows</div>
+            <div class="cmd"><pre><code>node --version
+npx --version
+uv --version</code></pre></div>
+          </div>
+          <details class="fix">
+            <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> a command says "not found"</summary>
+            <div class="fixbody"><p>Close your terminal completely, reopen it, and try again. If it still fails, re-run step 2 for the tool that's missing.</p></div>
+          </details>
+        </li>
+        <li class="step">
+          <span class="badge">4</span>
+          <div class="stitle">Create the project folder and set up Python</div>
+          <p>Copy and paste the whole block into your terminal at once, then press <kbd>Enter</kbd>:</p>
+          <div class="os-block" data-os="win">
+            <div class="os-flag">Windows</div>
+            <div class="cmd"><pre><code>mkdir $HOME\mongo-lab
+cd $HOME\mongo-lab
+uv init
+uv add pymongo pypdf</code></pre></div>
+          </div>
+          <p>What each line does: <code class="ic">mkdir</code> creates the folder, <code class="ic">cd</code> moves into it, <code class="ic">uv init</code> sets up the Python sandbox (and downloads Python if you don't have it), <code class="ic">uv add</code> installs the two libraries.</p>
+        </li>
+        <li class="step">
+          <span class="badge">5</span>
+          <div class="stitle">Confirm Python and the libraries are working</div>
+          <p>Paste this into your terminal and press <kbd>Enter</kbd>:</p>
+          <div class="cmd"><pre><code>uv run python -c "import pymongo, pypdf; print('pymongo', pymongo.version, '| pypdf', pypdf.__version__)"</code></pre></div>
+          <p>You should see a line like <code class="ic">pymongo 4.x.x | pypdf 5.x.x</code>. If you see an <code class="ic">ImportError</code>, re-run step 4.</p>
+        </li>
+        <li class="step">
+          <span class="badge">6</span>
+          <div class="stitle">Download the workshop files and add them to mongo-lab</div>
+          <p>Open the shared workshop folder at <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a> and download the following files individually — do <b>not</b> use the folder-level Download button:</p>
+          <ul>
+            <li><code class="ic">policy_basic.pdf</code></li>
+            <li><code class="ic">policy_plus.pdf</code></li>
+            <li><code class="ic">policy_plus_extra.pdf</code></li>
+            <li><code class="ic">load_policies.py</code></li>
+            <li><code class="ic">answer_key.csv</code></li>
+            <li><code class="ic">MCP Credentials.docx</code> — contains your connection string, client ID, and client secret for Step 02</li>
+            <li><code class="ic">SKILL.md</code> — reference skill for Bob (optional but recommended)</li>
+          </ul>
+          <figure class="shot">
+            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, answer_key.csv, and MCP Credentials.docx">
+            <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
+          </figure>
+          <div class="note">
+            <div class="nt">Password protected</div>
+            <p>The Box folder is password protected — your instructor will give you the password on the day.</p>
+          </div>
+          <div class="os-block" data-os="win">
+            <div class="os-flag">Windows</div>
+            <p>Move the downloaded files into <code class="ic">mongo-lab</code> in <b>PowerShell</b>:</p>
+            <div class="cmd"><pre><code>Move-Item "$HOME\Downloads\policy_basic.pdf", `
+  "$HOME\Downloads\policy_plus.pdf", `
+  "$HOME\Downloads\policy_plus_extra.pdf", `
+  "$HOME\Downloads\load_policies.py", `
+  "$HOME\Downloads\answer_key.csv", `
+  "$HOME\Downloads\SKILL.md" `
+  "$HOME\mongo-lab\"</code></pre></div>
+            <p>Or drag the files from your Downloads folder into <code class="ic">%USERPROFILE%\mongo-lab</code> in File Explorer.</p>
+          </div>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — your machine is ready</div>
+          <p>Node, uv, and both Python libraries are installed. Workshop files are in <code class="ic">mongo-lab</code>. You're ready for Step 01.</p>
+        </li>
+      </ol></div>
+      <div class="os-block" data-os="linux"><ol class="steps">
+        <!-- STEP 1: Open terminal -->
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Open a terminal</div>
+          <p>A terminal is a text window where you type commands directly to your computer. All of the setup in this section happens here. You only need to open it once — keep it open for the rest of the prerequisites.</p>
+          <div class="os-block" data-os="linux">
+            <div class="os-flag">Linux</div>
+            <p>Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> — this opens a terminal on most Linux desktops (Ubuntu, Fedora, Mint). If that shortcut doesn't work, right-click an empty area of the desktop and choose <b>Open Terminal</b>, or search for <b>Terminal</b> in your application launcher.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Install Node and uv</div>
+          <p>Click the copy button on each code block, paste it into your terminal, and press <kbd>Enter</kbd>. Wait for each command to finish before running the next.</p>
+          <div class="os-block" data-os="linux">
+            <div class="os-flag">Linux</div>
+            <p><b>Step 2a — Install Node.</b> Paste this and press <kbd>Enter</kbd> (it may ask for your password):</p>
+            <div class="cmd"><pre><code>sudo apt update && sudo apt install -y nodejs npm</code></pre></div>
+            <p>On Fedora/RHEL use <code class="ic">sudo dnf install nodejs npm</code>. On Arch use <code class="ic">sudo pacman -S nodejs npm</code>.</p>
+            <p><b>Step 2b — Install uv:</b></p>
+            <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
+            <p><b>Step 2c — Reload your terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
+            <div class="cmd"><pre><code>source ~/.bashrc</code></pre></div>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Confirm Node and uv are installed</div>
+          <p>Run each command below — each one should print back a version number (e.g. <code class="ic">v22.0.0</code>):</p>
+          <div class="os-block" data-os="linux">
+            <div class="os-flag">Linux</div>
+            <div class="cmd"><pre><code>node --version
+npx --version
+uv --version</code></pre></div>
+          </div>
+          <details class="fix">
+            <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> a command says "not found"</summary>
+            <div class="fixbody"><p>Close your terminal completely, reopen it, and try again. If it still fails, re-run step 2 for the tool that's missing.</p></div>
+          </details>
+        </li>
+        <li class="step">
+          <span class="badge">4</span>
+          <div class="stitle">Create the project folder and set up Python</div>
+          <p>Copy and paste the whole block into your terminal at once, then press <kbd>Enter</kbd>:</p>
+          <div class="os-block" data-os="linux">
+            <div class="os-flag">Linux</div>
+            <div class="cmd"><pre><code>mkdir ~/mongo-lab && cd ~/mongo-lab
+uv init
+uv add pymongo pypdf</code></pre></div>
+          </div>
+          <p>What each line does: <code class="ic">mkdir</code> creates the folder, <code class="ic">cd</code> moves into it, <code class="ic">uv init</code> sets up the Python sandbox (and downloads Python if you don't have it), <code class="ic">uv add</code> installs the two libraries.</p>
+        </li>
+        <li class="step">
+          <span class="badge">5</span>
+          <div class="stitle">Confirm Python and the libraries are working</div>
+          <p>Paste this into your terminal and press <kbd>Enter</kbd>:</p>
+          <div class="cmd"><pre><code>uv run python -c "import pymongo, pypdf; print('pymongo', pymongo.version, '| pypdf', pypdf.__version__)"</code></pre></div>
+          <p>You should see a line like <code class="ic">pymongo 4.x.x | pypdf 5.x.x</code>. If you see an <code class="ic">ImportError</code>, re-run step 4.</p>
+        </li>
+        <li class="step">
+          <span class="badge">6</span>
+          <div class="stitle">Download the workshop files and add them to mongo-lab</div>
+          <p>Open the shared workshop folder at <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a> and download the following files individually — do <b>not</b> use the folder-level Download button:</p>
+          <ul>
+            <li><code class="ic">policy_basic.pdf</code></li>
+            <li><code class="ic">policy_plus.pdf</code></li>
+            <li><code class="ic">policy_plus_extra.pdf</code></li>
+            <li><code class="ic">load_policies.py</code></li>
+            <li><code class="ic">answer_key.csv</code></li>
+            <li><code class="ic">MCP Credentials.docx</code> — contains your connection string, client ID, and client secret for Step 02</li>
+            <li><code class="ic">SKILL.md</code> — reference skill for Bob (optional but recommended)</li>
+          </ul>
+          <figure class="shot">
+            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, answer_key.csv, and MCP Credentials.docx">
+            <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
+          </figure>
+          <div class="note">
+            <div class="nt">Password protected</div>
+            <p>The Box folder is password protected — your instructor will give you the password on the day.</p>
+          </div>
+          <div class="os-block" data-os="linux">
+            <div class="os-flag">Linux</div>
+            <p>Move the downloaded files into <code class="ic">mongo-lab</code>:</p>
+            <div class="cmd"><pre><code>mv ~/Downloads/policy_basic.pdf \
+   ~/Downloads/policy_plus.pdf \
+   ~/Downloads/policy_plus_extra.pdf \
+   ~/Downloads/load_policies.py \
+   ~/Downloads/answer_key.csv \
+   ~/Downloads/SKILL.md \
+   ~/mongo-lab/</code></pre></div>
+          </div>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — your machine is ready</div>
+          <p>Node, uv, and both Python libraries are installed. Workshop files are in <code class="ic">mongo-lab</code>. You're ready for Step 01.</p>
+        </li>
+      </ol></div>
+
+      <!-- VM tab — shown only when data-os="vm" -->
+      <div class="os-block" data-os="vm">
+        <div class="callout">
+          <div class="ct">Virtual machine path</div>
+          <p>Your instructor has given you access to a Linux VM via your browser. Everything happens inside that VM — you don't install anything on your physical laptop. Follow these steps instead of the ones above.</p>
+        </div>
+        <ol class="steps">
+
+          <li class="step">
+            <span class="badge">1</span>
+            <div class="stitle">Open the VM in your browser and log in</div>
+            <p>Your instructor will share a URL — it opens a Linux desktop inside your browser tab. Open the link, enter the username and password your instructor provided, and you'll land on a Linux desktop.</p>
+            <div class="note">
+              <div class="nt">Everything runs inside this browser tab</div>
+              <p>Treat the VM desktop like a separate computer. Files you download, commands you run, and Bob itself all live inside the VM — nothing touches your physical laptop.</p>
+            </div>
+          </li>
+
+          <li class="step">
+            <span class="badge">2</span>
+            <div class="stitle">Open a terminal inside the VM</div>
+            <p>Once you see the Linux desktop, open a terminal. The quickest way is to <b>right-click an empty area of the desktop</b> and choose <b>Open Terminal</b>. If that doesn't appear, look for a <b>Terminal</b> icon in the taskbar or application menu at the top or bottom of the screen.</p>
+            <p>A terminal window opens with a blinking cursor. Keep it open — all the commands below are typed here.</p>
+            <div class="note">
+              <div class="nt">Pasting into the VM terminal</div>
+              <p>Your normal <kbd>Ctrl+V</kbd> paste may not work directly in the VM terminal. Try right-clicking inside the terminal and choosing <b>Paste</b> instead.</p>
+            </div>
+          </li>
+
+          <li class="step">
+            <span class="badge">3</span>
+            <div class="stitle">Install Node and uv</div>
+            <p>Paste each block into the terminal and press <kbd>Enter</kbd>, waiting for each to finish before running the next — you'll know it's done when the cursor reappears on a new line.</p>
+            <p><b>Step 3a — Install Node:</b></p>
+            <div class="cmd"><pre><code>sudo dnf install -y nodejs npm</code></pre></div>
+            <p>It will ask for your password — type it and press <kbd>Enter</kbd> (nothing shows as you type, that's normal).</p>
+            <p><b>Step 3b — Install uv</b> (this also downloads and manages Python for you — you don't need to install Python separately):</p>
+            <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
+            <p><b>Step 3c — Reload the terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
+            <div class="cmd"><pre><code>source ~/.bashrc</code></pre></div>
+          </li>
+
+          <li class="step">
+            <span class="badge">4</span>
+            <div class="stitle">Confirm Node and uv are installed</div>
+            <p>Run each of these — each should print a version number:</p>
+            <div class="cmd"><pre><code>node --version
+npx --version
+uv --version</code></pre></div>
+            <details class="fix">
+              <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> any command says "not found"</summary>
+              <div class="fixbody">
+                <p>Close the terminal, reopen it, and try again. If it still fails, re-run step 3 for the tool that's missing.</p>
+              </div>
+            </details>
+          </li>
+
+          <li class="step">
+            <span class="badge">5</span>
+            <div class="stitle">Create the project folder and set up Python</div>
+            <p>This creates the <code class="ic">mongo-lab</code> folder and uses <code class="ic">uv</code> to set up a Python sandbox inside it — downloading Python if needed, then installing <b>pymongo</b> (talks to MongoDB) and <b>pypdf</b> (reads PDFs). Paste the whole block and press <kbd>Enter</kbd>:</p>
+            <div class="cmd"><pre><code>mkdir ~/mongo-lab && cd ~/mongo-lab
+uv init
+uv add pymongo pypdf</code></pre></div>
+            <p>Confirm it worked:</p>
+            <div class="cmd"><pre><code>uv run python -c "import pymongo, pypdf; print('pymongo', pymongo.version, '| pypdf', pypdf.__version__)"</code></pre></div>
+            <p>You should see something like <code class="ic">pymongo 4.x.x | pypdf 5.x.x</code>. If you see an <code class="ic">ImportError</code>, re-run the block above.</p>
+          </li>
+
+          <li class="step">
+            <span class="badge">6</span>
+            <div class="stitle">Download and unzip the workshop files inside the VM</div>
+            <p>Open the <b>browser inside the VM</b> (look for Firefox or Chromium in the taskbar or application menu) and go to <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a>. Download the following files individually — do <b>not</b> use the folder-level Download button:</p>
+          <ul>
+            <li><code class="ic">policy_basic.pdf</code></li>
+            <li><code class="ic">policy_plus.pdf</code></li>
+            <li><code class="ic">policy_plus_extra.pdf</code></li>
+            <li><code class="ic">load_policies.py</code></li>
+            <li><code class="ic">answer_key.csv</code></li>
+            <li><code class="ic">MCP Credentials.docx</code> — contains your connection string, client ID, and client secret for Step 02</li>
+            <li><code class="ic">SKILL.md</code> — reference skill for Bob (optional but recommended)</li>
+          </ul>
+            <figure class="shot">
+              <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, answer_key.csv, and MCP Credentials.docx">
+              <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
+            </figure>
+            <p>Move the downloaded files into <code class="ic">mongo-lab</code>:</p>
+            <div class="cmd"><pre><code>mv ~/Downloads/policy_basic.pdf \
+   ~/Downloads/policy_plus.pdf \
+   ~/Downloads/policy_plus_extra.pdf \
+   ~/Downloads/load_policies.py \
+   ~/Downloads/answer_key.csv \
+   ~/Downloads/SKILL.md \
+   ~/mongo-lab/</code></pre></div>
+            <p>Confirm the files are there:</p>
+            <div class="cmd"><pre><code>ls ~/mongo-lab</code></pre></div>
+          </li>
+
+
+          <li class="step done">
+            <span class="badge">✓</span>
+            <div class="stitle">Checkpoint — VM is fully set up</div>
+            <p>Node, uv, and both Python libraries are installed. Workshop files are in <code class="ic">~/mongo-lab</code>. Bob is open. Continue to <b>Step 01</b> to sign in.</p>
+          </li>
+        </ol>
+
+        <details class="fix">
+          <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> you can't reach the internet from the VM</summary>
+          <div class="fixbody">
+            <p>The workshop requires outbound HTTPS to reach MongoDB Atlas and the MCP server. If connections are blocked, ask your IT team to allow outbound traffic on port 443 to <code class="ic">*.mongodb.net</code> and <code class="ic">*.npmjs.org</code>.</p>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- 01 BOB -->
+    <section id="bob">
+      <div class="sec-eyebrow">STEP 01 <span class="time">· ~10 min</span></div>
+      <h2>Open IBM Bob</h2>
+      <p class="intro">Bob is IBM's AI-powered code editor and the only thing you run locally today. Already have it from a previous workshop? Open it and skip ahead.</p>
+
+      <details class="fix tip-d">
+        <summary><span class="caret">▶</span><span class="wtag">💡 Already have Bob?</span> skip the install</summary>
+        <div class="fixbody">
+          <p>Open Bob, confirm you're signed in, and jump to <b>Step 02</b>. Nothing here has changed.</p>
+        </div>
+      </details>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Download and install Bob</div>
+          <p>Go to <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a> and download the build for your computer:</p>
+          <ul>
+            <li><b>macOS</b> — open the <code class="ic">.dmg</code>, drag <b>Bob</b> into Applications, then launch it. If macOS warns you, right-click and choose <b>Open</b>.</li>
+            <li><b>Windows</b> — run the <code class="ic">.exe</code> installer, then open Bob from the Start menu.</li>
+            <li><b>Linux</b> — for <code class="ic">.deb</code>: <code class="ic">sudo dpkg -i &lt;file&gt;.deb</code>. For AppImage: allow executing in Properties, then double-click.</li>
+          </ul>
+          <div class="os-block" data-os="vm">
+            <div class="note">
+              <div class="nt">VM — use the Linux RPM x64 installer</div>
+              <p>On the download page, scroll to the <b>Linux</b> section and choose <b>Linux RPM x64</b>. Once it downloads, open the <b>Downloads</b> folder in the VM's file manager and double-click the <code class="ic">.rpm</code> file to install it. Then launch Bob from the application menu.</p>
+            </div>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Create a free account and sign in</div>
+          <p>When Bob opens it will prompt you to sign in. If you don't have an account yet:</p>
+          <ol class="substeps">
+            <li>Click <b>Sign up</b> (or go to <a class="inline" href="https://bob.ibm.com" target="_blank" rel="noopener">bob.ibm.com</a> and choose <b>Try for free</b>).</li>
+            <li>Enter your <b>personal email address</b> and create a password — no IBM ID or company account needed.</li>
+            <li>Check your inbox for the verification email and click the confirmation link.</li>
+            <li>Return to Bob and sign in with the same email and password.</li>
+          </ol>
+          <div class="note">
+            <div class="nt">Already have an account?</div>
+            <p>Just click <b>Sign in</b> and enter your email and password. Skip straight to step 3.</p>
+          </div>
+          <details class="fix os-block" data-os="vm">
+            <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> you can't sign in on the VM</summary>
+            <div class="fixbody">
+              <p>The VM browser may have stale cookies or a cached session that blocks the sign-in flow. Clear the browser history and try again:</p>
+              <ol style="margin:6px 0 0;padding-left:18px;">
+                <li>In the VM browser, open the menu (☰ top-right) and choose <b>Settings</b> → <b>Privacy &amp; Security</b> → <b>Clear Data…</b> (Firefox) or <b>More tools</b> → <b>Clear browsing data…</b> (Chromium).</li>
+                <li>Check <b>Cookies and site data</b> and <b>Cached web content</b>. Set the time range to <b>All time</b>.</li>
+                <li>Click <b>Clear</b>, then close and reopen the browser.</li>
+                <li>Navigate to <a class="inline" href="https://bob.ibm.com" target="_blank" rel="noopener">bob.ibm.com</a> and sign in again.</li>
+              </ol>
+            </div>
+          </details>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Open your project folder in Bob</div>
+          <p>Choose <b>File → Open Folder…</b> and navigate to your <code class="ic">mongo-lab</code> folder (<code class="ic">~/mongo-lab</code> on macOS/Linux, <code class="ic">%USERPROFILE%\mongo-lab</code> on Windows). Select it and click <b>Open</b>. Bob will show the Welcome tab with a <b>Restricted Mode</b> badge in the bottom-left — that's your cue for the next step.</p>
+          <figure class="shot">
+            <img src="img/initalBob.png" alt="Bob after opening a new empty folder, showing the Restricted Mode banner and badge">
+            <figcaption>Bob after opening the <b>mongo-lab</b> folder. Notice the <b>Restricted Mode</b> warning at the top and the blue <b>Restricted Mode</b> badge in the status bar bottom-left.</figcaption>
+          </figure>
+        </li>
+        <li class="step">
+          <span class="badge">4</span>
+          <div class="stitle">Trust the folder</div>
+          <p>Click the <b>Restricted Mode</b> badge in the bottom-left status bar.</p>
+          <figure class="shot narrow">
+            <img src="img/RestrictedMode.png" alt="Restricted Mode badge in Bob's status bar">
+            <figcaption>Click this <b>Restricted Mode</b> badge to open the Workspace Trust page.</figcaption>
+          </figure>
+          <p>The <b>Workspace Trust</b> page opens. Click the blue <b>Trust</b> button on the left side.</p>
+          <figure class="shot">
+            <img src="img/WorkspaceTrust.png" alt="Bob's Workspace Trust page showing Trusted Folder vs Restricted Mode comparison and the Trust button">
+            <figcaption>Click <b>Trust</b>. In a trusted folder: tasks run, all settings apply, all extensions activate. In restricted mode none of that works — Bob needs trust to function.</figcaption>
+          </figure>
+          <div class="note">
+            <div class="nt">Why trust the folder?</div>
+            <p>Without trust, Bob runs in Restricted Mode: tasks can't run, 13 extensions are disabled, and 53 workspace settings are ignored. The MCP connection won't work. It's your own folder — trust it.</p>
+          </div>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — Bob is ready</div>
+          <p>The <b>Restricted Mode</b> badge is gone from the status bar. Bob is open, you're signed in, and the <code class="ic">mongo-lab</code> folder is trusted and ready.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 02 CONNECT -->
+    <section id="connect">
+      <div class="sec-eyebrow">STEP 02 <span class="time">· ~10 min · the important one</span></div>
+      <h2>Connect MongoDB to Bob</h2>
+      <p class="intro">One setup step, then everything else is conversation. You'll connect Bob to the <b>MongoDB MCP server</b> — the official bridge that hands an AI editor a real set of database tools. Once it's connected, plain-English requests become real operations on the lab database.</p>
+
+      <div class="callout tip withbob">
+        <img src="img/bob-head.png" alt="Bob">
+        <div>
+          <div class="ct">What's an MCP server?</div>
+          <p>MCP (Model Context Protocol) is a standard way to give an AI assistant tools. The MongoDB MCP server is a live connection to the database — like clipping a database remote control onto Bob. Same move as the docs server in the last workshop, pointed at data instead.</p>
+        </div>
+      </div>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Open Bob's MCP settings ⚙</div>
+          <p>Click the <b>gear icon ⚙</b> at the bottom-left of Bob, then select <b>MCP</b> from the left sidebar. You'll see the empty state — <b>No MCP servers found</b>.</p>
+          <figure class="shot">
+            <img src="img/bob-mcp-settings-page.png" alt="Bob's MCP settings tab showing 'No MCP servers found' and the Add MCP server button tooltip in the top right">
+            <figcaption>The <b>MCP</b> tab with no servers yet. The <b>+</b> button top-right (tooltip: <b>Add MCP server</b>) is what you click next.</figcaption>
+          </figure>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Choose this project, then open the config</div>
+          <p>Bob can save an MCP server in one of two places — and it matters which you pick:</p>
+          <ul>
+            <li><b>Global</b> — the server turns on for every project you ever open in Bob.</li>
+            <li><b>Project</b> — the server lives inside this workshop folder only.</li>
+          </ul>
+          <p>Click the <b>+</b> button at the top-right of the MCP servers list. Bob pops up an <b>Add MCP Server</b> dialog with a <b>Configuration Scope</b> dropdown — open it and you'll see two choices: <b>Global (All Workspaces)</b> and your project, <b>mongo-lab</b>. Pick your project — we want the MongoDB connection tied to this folder so it travels with the project and doesn't clutter the rest of your setup.</p>
+          <figure class="shot">
+            <img src="img/AddMCPServer.png" alt="Add MCP Server dialog showing Global and workspace scope options">
+            <figcaption>Select your <b>workspace</b> (mongo-lab, not Global). Then click <b>Open Configuration File</b>.</figcaption>
+          </figure>
+          <p>Now click <b>Open Configuration File</b>. Bob opens a small JSON config file called <code class="ic">mcp.json</code> in the editor — this is where you'll tell Bob how to launch the MongoDB MCP server.</p>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Paste the JSON config into mcp.json</div>
+          <p><code class="ic">mcp.json</code> tells Bob <em>how</em> to launch the MongoDB MCP server. Notice that the connection string in this file reads <code class="ic">${MDB_MCP_CONNECTION_STRING}</code> — that's a placeholder, not the real value. Bob will pull the actual string from a separate <code class="ic">.env</code> file you'll create in the next step. This keeps your credentials out of the config file entirely.</p>
+          <p>Replace the entire contents of <code class="ic">mcp.json</code> with the block below:</p>
+          <div class="cmd"><pre><code>{
+  "mcpServers": {
+    "mongodb": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mongodb-mcp-server@latest"
+      ],
+      "env": {
+        "MDB_MCP_CONNECTION_STRING": "${MDB_MCP_CONNECTION_STRING}",
+        "MDB_MCP_API_CLIENT_ID": "${MDB_MCP_API_CLIENT_ID}",
+        "MDB_MCP_API_CLIENT_SECRET": "${MDB_MCP_API_CLIENT_SECRET}",
+        "MDB_MCP_READ_ONLY": "false",
+        "MDB_MCP_INDEX_CHECK": "false",
+        "MDB_MCP_DISABLED_TOOLS": "",
+        "MDB_MCP_MAX_DOCUMENTS_PER_QUERY": "100",
+        "MDB_MCP_TELEMETRY": "enabled"
+      }
+    }
+  }
+}</code></pre></div>
+          <p>Save the file — <kbd>⌘S</kbd> on macOS, <kbd>Ctrl+S</kbd> on Windows/Linux.</p>
+        </li>
+
+        <li class="step">
+          <span class="badge">4</span>
+          <div class="stitle">Create a .env file with your credentials</div>
+          <p>The <code class="ic">.env</code> file is where your real credentials live. Bob reads it when it starts the MCP server and substitutes the values for the placeholders in <code class="ic">mcp.json</code>. Your credentials stay in <code class="ic">.env</code> and never get pasted into any config or chat message.</p>
+          <p>In Bob's file explorer (left sidebar), click <b>New File</b> and name it <code class="ic">.env</code>. Then add these three lines — replacing each placeholder with the values from your <b>MCP Credentials.docx</b> file. Your instructor will provide all three:</p>
+          <div class="cmd"><pre><code>MDB_MCP_CONNECTION_STRING=your-connection-string-here
+MDB_MCP_API_CLIENT_ID=your-client-id-here
+MDB_MCP_API_CLIENT_SECRET=your-client-secret-here</code></pre></div>
+          <div class="note must">
+            <div class="nt">No quotes around any value</div>
+            <p>Paste each value directly after the <code class="ic">=</code> with no surrounding quotes and no spaces. Your connection string starts with <code class="ic">mongodb+srv://</code> — paste the whole thing as-is.</p>
+          </div>
+          <div class="callout tip">
+            <div class="ct">Why a .env file?</div>
+            <p>A <code class="ic">.env</code> file is a standard way to keep secrets — passwords, API keys, connection strings — separate from your code and config. If you ever share your project or push it to GitHub, the credentials stay on your machine because <code class="ic">.env</code> is never committed. <code class="ic">mcp.json</code> is safe to share; <code class="ic">.env</code> is not.</p>
+          </div>
+          <p>Save the file — <kbd>⌘S</kbd> on macOS, <kbd>Ctrl+S</kbd> on Windows/Linux.</p>
+        </li>
+
+        <li class="step">
+          <span class="badge">5</span>
+          <div class="stitle">Manually verify the connection in settings</div>
+          <p>Go back to Bob's <b>MCP settings tab</b>. The <code class="ic">mongodb</code> row should show <b>● Connected</b> in the Status column. This is your manual confirmation that the MCP connection is live.</p>
+          <figure class="shot">
+            <img src="img/bob-green-dot.png" alt="Bob MCP settings showing mongodb server with green Connected status">
+            <figcaption>The <b>MCP</b> tab with <code>mongodb</code> showing <b>● Connected</b> under Status and <b>Workspace</b> under Scope. If you see a red or grey status, toggle the server off and on using the refresh icon (↻) top-right.</figcaption>
+          </figure>
+          <div class="callout tip">
+            <div class="ct">Connected = Workspace scope</div>
+            <p>Scope shows <b>Workspace</b> — this means the server is tied to your <code class="ic">mongo-lab</code> folder, not global. That's exactly what you want.</p>
+          </div>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — MCP is live</div>
+          <p>The <b>mongodb</b> server shows a <b>green dot</b> in the MCP tab and Bob confirmed the connection. You're ready to query the database.</p>
+        </li>
+      </ol>
+
+      <details class="fix tip-d">
+        <summary><span class="caret">▶</span><span class="wtag">💡 Why nothing to install?</span></summary>
+        <div class="fixbody">
+          <p>MongoDB hosts this MCP server, so your laptop makes only an ordinary outbound <b>HTTPS</b> connection to it — it never opens a database port. That's why this works on locked-down corporate networks. Step 08 has the full picture.</p>
+        </div>
+      </details>
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> Bob lists no MongoDB tools</summary>
+        <div class="fixbody">
+          <p>Check the entry is valid JSON (comma after any previous server, matching braces), that the server shows green in the MCP tab, and that you finished any browser sign-in. Toggle the server off and on to reconnect, then ask again. Still stuck? Flag a helper — it's nearly always a typo in the pasted block or a skipped sign-in.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- 03 DATA -->
+    <section id="data">
+      <div class="sec-eyebrow">STEP 03 <span class="time">· ~10 min</span></div>
+      <h2>Explore the database</h2>
+      <p class="intro">Now that you're connected, ask Bob to show you what's in the database. This is your first real query against MongoDB using MCP.</p>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Ask Bob about the database</div>
+          <p>Send this prompt to Bob:</p>
+          <div class="cmd"><pre><code>Show me what's in my database: list the collections and explain simply what each one holds and how they connect.</code></pre></div>
+          <p>Bob will use a real MongoDB tool to list the collections and describe what each one stores. You'll see the <code class="ic">claims</code>, <code class="ic">policies</code>, and <code class="ic">customers</code> collections and learn how they link together via <code class="ic">customer_id</code> and <code class="ic">policy_id</code>.</p>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Optional — pull a sample record from each collection</div>
+          <p>Want to see real data before diving in? Ask Bob:</p>
+          <div class="cmd"><pre><code>Show me a sample document from each collection — for example CLM-029 from claims, its linked policy, and the matching customer record.</code></pre></div>
+          <p>You'll see something like this from the <code class="ic">claims</code> collection:</p>
+          <div class="cmd"><pre><code>{
+  "claim_id":    "CLM-029",
+  "customer_id": 29,
+  "policy_id":   "POL-035",
+  "category":    "auto",
+  "description": "Vehicle stolen overnight from residential driveway.
+                  Found the next day stripped of wheels and valuables.",
+  "amount":      9300,
+  "status":      "under_review",
+  "filed_date":  "2024-08-14"
+}</code></pre></div>
+          <p>Notice <code class="ic">status: "under_review"</code> — this claim is waiting on a decision. The question this workshop answers is: <i>does the policy actually cover this?</i> The coverage answer depends on whether <code class="ic">POL-035</code> (a Plus tier policy) includes theft. That answer lives in the PDF, not in this document.</p>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — you know the schema</div>
+          <p>Bob has described the three collections and how they relate. You have a clear picture of the data. Next: load the policy PDFs.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 04 LOAD POLICIES -->
+    <section id="loadpolicies">
+      <div class="sec-eyebrow">STEP 04 <span class="time">· ~10 min</span></div>
+      <h2>Load policy PDFs into the database</h2>
+      <p class="intro">In the project folder there are 3 policy PDFs and a script called <code class="ic">load_policies.py</code>. You'll ask Bob to explain the script, then run it to load the PDFs into your database.</p>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Ask Bob about the script</div>
+          <p>Send Bob this prompt:</p>
+          <div class="cmd"><pre><code>In the project folder there are 3 policy PDFs and a script called load_policies.py. Explain simply what the script does, then run it using "uv run python load_policies.py" to load the PDFs into my database.
+Tell me how many sections were created and if anything went wrong. Now show me the collection after this update.</code></pre></div>
+          <p>Bob will read <code class="ic">load_policies.py</code>, explain what it does in plain English, then execute it with <code class="ic">uv run python</code>. The script parses each PDF into sections and inserts them into a <code class="ic">coverage_sections</code> collection in your database.</p>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — PDFs are loaded</div>
+          <p>Bob reports how many sections were created across all three PDFs, and confirms no errors occurred. The <code class="ic">coverage_sections</code> collection is now populated and ready to search.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 05 KEYWORD SEARCH -->
+    <section id="kwsearch">
+      <div class="sec-eyebrow">STEP 05 <span class="time">· ~15 min</span></div>
+      <h2>Keyword search</h2>
+      <p class="intro">Use Atlas keyword search to match each auto claim against the policy sections in <code class="ic">coverage_sections</code>. Bob will run a real search for every claim, one at a time, using MongoDB Atlas search operations.</p>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Run keyword search for all auto claims</div>
+          <p>Send Bob this prompt:</p>
+          <div class="cmd"><pre><code>Use keyword search on the policy documents in coverage_sections to find the matching policy section for each auto claim. Search with each claim's full description, filtered to its tier and the auto line, and take the top result.
+Run a real search for every claim, one at a time. Show a table: claim, what happened, section found, score, covered or not. Use atlas operation.</code></pre></div>
+          <p>Bob will run a real Atlas search operation for each auto claim and return a results table. Review each row — check whether the matched section makes sense for what happened in the claim.</p>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Where keyword search fails — the CLM-029 gap</div>
+          <p>Look at <b>CLM-029</b> in your results table. The claim description reads:</p>
+          <div class="cmd"><pre><code>"Vehicle stolen overnight from residential driveway.
+Found the next day stripped of wheels and valuables."</code></pre></div>
+          <p>The correct policy section to match here is <b>Unlawful Taking, Conversion And Felonious Abstraction</b>. But keyword search looks for exact word overlap — and the claim never uses the word "unlawful", "taking", or "felonious." It just says <i>"stolen."</i></p>
+          <div class="callout">
+            <div class="ct">Why keyword search misses this</div>
+            <p>Atlas keyword search scores documents by term frequency. <i>"stolen"</i>, <i>"driveway"</i>, and <i>"wheels"</i> do not appear in the policy section title — so the match score is low or zero. The claim might land on the wrong section entirely. This isn't a bug — it's the fundamental limit of lexical search. The fix is search that understands meaning, not just words.</p>
+          </div>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — keyword search results table complete</div>
+          <p>You have a full table and you've seen exactly where keyword search breaks down. Keep this result — you'll compare it directly to vector search in Step 07.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 06 ASK REFLECT -->
+    <section id="askreflect">
+      <div class="sec-eyebrow">STEP 06 <span class="time">· ~5 min</span></div>
+      <h2>Reflect in Ask mode</h2>
+      <p class="intro">Switch Bob to <b>Ask</b> mode and ask it to explain what it just did. Ask mode is read-only — Bob explains without running any new tools. It's a great way to understand what happened under the hood.</p>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Switch to Ask mode and reflect</div>
+          <p>At the top of the Bob chat panel, switch the mode to <b>Ask</b>. Then send this prompt:</p>
+          <div class="cmd"><pre><code>What was your process of your keyword search with the MongoDB database? Show me the query and MongoDB operations if any were used.</code></pre></div>
+          <p>Bob will walk through the Atlas search query it used, the <code class="ic">$search</code> aggregation stage, the filters applied (tier, line), and how it scored results. No new database calls are made — this is reflection only.</p>
+          <p>Here's an example of the kind of query Bob generated and ran on your behalf:</p>
+          <div class="cmd"><pre><code>db.coverage_sections.aggregate([
+  {
+    $search: {
+      index: "default",
+      text: {
+        query: "Vehicle stolen overnight from residential driveway. Found the next day stripped of wheels and valuables.",
+        path: "text"
+      }
+    }
+  },
+  {
+    $match: {
+      tier: "plus_extra",
+      line: "auto"
+    }
+  },
+  { $limit: 1 },
+  {
+    $project: {
+      section_title: 1,
+      score: { $meta: "searchScore" }
+    }
+  }
+])</code></pre></div>
+          <div class="callout tip">
+            <div class="ct">This is what Bob wrote for you — instantly</div>
+            <p>That aggregation pipeline has a <code class="ic">$search</code> stage, a filter, a limit, and a projection. Writing this from scratch requires knowing MongoDB's Atlas Search syntax, the correct index name, your field names, and the aggregation pipeline structure. Bob produced it from a plain-English prompt and ran it live against your database — through MCP, with no copy-paste, no terminal, no driver code. That's the power of combining Bob with the MongoDB MCP server.</p>
+          </div>
+          <div class="note">
+            <div class="nt">Why Ask mode?</div>
+            <p>Ask mode prevents Bob from making any changes or running tools. It's safe to review and understand what happened without accidentally triggering a new operation. Switch back to <b>Agent</b> mode when you're ready to continue.</p>
+          </div>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — you understand the query</div>
+          <p>Bob has shown you the exact MongoDB operations used in the keyword search. Switch back to <b>Agent</b> mode for the next step.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 07 VECTOR SEARCH -->
+    <section id="vecsearch">
+      <div class="sec-eyebrow">STEP 07 <span class="time">· ~15 min</span></div>
+      <h2>Vector search</h2>
+      <p class="intro">Now repeat the same exercise using vector (semantic) search on 5 of the auto claims, including CLM-029 and CLM-050. Vector search finds matches by meaning — not just exact keywords — using the voyage-4 embedding model.</p>
+
+      <div class="callout tip">
+        <div class="ct">How MongoDB auto-embed works — no embedding code required</div>
+        <p>Normally, adding vector search to a pipeline means: call an embedding API, store the vectors, create an index, then write a <code class="ic">$vectorSearch</code> query that references those vectors. MongoDB Atlas auto-embed removes all of that. When you create an auto-embed index on a text field, Atlas automatically generates and stores the embeddings for every document — and for every new search query — using the model you specify (here: voyage-4). You never write embedding code, manage vectors, or call an external API. You just search.</p>
+      </div>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Run vector search on 5 auto claims</div>
+          <p>Send Bob this prompt (make sure you're back in <b>Agent</b> mode):</p>
+          <div class="cmd"><pre><code>Now do the same using vector search on 5 of the auto claims, including CLM-029 and CLM-050. Search with each claim's full description, filtered to its tier and the auto line, and take the top result.
+Run a real search for every claim Show a table: claim, what happened, keyword section found, vector section found, score, covered or not. Use voyage-4 model</code></pre></div>
+          <p>Bob will use the voyage-4 embedding model to embed each claim description and search <code class="ic">coverage_sections</code> by vector similarity. The results table will show both the keyword match (from Step 05) and the vector match side by side.</p>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Reflect on the vector search query</div>
+          <p>Stay in <b>Ask</b> mode (or switch to it now) and send this prompt:</p>
+          <div class="cmd"><pre><code>What was your process of your vector search with the MongoDB database? Show me the query and MongoDB operations if any were used.</code></pre></div>
+          <p>Bob will show you the <code class="ic">$vectorSearch</code> aggregation stage it used — compare it mentally to the <code class="ic">$search</code> text query from Step 06. Notice how the vector search query embeds the claim description on the fly rather than matching terms.</p>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — vector search results table complete</div>
+          <p>You have a side-by-side table: keyword section found vs vector section found, score, and covered/not for each of the 5 claims. Keep this — you'll grade both in the next step.</p>
+        </li>
+      </ol>
+
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> vector search returns no results</summary>
+        <div class="fixbody">
+          <p>The voyage-4 index may need to be created first. Ask Bob: <i>"Create a vector search index on coverage_sections using the voyage-4 model on the text field."</i> Wait for the index to show <b>active</b>, then re-run the search.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- 08 GRADE -->
+    <section id="grade">
+      <div class="sec-eyebrow">STEP 08 <span class="time">· ~10 min</span></div>
+      <h2>Grade the results</h2>
+      <p class="intro">Use the answer key CSV to objectively compare both search methods — which claims did each get right, and which did it get wrong?</p>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Open the answer key</div>
+          <p>You already downloaded <code class="ic">answer_key.csv</code> from the Box folder during setup — it should be sitting in your <code class="ic">mongo-lab</code> folder and visible in Bob's Explorer panel alongside the PDFs and script. Click it to open and take a look at what's inside before grading.</p>
+          <div class="note">
+            <div class="nt">What's in the answer key?</div>
+            <p>The CSV contains the correct policy section match for each auto claim — the ground truth you'll use to score both keyword and vector search results objectively.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Ask Bob to grade against the answer key</div>
+          <div class="cmd"><pre><code>Use the answer key CSV file to compare the output table from keyword search and vector search and show me which ones were correct and wrong</code></pre></div>
+          <p>Bob will read the answer key, line it up against both results tables, and produce a grading summary. For each claim it will mark: keyword correct or wrong, vector correct or wrong — and flag any where the methods disagreed.</p>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — grading complete</div>
+          <p>You have an objective score for both methods. You've seen exactly where keyword search excels (exact terminology matches) and where vector search wins (paraphrased or semantically similar descriptions like CLM-029). This is the core trade-off between lexical and semantic search in any real retrieval pipeline.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 09 AUTOMATE (OPTIONAL) -->
+    <section id="autoclaims">
+      <div class="sec-eyebrow">STEP 09 <span class="time">· ~15 min · optional</span></div>
+      <h2>Automate claim decisions</h2>
+      <p class="intro">You've checked coverage for individual claims — now automate the whole queue. You'll install a Bob skill called <code class="ic">process-auto-claims</code> that fetches every auto claim under review, checks each one against the policy sections using vector search, shows you a verdict table, and — only after you confirm — writes the decisions back to the database.</p>
+
+      <div class="callout tip withbob">
+        <img src="img/bob-head.png" alt="Bob">
+        <div>
+          <div class="ct">What's a skill?</div>
+          <p>A skill is a reusable set of instructions packaged for Bob. Once installed, you invoke it by name — <code class="ic">/process-auto-claims</code> — and Bob follows the steps automatically. Think of it as a saved workflow you can run any time the queue has new claims.</p>
+        </div>
+      </div>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Create the skill file</div>
+          <p>Ask Bob to create the skill. Make sure you're in <b>Agent</b> mode — Bob needs to write a file to your project.</p>
+          <div class="cmd"><pre><code>Create a skill called "process-auto-claims" that:
+1. Gets all claims where status is "under_review" AND type is "auto" from the claims collection
+2. Joins each to its policy to get product_tier
+3. Runs a vector search on coverage_sections for each claim's description using the
+   vector_index index, filtered to the matching product_tier and line "auto",
+   taking the top result
+4. Assigns a verdict:
+   - "approved" if coverage is "covered" and score >= 0.60
+   - "denied" if coverage is "not covered" or "exclusions" and score >= 0.60
+   - "needs human review" if score &lt; 0.60
+   Note: scores will be in the 0.60–0.75 range because claim descriptions use plain English
+   while policy section titles use formal legal language — this is expected and correct.
+5. Shows a summary table: claim_id, tier, amount, brief description, matched policy section,
+   similarity score, verdict
+6. States the total: how many to approve, how many to deny, total dollar amounts
+7. Asks me to type CONFIRM to apply, or CANCEL to discard
+8. On CONFIRM: updates each claim's status to "approved" or "denied" in the claims collection</code></pre></div>
+          <p>Bob will create a <code class="ic">SKILL.md</code> file at <code class="ic">.bob/skills/process-auto-claims/SKILL.md</code> in your project. Approve the file write when Bob asks.</p>
+          <div class="note">
+            <div class="nt">Start a new chat after the skill is created</div>
+            <p>Bob loads skills at the start of a conversation. Once the file is written, open a new chat before invoking the skill — otherwise Bob won't see it yet. To open a new chat: click the <b>pencil / compose icon</b> at the top of the Bob chat panel (next to the mode selector). A fresh conversation opens in the same window.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Run the skill</div>
+          <p>In a new chat, invoke the skill:</p>
+          <div class="cmd"><pre><code>/process-auto-claims</code></pre></div>
+          <p>Bob will fetch the auto claims currently under review, run a vector search for each against <code class="ic">coverage_sections</code>, and show you a table like this:</p>
+          <div class="cmd"><pre><code>#   Claim     Tier        Amount    What Happened                      Matched Policy Section                                  Score   Verdict
+─   ──────    ────────    ──────    ────────────────────────────────   ──────────────────────────────────────────────────────  ─────   ─────────────────────
+1   CLM-034   Basic       $10,800   Car slid on highway, hit barrier.  Direct Physical Loss By Impact Or Upset                 0.667   ❌ DENIED
+                                    Suspension and bumper damaged.     STATUS: NOT IN FORCE (Basic does not include collision)
+
+2   CLM-029   Plus        $9,300    Vehicle stolen overnight.          Unlawful Taking, Conversion And Felonious Abstraction   0.690   ✅ APPROVED
+                                    Found stripped of wheels.          STATUS: IN FORCE
+
+3   CLM-043   Plus        $8,900    Hailstorm dented hood, roof,       Glazing And Transparent Vehicle Enclosures              0.729   ✅ APPROVED
+                                    trunk. Windshield cracked.         STATUS: IN FORCE
+
+4   CLM-064   Plus Extra  $7,800    Floodwaters entered cabin          Specified Atmospheric And Natural Perils;               0.665   ✅ APPROVED
+                                    through underpass. Electrical      Malicious Mischief; Contact With Fauna
+                                    systems failed.                    STATUS: IN FORCE
+
+4 auto claims under review  |  3 to approve ($26,000)  |  1 to deny ($10,800)
+
+Type CONFIRM to apply these decisions, or CANCEL to discard.</code></pre></div>
+
+          <div class="callout tip">
+            <div class="ct">Why are the scores between 0.60 and 0.75?</div>
+            <p>The claims are written in plain English (<i>"car slid on highway"</i>) while the policy sections use formal legal titles (<i>"Direct Physical Loss By Impact Or Upset"</i>). The vector model captures the semantic match correctly — that's why the right section surfaces — but the score is lower than it would be with matching vocabulary. <b>0.60+ is a correct match in this dataset.</b> This is exactly the kind of threshold tuning you'd do before deploying a system like this in production.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Review and confirm</div>
+          <p>Read each row carefully before typing anything:</p>
+          <ul>
+            <li><b>CLM-034 (Basic, collision)</b> — denied correctly. Basic tier does not include collision coverage. The same claim filed on a Plus or Plus Extra policy would be approved.</li>
+            <li><b>CLM-029 (Plus, theft)</b> — approved. The vehicle theft section is active on Plus.</li>
+            <li><b>CLM-064 (Plus Extra, flood)</b> — approved. Weather and atmospheric perils are active on Plus Extra only.</li>
+          </ul>
+          <p>When you're satisfied, type:</p>
+          <div class="cmd"><pre><code>CONFIRM</code></pre></div>
+          <p>Bob will call <code class="ic">update-many</code> once per claim and report back how many were updated. The database now reflects the adjudication decisions.</p>
+          <div class="note must">
+            <div class="nt">This writes to the database</div>
+            <p>CONFIRM triggers real <code class="ic">update-many</code> calls. The claim statuses change from <code class="ic">under_review</code> to <code class="ic">approved</code> or <code class="ic">denied</code>. If you want to reset the claims to <code class="ic">under_review</code> afterward, ask Bob to do so.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <span class="badge">4</span>
+          <div class="stitle">Verify the updates</div>
+          <div class="cmd"><pre><code>Show me the current status of CLM-034, CLM-029, and CLM-064 in the claims collection.</code></pre></div>
+          <p>Each claim should now show its updated status. Ask Bob what you'd need to extend this skill to handle home and health claims — the answer is exactly what Step 04 already showed you.</p>
+        </li>
+
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — automated adjudication complete</div>
+          <p>You've built a reusable skill that combines a live database query, a semantic search loop, a human confirmation gate, and a bulk write — all in plain English. Run <code class="ic">/process-auto-claims</code> any time a new batch of auto claims lands in the queue.</p>
+        </li>
+      </ol>
+
+      <details class="fix tip-d">
+        <summary><span class="caret">▶</span><span class="wtag">💡 Why only auto claims?</span></summary>
+        <div class="fixbody">
+          <p>The <code class="ic">coverage_sections</code> collection was populated in Step 04 from the three auto policy PDFs. Home and health claims have no matching policy sections to search against — so the skill scopes itself to <code class="ic">type: "auto"</code> only. The 9 home and health claims remain <code class="ic">under_review</code>. To extend coverage: load home and health policy PDFs using <code class="ic">load_policies.py</code>, then update the skill to handle those types.</p>
+        </div>
+      </details>
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> the skill isn't found after a new chat</summary>
+        <div class="fixbody">
+          <p>Confirm the file exists at <code class="ic">.bob/skills/process-auto-claims/SKILL.md</code>. Skill names must be lowercase with hyphens only — no underscores or spaces. If the file looks correct, restart Bob and open a new chat.</p>
+        </div>
+      </details>
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> vector search returns no results in the skill</summary>
+        <div class="fixbody">
+          <p>The <code class="ic">vector_index</code> index must exist and be <b>active</b> on <code class="ic">coverage_sections</code>. Ask Bob: <i>"What is the status of the vector_index index on coverage_sections?"</i> If it's missing, re-run Step 07 to create it, then wait for the status to show <b>active</b> before invoking the skill again.</p>
+        </div>
+      </details>
+    </section>
+
+    <!-- 10 PORTFOLIO RISK REPORT (OPTIONAL) -->
+    <section id="riskreport">
+      <div class="sec-eyebrow">STEP 10 <span class="time">· ~20 min · optional</span></div>
+      <h2>Portfolio risk report</h2>
+      <p class="intro">You've been working claim by claim. Now zoom out. This step builds a reusable analytics skill that answers five business questions from the live database, writes a plain-English narrative interpreting what the data says, and outputs a self-contained HTML dashboard — ready to re-run every month.</p>
+
+      <div class="callout tip withbob">
+        <img src="img/bob-head.png" alt="Bob">
+        <div>
+          <div class="ct">Operational vs. analytical</div>
+          <p>Step 09 was <b>operational</b> — process individual claims, write decisions back. This step is <b>analytical</b> — aggregate across the whole portfolio and surface patterns. MongoDB supports both from the same database, with the same MCP tools. That's the point.</p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="ct">The five business questions this skill answers</div>
+        <ol style="margin:6px 0 0;padding-left:18px;">
+          <li><b>Portfolio health</b> — how many claims, what is total exposure, what proportion is still outstanding?</li>
+          <li><b>Where are the disputes?</b> — which tier and claim type combinations have the highest denial rates?</li>
+          <li><b>What's our pending liability?</b> — which buckets are under review and how much do they represent?</li>
+          <li><b>Are there seasonal patterns?</b> — which months drive the most volume and cost, broken down by claim type?</li>
+          <li><b>Which customers cost the most?</b> — which segment (retail / SME / corporate) carries the highest financial exposure?</li>
+        </ol>
+      </div>
+
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Create the skill</div>
+          <p>Make sure you're in <b>Agent</b> mode, then ask Bob:</p>
+          <div class="cmd"><pre><code>Create a skill called "claims-risk-report" that runs five reusable aggregation
+pipelines against the claims, policies, and customers collections to answer
+these business questions every month:
+
+1. Portfolio snapshot — total claims, total exposure, and breakdown by status
+   (settled / denied / under_review)
+2. Denial rate by tier and claim type — join claims to policies, group by
+   product_tier and type, compute denial rate as a percentage, flag combinations
+   above 50% as HIGH DISPUTE RISK and 25-50% as ELEVATED
+3. Pending liability — filter to under_review claims only, group by tier and type,
+   show count and total outstanding amount, sorted by amount descending
+4. Monthly claim volume by type — group by year/month and claim type (auto/home/health),
+   show count and total amount per month per type
+5. Segment exposure — join claims to customers, group by customer segment and claim type,
+   show total and average claim amount
+
+After running all five pipelines, write a 4-6 sentence plain-English narrative
+that interprets the findings using specific numbers from the data — covering portfolio
+health, the biggest denial rate signal, seasonal patterns, highest-cost segment,
+and total pending liability.
+
+Then write a self-contained HTML dashboard called risk-dashboard.html to the
+project root with: a header bar showing the run date, four KPI cards (total claims,
+total exposure, under review amount, overall denial rate), the narrative in a
+highlighted callout box, a denial rate heatmap table (tiers as rows, claim types
+as columns, cells colour-coded red/amber/green), a pending liability table, a
+stacked bar chart of monthly volume by type (inline SVG, no libraries), and a
+grouped bar chart of segment exposure (inline SVG). All figures come from the
+live pipeline results embedded as JSON in the file. The skill is read-only.</code></pre></div>
+          <p>Bob will create <code class="ic">.bob/skills/claims-risk-report/SKILL.md</code>. Approve the file write, then open a <b>new chat</b> before invoking it.</p>
+          <div class="note">
+            <div class="nt">Skill already created?</div>
+            <p>If you're following this guide end-to-end, the skill file already exists from a previous step. Skip straight to step 2 — open a new chat and invoke it.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Run the skill</div>
+          <p>In a new chat, invoke it:</p>
+          <div class="cmd"><pre><code>/claims-risk-report</code></pre></div>
+          <p>Bob runs all five pipelines against the live database, generates the AI narrative, then writes <code class="ic">risk-dashboard.html</code>. This takes about 30–60 seconds. Open the dashboard:</p>
+          <div class="cmd"><pre><code>open risk-dashboard.html</code></pre></div>
+          <p>The dashboard contains six sections:</p>
+          <table class="vs" style="margin-top:10px;">
+            <thead><tr><th>Section</th><th>What it shows</th><th>MongoDB pattern used</th></tr></thead>
+            <tbody>
+              <tr><td><b>KPI cards</b></td><td>Total claims, exposure, under-review amount, denial rate</td><td><code class="ic">$group</code></td></tr>
+              <tr><td><b>What the data says</b></td><td>AI-generated narrative with specific numbers</td><td>—</td></tr>
+              <tr><td><b>Denial rate heatmap</b></td><td>3×3 grid: tiers × claim types, colour-coded</td><td><code class="ic">$lookup</code> + <code class="ic">$group</code> + computed field</td></tr>
+              <tr><td><b>Pending liability</b></td><td>Under-review buckets ranked by outstanding amount</td><td><code class="ic">$match</code> + <code class="ic">$group</code></td></tr>
+              <tr><td><b>Monthly volume chart</b></td><td>Stacked bars: auto / home / health per month</td><td><code class="ic">$group</code> by date parts</td></tr>
+              <tr><td><b>Segment exposure chart</b></td><td>Grouped bars: retail / SME / corporate by claim type</td><td>3-collection <code class="ic">$lookup</code></td></tr>
+            </tbody>
+          </table>
+          <div class="callout tip" style="margin-top:14px;">
+            <div class="ct">Re-run every month</div>
+            <p>The pipelines are stored in the skill — they never change. Run <code class="ic">/claims-risk-report</code> at the start of each month and Bob overwrites <code class="ic">risk-dashboard.html</code> with fresh numbers and a fresh narrative. No editing required.</p>
+          </div>
+        </li>
+
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Export the pipeline results as JSON</div>
+          <p>Bob's <code class="ic">export</code> tool lets you download any query or aggregation result as a <code class="ic">.json</code> file — useful for handing data to another system, archiving a monthly snapshot, or loading into a spreadsheet.</p>
+          <p>Ask Bob to export one of the five pipelines. For example, to export the pending liability data:</p>
+          <div class="cmd"><pre><code>Export the under_review claims grouped by tier and type as JSON — same pipeline as the pending liability section of the risk report.</code></pre></div>
+          <p>Bob calls the <code class="ic">export</code> tool against the <code class="ic">claims</code> collection and writes a <code class="ic">.json</code> file to the project folder. You can export any of the five pipelines the same way — just describe which one you want.</p>
+          <div class="note">
+            <div class="nt">The data is already embedded</div>
+            <p>The <code class="ic">risk-dashboard.html</code> file already contains all five pipeline results as JSON literals inside a <code class="ic">&lt;script&gt;</code> tag — you can copy them directly from there without re-running a query.</p>
+          </div>
+        </li>
+
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — monthly portfolio report complete</div>
+          <p>You have a reusable skill that runs five aggregation pipelines, generates an AI narrative, and outputs a live HTML dashboard — all in one command. You can also export any pipeline result as JSON directly from Bob. Re-run <code class="ic">/claims-risk-report</code> any month and the dashboard is overwritten with fresh data automatically.</p>
+        </li>
+      </ol>
+
+      <details class="fix tip-d">
+        <summary><span class="caret">▶</span><span class="wtag">💡 What aggregation patterns does this teach?</span></summary>
+        <div class="fixbody">
+          <p>Each pipeline section uses a different MongoDB aggregation pattern:</p>
+          <ul>
+            <li><code class="ic">$group</code> with multiple accumulators — portfolio snapshot and monthly volume</li>
+            <li><code class="ic">$lookup</code> + <code class="ic">$group</code> + <code class="ic">$addFields</code> — denial rate computed from a joined field</li>
+            <li><code class="ic">$match</code> + <code class="ic">$group</code> — filtered aggregation for pending-only claims</li>
+            <li><code class="ic">$group</code> by date parts — grouping by year/month using <code class="ic">$year</code> and <code class="ic">$month</code> operators</li>
+            <li>Three-collection <code class="ic">$lookup</code> — claims → customers for segment analysis</li>
+          </ul>
+          <p>That's the full aggregation toolkit in one skill.</p>
+        </div>
+      </details>
+      <details class="fix tip-d">
+        <summary><span class="caret">▶</span><span class="wtag">💡 Where to go from here</span></summary>
+        <div class="fixbody">
+          <p>This report runs on demand. A production data engineering workflow would <b>schedule it</b> — an Atlas scheduled trigger runs the pipelines nightly, exports JSON to a data warehouse, and emails the dashboard to stakeholders automatically. The pipelines you've written here are exactly what that trigger would execute. That's the natural next step after this workshop.</p>
+        </div>
+      </details>
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> the pipeline returns no results</summary>
+        <div class="fixbody">
+          <p>The <code class="ic">$lookup</code> joins on <code class="ic">policy_id</code> and <code class="ic">customer_id</code>. If the field types differ between collections (number vs string), the join returns nothing silently. Ask Bob: <i>"Check the data types of policy_id and customer_id across the claims, policies, and customers collections."</i> If they differ, ask Bob to add a <code class="ic">$addFields</code> cast stage before the lookup.</p>
+        </div>
+      </details>
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> the dashboard file opens blank</summary>
+        <div class="fixbody">
+          <p>The dashboard renders from JSON variables embedded in the file. If Bob didn't finish writing before you opened it, close the browser tab, wait for Bob to confirm the file is written, then reopen. If it's still blank, ask Bob: <i>"Did you embed the pipeline results as JSON in risk-dashboard.html? Show me the SNAPSHOT variable."</i></p>
+        </div>
+      </details>
+    </section>
+
+    <!-- TROUBLESHOOTING -->
+    <section id="troubleshooting">
+      <div class="sec-eyebrow">APPENDIX</div>
+      <h2>Troubleshooting</h2>
+      <p class="intro">Most fixes sit in the step where you'd hit them (the grey "⚠ Only if…" bars). Here they are in one place.</p>
+
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">FIX</span> Bob shows no MongoDB tools</summary>
+        <div class="fixbody"><p>Confirm the <b>mongodb</b> entry is valid JSON (comma after any previous server, matching braces), the server shows a green dot in the MCP tab, and you completed any browser sign-in. Toggle the server off and on, then ask <i>"what MongoDB tools do you have?"</i> again.</p></div>
+      </details>
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">FIX</span> Bob can't update a claim status</summary>
+        <div class="fixbody"><p>Make sure Bob is in <b>Agent</b> mode — only Agent mode can call write tools. If you get a permissions error, the sandbox connection may be read-only. Let your instructor know.</p></div>
+      </details>
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">FIX</span> Vector search on claims returns nothing</summary>
+        <div class="fixbody"><p>Check that the <code class="ic">claim_semantic</code> index is active — ask Bob for its status. If it's still building, wait for ready/active before querying. Also confirm the index name in the query matches exactly.</p></div>
+      </details>
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">FIX</span> Bob gives a coverage verdict without citing a PDF section</summary>
+        <div class="fixbody"><p>Bob may be working from memory rather than re-reading the PDF. Prompt it explicitly: <i>"Re-read policy_plus.pdf and cite the exact section number that covers or excludes this claim."</i> The Claims Adjuster mode (Step 07) enforces this by default.</p></div>
+      </details>
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">FIX</span> Index creation is refused</summary>
+        <div class="fixbody"><p>Either the cluster's index limit is reached or the connection is read-only. Your instructor will provide one shared index; Steps 05 onwards work identically against it.</p></div>
+      </details>
+      <details class="fix">
+        <summary><span class="caret">▶</span><span class="wtag">FIX</span> Bob won't create files (AGENTS.md, skills)</summary>
+        <div class="fixbody"><p>Make sure Bob is in <b>Agent</b> mode. Approve the file write when Bob asks.</p></div>
+      </details>
+
+      <p style="margin-top:20px">Still stuck? Flag a helper, or paste the exact error into Bob's chat and ask what to do.</p>
+      <footer>Accelerate MongoDB Development · Hands-on workshop · Insurance Claims Coverage Checker + IBM Bob</footer>
+    </section>
+
+  </div>
+  </main>
+</div>
+
+<script>
+  var VALID=["mac","win","linux","vm"];
+  function setOS(os){
+    if(VALID.indexOf(os)===-1) os="mac";
+    document.documentElement.setAttribute("data-os",os);
+    document.querySelectorAll(".os-switch button").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-set")===os);});
+    try{localStorage.setItem("workshop-os",os);}catch(e){}
+  }
+  document.querySelectorAll(".os-switch button").forEach(function(b){b.addEventListener("click",function(){setOS(b.getAttribute("data-set"));});});
+  (function(){
+    var stored=null; try{stored=localStorage.getItem("workshop-os");}catch(e){}
+    var os=stored;
+    if(!os){var p=(navigator.platform||"")+" "+(navigator.userAgent||"");if(/Win/i.test(p))os="win";else if(/Linux/i.test(p)&&!/Android/i.test(p))os="linux";else os="mac";}
+    setOS(os);
+  })();
+
+  document.querySelectorAll(".cmd").forEach(function(block){
+    var btn=document.createElement("button");
+    btn.className="copy";btn.type="button";btn.textContent="Copy";
+    btn.addEventListener("click",function(){
+      var text=block.querySelector("code").innerText;
+      navigator.clipboard.writeText(text).then(function(){
+        btn.textContent="Copied";btn.classList.add("done");
+        setTimeout(function(){btn.textContent="Copy";btn.classList.remove("done");},1400);
+      });
+    });
+    block.appendChild(btn);
+  });
+
+  var links=[].slice.call(document.querySelectorAll("#nav a"));
+  var sections=links.map(function(a){return document.querySelector(a.getAttribute("href"));});
+  function onScroll(){
+    var pos=window.scrollY+120,current=0;
+    for(var i=0;i<sections.length;i++){if(sections[i]&&sections[i].offsetTop<=pos)current=i;}
+    links.forEach(function(l,i){l.classList.toggle("active",i===current);});
+  }
+  window.addEventListener("scroll",onScroll,{passive:true});onScroll();
+
+  var sidebar=document.getElementById("sidebar"),menuBtn=document.getElementById("menuBtn");
+  menuBtn.addEventListener("click",function(){sidebar.classList.toggle("open");});
+  document.querySelectorAll("#nav a").forEach(function(a){a.addEventListener("click",function(){if(window.innerWidth<=960)sidebar.classList.remove("open");});});
+</script>
+</body>
+</html>
