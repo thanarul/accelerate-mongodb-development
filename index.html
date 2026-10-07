@@ -1010,9 +1010,9 @@ uv add pymongo pypdf</code></pre></div>
         </li>
         <li class="step">
           <span class="badge">3</span>
-          <div class="stitle">Paste the JSON config into mcp.json</div>
-          <p><code class="ic">mcp.json</code> tells Bob <em>how</em> to launch the MongoDB MCP server. Notice that the connection string in this file reads <code class="ic">${MDB_MCP_CONNECTION_STRING}</code> — that's a placeholder, not the real value. Bob will pull the actual string from a separate <code class="ic">.env</code> file you'll create in the next step. This keeps your credentials out of the config file entirely.</p>
-          <p>Replace the entire contents of <code class="ic">mcp.json</code> with the block below:</p>
+          <div class="stitle">Paste the JSON config into mcp.json — and fill in your credentials</div>
+          <p><code class="ic">mcp.json</code> tells Bob how to launch the MongoDB MCP server. Your three credentials go directly into the <code class="ic">env</code> block as plain string values — replace the three placeholders below with the real values your instructor provides on the day.</p>
+          <p>Replace the entire contents of <code class="ic">mcp.json</code> with the block below, then swap in your values:</p>
           <div class="cmd"><pre><code>{
   "mcpServers": {
     "mongodb": {
@@ -1022,9 +1022,9 @@ uv add pymongo pypdf</code></pre></div>
         "mongodb-mcp-server@latest"
       ],
       "env": {
-        "MDB_MCP_CONNECTION_STRING": "${MDB_MCP_CONNECTION_STRING}",
-        "MDB_MCP_API_CLIENT_ID": "${MDB_MCP_API_CLIENT_ID}",
-        "MDB_MCP_API_CLIENT_SECRET": "${MDB_MCP_API_CLIENT_SECRET}",
+        "MDB_MCP_CONNECTION_STRING": "your-connection-string-here",
+        "MDB_MCP_API_CLIENT_ID": "your-client-id-here",
+        "MDB_MCP_API_CLIENT_SECRET": "your-client-secret-here",
         "MDB_MCP_READ_ONLY": "false",
         "MDB_MCP_INDEX_CHECK": "false",
         "MDB_MCP_DISABLED_TOOLS": "",
@@ -1034,18 +1034,17 @@ uv add pymongo pypdf</code></pre></div>
     }
   }
 }</code></pre></div>
+          <div class="note must">
+            <div class="nt">Replace the three placeholders — keep the quotes</div>
+            <p>Replace <code class="ic">your-connection-string-here</code>, <code class="ic">your-client-id-here</code>, and <code class="ic">your-client-secret-here</code> with the real values from your instructor. <b>Keep the surrounding double-quotes</b> — that's required JSON syntax. The connection string starts with <code class="ic">mongodb+srv://</code> — paste the whole thing between the quotes. Do not change any other line.</p>
+          </div>
           <p>Save the file — <kbd>⌘S</kbd> on macOS, <kbd>Ctrl+S</kbd> on Windows/Linux.</p>
         </li>
 
         <li class="step">
           <span class="badge">4</span>
-          <div class="stitle">Create a .env file with your credentials</div>
-          <p>The <code class="ic">.env</code> file is where your real credentials live. Bob reads it when it starts the MCP server and substitutes the values for the placeholders in <code class="ic">mcp.json</code>. Your credentials stay in <code class="ic">.env</code> and never get pasted into any config or chat message.</p>
-
-          <div class="callout tip">
-            <div class="ct">Why a .env file?</div>
-            <p>A <code class="ic">.env</code> file is a standard way to keep secrets — connection strings, API keys, client secrets — separate from your code and config. <code class="ic">mcp.json</code> is safe to share; <code class="ic">.env</code> is not.</p>
-          </div>
+          <div class="stitle">Create a .env file for the Python script</div>
+          <p>The Python script (<code class="ic">load_policies.py</code>) that you'll run in Step 04 also needs your connection string — but it reads from a <code class="ic">.env</code> file rather than <code class="ic">mcp.json</code>. Create it now so it's ready when you need it.</p>
 
           <ol class="substeps">
             <li>
@@ -1058,13 +1057,11 @@ uv add pymongo pypdf</code></pre></div>
               <b>Name it exactly <code class="ic">.env</code></b> — start with the dot, nothing before it (not <code class="ic">env</code>, not <code class="ic">my.env</code>). Press <kbd>Enter</kbd>. Bob opens the empty file in the editor.
             </li>
             <li>
-              <b>Paste these three lines</b> into the file, replacing each placeholder with the values your instructor provides on the day:
-              <div class="cmd" style="margin-top:8px;"><pre><code>MDB_MCP_CONNECTION_STRING=your-connection-string-here
-MDB_MCP_API_CLIENT_ID=your-client-id-here
-MDB_MCP_API_CLIENT_SECRET=your-client-secret-here</code></pre></div>
+              <b>Paste this line</b> into the file, replacing the placeholder with your connection string:
+              <div class="cmd" style="margin-top:8px;"><pre><code>MDB_MCP_CONNECTION_STRING=your-connection-string-here</code></pre></div>
               <div class="note must">
                 <div class="nt">No quotes — no spaces — exact format</div>
-                <p>Paste each value directly after the <code class="ic">=</code> with <b>no surrounding quotes</b> and <b>no spaces around the =</b>. The connection string starts with <code class="ic">mongodb+srv://</code> — paste the whole thing as-is. Three lines total, nothing else in the file.</p>
+                <p>Paste the value directly after the <code class="ic">=</code> with <b>no surrounding quotes</b> and <b>no spaces around the =</b>. The connection string starts with <code class="ic">mongodb+srv://</code> — paste the whole thing as-is.</p>
               </div>
             </li>
             <li>
