@@ -241,8 +241,8 @@
     <h2>Workshop steps</h2>
     <nav class="nav" id="nav">
       <a href="#start"><span class="n">00</span><span>Welcome &amp; the problem</span></a>
-      <a href="#prereqs"><span class="n">P</span><span>Prerequisites (before Bob)</span></a>
-      <a href="#bob"><span class="n">01</span><span>Open IBM Bob</span></a>
+      <a href="#bob"><span class="n">P</span><span>Install &amp; open Bob</span></a>
+      <a href="#prereqs"><span class="n">01</span><span>Prerequisites</span></a>
       <a href="#connect"><span class="n">02</span><span>Connect MongoDB</span></a>
       <a href="#data"><span class="n">03</span><span>Explore the database</span></a>
       <a href="#loadpolicies"><span class="n">04</span><span>Load policy PDFs</span></a>
@@ -327,13 +327,182 @@
       </div>
     </div>
 
+    <!-- BOB INSTALL — now first, before prereqs -->
+    <section id="bob">
+      <div class="sec-eyebrow">FIRST <span class="time">· ~10 min · do this before anything else</span></div>
+      <h2>Install, sign in &amp; open IBM Bob</h2>
+      <p class="intro">Bob is IBM's AI coding assistant and the application you'll work in for the entire workshop. Get it installed, signed in, and your project folder open before moving on — the terminal you'll use for all setup commands lives inside Bob.</p>
+
+      <!-- VM users skip this section entirely — Bob is handled in the Prerequisites VM tab -->
+      <div class="os-block" data-os="vm">
+        <div class="callout">
+          <div class="ct">VM users — skip this section</div>
+          <p>Bob is pre-installed on your VM and the install/sign-in steps are covered inside the <b>Prerequisites</b> section. Select <b>VM</b> in the top-right and go straight to Prerequisites.</p>
+        </div>
+      </div>
+
+      <!-- Shown for mac / win / linux only -->
+      <div class="os-block" data-os="mac">
+      <details class="fix tip-d">
+        <summary><span class="caret">▶</span><span class="wtag">💡 Already have Bob installed and signed in?</span> skip to step 3</summary>
+        <div class="fixbody">
+          <p>Launch Bob, open the <code class="ic">mongo-lab</code> folder (or create it now), trust it, then open the terminal panel (<kbd>Ctrl</kbd> + <kbd>`</kbd>) and continue to Prerequisites.</p>
+        </div>
+      </details>
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Download and install Bob</div>
+          <p>Go to <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a> and download the build for your computer. Look for the <b>macOS</b> download — open the <code class="ic">.dmg</code>, drag <b>Bob</b> into Applications, then launch it. If macOS warns you <i>"can't be opened because it is from an unidentified developer"</i>, right-click the app and choose <b>Open</b>, then click <b>Open</b> again in the dialog.</p>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Create a free account and sign in</div>
+          <p>When Bob opens it will prompt you to sign in. If you don't have an account yet:</p>
+          <ol class="substeps">
+            <li>Click <b>Sign up</b> (or go to <a class="inline" href="https://bob.ibm.com" target="_blank" rel="noopener">bob.ibm.com</a> and choose <b>Try for free</b>).</li>
+            <li>Enter your <b>personal email address</b> and create a password — no IBM ID or company account needed.</li>
+            <li>Check your inbox for a verification email from IBM Bob and click the confirmation link. <b>If you don't see it after a minute, check your Spam or Junk folder.</b></li>
+            <li>Return to Bob and sign in with the same email and password.</li>
+          </ol>
+          <div class="note">
+            <div class="nt">Already have an account?</div>
+            <p>Just click <b>Sign in</b> and enter your email and password. Skip straight to step 3.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Open your project folder</div>
+          <p>Choose <b>File → Open Folder…</b> from the menu bar. Create a new folder called <code class="ic">mongo-lab</code> somewhere easy to find (your home folder or Desktop is fine), select it, and click <b>Open</b>.</p>
+          <p>Bob may show a <b>Restricted Mode</b> badge in the bottom-left status bar — click it, then click <b>Trust</b>.</p>
+          <div class="note">
+            <div class="nt">Why trust the folder?</div>
+            <p>Without trust, Bob runs in Restricted Mode — the terminal won't work and MCP tools are disabled. It's a folder you just created, so it's safe to trust.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">4</span>
+          <div class="stitle">Open Bob's terminal</div>
+          <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (that's the backtick key, top-left of your keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>Leave this open</b> — all setup commands in the next section are typed here.</p>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — Bob is ready</div>
+          <p>Bob is installed, you're signed in, the <code class="ic">mongo-lab</code> folder is open and trusted, and the terminal is running. Continue to Prerequisites.</p>
+        </li>
+      </ol>
+      </div>
+
+      <div class="os-block" data-os="win">
+      <details class="fix tip-d">
+        <summary><span class="caret">▶</span><span class="wtag">💡 Already have Bob installed and signed in?</span> skip to step 3</summary>
+        <div class="fixbody">
+          <p>Launch Bob, open the <code class="ic">mongo-lab</code> folder (or create it now), trust it, then open the terminal panel (<kbd>Ctrl</kbd> + <kbd>`</kbd>) and continue to Prerequisites.</p>
+        </div>
+      </details>
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Download and install Bob</div>
+          <p>Go to <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a> and download the build for your computer. Look for the <b>Windows</b> download — run the <code class="ic">.exe</code> installer, click through the prompts (all defaults are fine), then open Bob from the Start menu.</p>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Create a free account and sign in</div>
+          <p>When Bob opens it will prompt you to sign in. If you don't have an account yet:</p>
+          <ol class="substeps">
+            <li>Click <b>Sign up</b> (or go to <a class="inline" href="https://bob.ibm.com" target="_blank" rel="noopener">bob.ibm.com</a> and choose <b>Try for free</b>).</li>
+            <li>Enter your <b>personal email address</b> and create a password — no IBM ID or company account needed.</li>
+            <li>Check your inbox for a verification email from IBM Bob and click the confirmation link. <b>If you don't see it after a minute, check your Spam or Junk folder.</b></li>
+            <li>Return to Bob and sign in with the same email and password.</li>
+          </ol>
+          <div class="note">
+            <div class="nt">Already have an account?</div>
+            <p>Just click <b>Sign in</b> and enter your email and password. Skip straight to step 3.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Open your project folder</div>
+          <p>Choose <b>File → Open Folder…</b> from the menu bar. Create a new folder called <code class="ic">mongo-lab</code> somewhere easy to find (your home folder or Desktop is fine), select it, and click <b>Open</b>.</p>
+          <p>Bob may show a <b>Restricted Mode</b> badge in the bottom-left status bar — click it, then click <b>Trust</b>.</p>
+          <div class="note">
+            <div class="nt">Why trust the folder?</div>
+            <p>Without trust, Bob runs in Restricted Mode — the terminal won't work and MCP tools are disabled. It's a folder you just created, so it's safe to trust.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">4</span>
+          <div class="stitle">Open Bob's terminal</div>
+          <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (that's the backtick key, top-left of your keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>Leave this open</b> — all setup commands in the next section are typed here.</p>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — Bob is ready</div>
+          <p>Bob is installed, you're signed in, the <code class="ic">mongo-lab</code> folder is open and trusted, and the terminal is running. Continue to Prerequisites.</p>
+        </li>
+      </ol>
+      </div>
+
+      <div class="os-block" data-os="linux">
+      <details class="fix tip-d">
+        <summary><span class="caret">▶</span><span class="wtag">💡 Already have Bob installed and signed in?</span> skip to step 3</summary>
+        <div class="fixbody">
+          <p>Launch Bob, open the <code class="ic">mongo-lab</code> folder (or create it now), trust it, then open the terminal panel (<kbd>Ctrl</kbd> + <kbd>`</kbd>) and continue to Prerequisites.</p>
+        </div>
+      </details>
+      <ol class="steps">
+        <li class="step">
+          <span class="badge">1</span>
+          <div class="stitle">Download and install Bob</div>
+          <p>Go to <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a> and download the build for your computer. Look for the <b>Linux</b> download — for <code class="ic">.deb</code>: run <code class="ic">sudo dpkg -i &lt;file&gt;.deb</code>. For AppImage: right-click → Properties → allow executing as program, then double-click.</p>
+        </li>
+        <li class="step">
+          <span class="badge">2</span>
+          <div class="stitle">Create a free account and sign in</div>
+          <p>When Bob opens it will prompt you to sign in. If you don't have an account yet:</p>
+          <ol class="substeps">
+            <li>Click <b>Sign up</b> (or go to <a class="inline" href="https://bob.ibm.com" target="_blank" rel="noopener">bob.ibm.com</a> and choose <b>Try for free</b>).</li>
+            <li>Enter your <b>personal email address</b> and create a password — no IBM ID or company account needed.</li>
+            <li>Check your inbox for a verification email from IBM Bob and click the confirmation link. <b>If you don't see it after a minute, check your Spam or Junk folder.</b></li>
+            <li>Return to Bob and sign in with the same email and password.</li>
+          </ol>
+          <div class="note">
+            <div class="nt">Already have an account?</div>
+            <p>Just click <b>Sign in</b> and enter your email and password. Skip straight to step 3.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
+          <div class="stitle">Open your project folder</div>
+          <p>Choose <b>File → Open Folder…</b> from the menu bar. Create a new folder called <code class="ic">mongo-lab</code> somewhere easy to find (your home folder or Desktop is fine), select it, and click <b>Open</b>.</p>
+          <p>Bob may show a <b>Restricted Mode</b> badge in the bottom-left status bar — click it, then click <b>Trust</b>.</p>
+          <div class="note">
+            <div class="nt">Why trust the folder?</div>
+            <p>Without trust, Bob runs in Restricted Mode — the terminal won't work and MCP tools are disabled. It's a folder you just created, so it's safe to trust.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">4</span>
+          <div class="stitle">Open Bob's terminal</div>
+          <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (that's the backtick key, top-left of your keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>Leave this open</b> — all setup commands in the next section are typed here.</p>
+        </li>
+        <li class="step done">
+          <span class="badge">✓</span>
+          <div class="stitle">Checkpoint — Bob is ready</div>
+          <p>Bob is installed, you're signed in, the <code class="ic">mongo-lab</code> folder is open and trusted, and the terminal is running. Continue to Prerequisites.</p>
+        </li>
+      </ol>
+      </div>
+    </section>
+
     <!-- PREREQS -->
     <section id="prereqs">
-      <div class="sec-eyebrow">PREREQUISITES <span class="time">· ~15 min · do this before opening Bob</span></div>
-      <h2>Prerequisites — set up your machine</h2>
-      <p class="intro os-block" data-os="mac">Before you open Bob, you need to install two tools on your computer: <b>Node</b> and <b>uv</b>. Don't worry if you've never heard of them — this section walks you through everything step by step. Pick your OS in the top-right and the commands will update automatically.</p>
-      <p class="intro os-block" data-os="win">Before you open Bob, you need to install two tools on your computer: <b>Node</b> and <b>uv</b>. Don't worry if you've never heard of them — this section walks you through everything step by step. Pick your OS in the top-right and the commands will update automatically.</p>
-      <p class="intro os-block" data-os="linux">Before you open Bob, you need to install two tools on your computer: <b>Node</b> and <b>uv</b>. Don't worry if you've never heard of them — this section walks you through everything step by step. Pick your OS in the top-right and the commands will update automatically.</p>
+      <div class="sec-eyebrow">PREREQUISITES <span class="time">· ~15 min</span></div>
+      <h2>Prerequisites — install Node and uv</h2>
+      <p class="intro os-block" data-os="mac">Bob is installed, signed in, and running. Now install two supporting tools: <b>Node</b> and <b>uv</b>. Run all the commands below in <b>Bob's terminal</b> — the panel at the bottom of Bob. Don't worry if you've never heard of these tools — this section walks you through everything step by step.</p>
+      <p class="intro os-block" data-os="win">Bob is installed, signed in, and running. Now install two supporting tools: <b>Node</b> and <b>uv</b>. Run all the commands below in <b>Bob's terminal</b> — the panel at the bottom of Bob. Don't worry if you've never heard of these tools — this section walks you through everything step by step.</p>
+      <p class="intro os-block" data-os="linux">Bob is installed, signed in, and running. Now install two supporting tools: <b>Node</b> and <b>uv</b>. Run all the commands below in <b>Bob's terminal</b> — the panel at the bottom of Bob. Don't worry if you've never heard of these tools — this section walks you through everything step by step.</p>
       <p class="intro os-block" data-os="vm">Your instructor has provided a virtual machine — everything is already set up for you. Follow the steps below to connect and get started. No installation needed on your physical laptop.</p>
 
       <!-- shown for mac / win / linux only -->
@@ -372,38 +541,31 @@
         <!-- STEP 1: Open terminal -->
         <li class="step">
           <span class="badge">1</span>
-          <div class="stitle">Open a terminal</div>
-          <p>A terminal is a text window where you type commands directly to your computer. All of the setup in this section happens here. You only need to open it once — keep it open for the rest of the prerequisites.</p>
-
-          <div class="os-block" data-os="mac">
-            <div class="os-flag">macOS</div>
-            <p>Press <kbd>⌘ Cmd</kbd> + <kbd>Space</kbd> to open Spotlight. Type <b>Terminal</b> and press <kbd>Return</kbd>. A window opens with a blinking cursor — that's your terminal. Leave it open.</p>
-            <details class="fix tip-d">
-              <summary><span class="caret">▶</span><span class="wtag">💡 Tip</span> Already use iTerm2, Warp, or another terminal app?</summary>
-              <div class="fixbody"><p>Any terminal app on macOS works fine. They all run the same commands.</p></div>
-            </details>
-          </div>
-
-          <div class="os-block" data-os="win">
-            <div class="os-flag">Windows</div>
-            <p>Press <kbd>⊞ Win</kbd> + <kbd>R</kbd> at the same time. A small box appears — type <b>powershell</b> and press <kbd>Enter</kbd>. A blue window opens — that's <b>PowerShell</b>, your terminal for this workshop. Leave it open.</p>
-            <div class="note">
-              <div class="nt">Use PowerShell — not Command Prompt</div>
-              <p>Windows has two different terminals: <b>PowerShell</b> (blue, preferred) and <b>Command Prompt</b> (black, older). The commands in this guide are written for PowerShell. If you accidentally opened the wrong one, close it and follow the steps above again.</p>
-            </div>
-          </div>
-
-          <div class="os-block" data-os="linux">
-            <div class="os-flag">Linux</div>
-            <p>Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> — this opens a terminal on most Linux desktops (Ubuntu, Fedora, Mint). If that shortcut doesn't work, right-click an empty area of the desktop and choose <b>Open Terminal</b>, or search for <b>Terminal</b> in your application launcher.</p>
-          </div>
+          <div class="stitle">Open Bob's terminal</div>
+          <p>All commands in this section run inside <b>Bob's built-in terminal</b> — you don't need to open a separate terminal application. If the terminal panel isn't already open at the bottom of Bob, press <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick, top-left of the keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. You should see a prompt with a blinking cursor. Leave it open for the rest of this section.</p>
         </li>
 
-        <!-- STEP 2: Install Node + uv -->
+        <!-- STEP 2: Check versions first -->
         <li class="step">
           <span class="badge">2</span>
+          <div class="stitle">Check if Node and uv are already installed</div>
+          <p>You may already have these tools. Run this in Bob's terminal — if all three lines print a version number and Node shows <b>v18 or higher</b>, you're done with this section. <b>Skip straight to Step 6</b> (Confirm Python and libraries).</p>
+          <div class="cmd"><pre><code>node --version
+npx --version
+uv --version</code></pre></div>
+          <details class="fix tip-d">
+            <summary><span class="caret">▶</span><span class="wtag">💡 What to look for</span></summary>
+            <div class="fixbody">
+              <p>You want to see three version numbers, with <code class="ic">node</code> showing <code class="ic">v18.x.x</code> or higher. If any command says <i>"command not found"</i>, or Node is below v18, continue to Step 3 to install the missing tools.</p>
+            </div>
+          </details>
+        </li>
+
+        <!-- STEP 3: Install Node + uv -->
+        <li class="step">
+          <span class="badge">3</span>
           <div class="stitle">Install Node and uv</div>
-          <p>Click the copy button on each code block, paste it into your terminal, and press <kbd>Enter</kbd> / <kbd>Return</kbd>. Wait for each command to finish before running the next — you'll know it's done when the cursor reappears on a new line.</p>
+          <p>Click the copy button on each code block, paste it into Bob's terminal, and press <kbd>Enter</kbd> / <kbd>Return</kbd>. Wait for each command to finish before running the next — you'll know it's done when the cursor reappears on a new line.</p>
 
           <div class="os-block" data-os="mac">
             <div class="os-flag">macOS</div>
@@ -450,7 +612,7 @@ eval "$(/usr/local/bin/brew shellenv)"</code></pre></div>
             <p><b>Step 2a — Install Node 18+.</b> Paste this and press <kbd>Enter</kbd>. It may ask for your password — <b>nothing shows as you type, that's normal</b>. This can take <b>a few minutes</b>:</p>
             <div class="cmd"><pre><code>curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt install -y nodejs</code></pre></div>
-            <p>On Fedora/RHEL use <code class="ic">sudo dnf install nodejs</code> (ensure the version is 18+). On Arch use <code class="ic">sudo pacman -S nodejs npm</code>.</p>
+            <p>On Fedora/RHEL use <code class="ic">sudo dnf install nodejs</code> (ensure the version is 18 or higher). On Arch use <code class="ic">sudo pacman -S nodejs npm</code>.</p>
             <p><b>Step 2b — Install uv:</b></p>
             <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
             <p><b>Step 2c — Reload your terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
@@ -458,11 +620,11 @@ sudo apt install -y nodejs</code></pre></div>
           </div>
         </li>
 
-        <!-- STEP 3: Confirm Node and uv -->
+        <!-- STEP 4: Confirm Node and uv -->
         <li class="step">
-          <span class="badge">3</span>
+          <span class="badge">4</span>
           <div class="stitle">Confirm Node and uv are installed</div>
-          <p>Let's verify everything installed correctly. Run each command below — each one should print back a version number. Node must be <b>v18 or higher</b> (e.g. <code class="ic">v18.0.0</code> or above). If any of them say <i>"command not found"</i>, see the fix below.</p>
+          <p>Let's verify everything installed correctly. Run each command below — each one should print back a version number. Node must be <b>v18 or higher</b> (e.g. <code class="ic">v18.x.x</code> or above). If any of them say <i>"command not found"</i>, see the fix below.</p>
 
           <div class="os-block" data-os="mac">
             <div class="os-flag">macOS</div>
@@ -485,14 +647,14 @@ uv --version</code></pre></div>
           <details class="fix">
             <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> a command says "not found"</summary>
             <div class="fixbody">
-              <p>Close your terminal completely, reopen it, and try again — the most common cause is that the terminal opened before the install finished updating your PATH. If it still fails, re-run step 2 for the tool that's missing.</p>
+              <p>Close Bob's terminal, reopen it (<kbd>Ctrl</kbd> + <kbd>`</kbd>), and try again — the most common cause is that the terminal opened before the install finished updating your PATH. If it still fails, re-run step 3 for the tool that's missing.</p>
             </div>
           </details>
         </li>
 
-        <!-- STEP 4: Create project folder + uv init + uv add -->
+        <!-- STEP 5: Create project folder + uv init + uv add -->
         <li class="step">
-          <span class="badge">4</span>
+          <span class="badge">5</span>
           <div class="stitle">Create the project folder and set up Python</div>
           <p>This step creates your <code class="ic">mongo-lab</code> working folder and uses <code class="ic">uv</code> to set up a Python sandbox inside it — downloading Python itself if needed, then installing the two libraries the workshop scripts require: <b>pymongo</b> (talks to MongoDB) and <b>pypdf</b> (reads PDF files).</p>
           <div class="note">
@@ -523,70 +685,44 @@ uv add pymongo pypdf</code></pre></div>
           <p>What each line does: <code class="ic">mkdir</code> creates the folder, <code class="ic">cd</code> moves into it, <code class="ic">uv init</code> sets up the Python sandbox (and downloads Python if you don't have it), <code class="ic">uv add</code> installs the two libraries into that sandbox.</p>
         </li>
 
-        <!-- STEP 5: Confirm libraries -->
-        <li class="step">
-          <span class="badge">5</span>
-          <div class="stitle">Confirm Python and the libraries are working</div>
-          <p>Paste this into your terminal and press <kbd>Enter</kbd>. It asks <code class="ic">uv</code> to run a quick Python check inside the sandbox:</p>
-          <div class="cmd"><pre><code>uv run python -c "import pymongo, pypdf; print('pymongo', pymongo.version, '| pypdf', pypdf.__version__)"</code></pre></div>
-          <p>You should see a line like <code class="ic">pymongo 4.x.x | pypdf 5.x.x</code>. That confirms Python is running inside the sandbox and both libraries are installed correctly. If you see an <code class="ic">ImportError</code> instead, re-run step 4.</p>
-        </li>
-
-        <!-- STEP 6: Download workshop files -->
+        <!-- STEP 6: Confirm libraries -->
         <li class="step">
           <span class="badge">6</span>
-          <div class="stitle">Download the workshop files and add them to mongo-lab</div>
-          <p>Open the shared workshop folder at <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a> and download the following files individually — do <b>not</b> use the folder-level Download button:</p>
-          <ul>
-            <li><code class="ic">policy_basic.pdf</code></li>
-            <li><code class="ic">policy_plus.pdf</code></li>
-            <li><code class="ic">policy_plus_extra.pdf</code></li>
-            <li><code class="ic">load_policies.py</code></li>
-            <li><code class="ic">answer_key.csv</code></li>
-          </ul>
-          <figure class="shot">
-            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, and answer_key.csv">
-            <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
-          </figure>
-          <div class="note">
-            <div class="nt">Password protected</div>
-            <p>The Box folder is password protected — your instructor will give you the password on the day.</p>
-          </div>
-          <div class="os-block" data-os="mac">
-            <div class="os-flag">macOS</div>
-            <p>Open <b>Finder</b> (click the smiley face icon in your Dock, or press <kbd>⌘ Cmd</kbd> + <kbd>N</kbd>). Your <b>Downloads</b> folder is listed in the left sidebar — click it to see the files. Now open a second Finder window by pressing <kbd>⌘ Cmd</kbd> + <kbd>N</kbd> again. In this new window, click your home folder in the sidebar (it has your name) and open the <code class="ic">mongo-lab</code> folder. Place the two windows side by side, select all 5 workshop files in the Downloads window, and drag them into <code class="ic">mongo-lab</code>.</p>
-            <figure class="shot narrow">
-              <img src="img/placeholder-drag-mac.png" alt="[placeholder] Dragging workshop files from Downloads into mongo-lab in Finder">
-              <figcaption>Drag all workshop files from <b>Downloads</b> into <b>mongo-lab</b> in Finder.</figcaption>
-            </figure>
-          </div>
+          <div class="stitle">Confirm Python and the libraries are working</div>
+          <p>Paste this into Bob's terminal and press <kbd>Enter</kbd>. It asks <code class="ic">uv</code> to run a quick Python check inside the sandbox:</p>
+          <div class="cmd"><pre><code>uv run python -c "import pymongo, pypdf; print('pymongo', pymongo.version, '| pypdf', pypdf.__version__)"</code></pre></div>
+          <p>You should see a line like <code class="ic">pymongo 4.x.x | pypdf 5.x.x</code>. That confirms Python is running inside the sandbox and both libraries are installed correctly. If you see an <code class="ic">ImportError</code> instead, re-run step 5.</p>
         </li>
 
         <li class="step done">
           <span class="badge">✓</span>
           <div class="stitle">Checkpoint — your machine is ready</div>
-          <p>Node, uv, and both Python libraries are installed. Workshop files are in <code class="ic">mongo-lab</code>. You're ready for Step 01.</p>
+          <p>Node, uv, and both Python libraries are installed. You're ready for Step 01.</p>
         </li>
       </ol></div>
       <div class="os-block" data-os="win"><ol class="steps">
         <!-- STEP 1: Open terminal -->
         <li class="step">
           <span class="badge">1</span>
-          <div class="stitle">Open a terminal</div>
-          <p>A terminal is a text window where you type commands directly to your computer. All of the setup in this section happens here. You only need to open it once — keep it open for the rest of the prerequisites.</p>
-          <div class="os-block" data-os="win">
-            <div class="os-flag">Windows</div>
-            <p>Press <kbd>⊞ Win</kbd> + <kbd>R</kbd> at the same time. A small box appears — type <b>powershell</b> and press <kbd>Enter</kbd>. A blue window opens — that's <b>PowerShell</b>, your terminal for this workshop. Leave it open.</p>
-            <div class="note">
-              <div class="nt">Use PowerShell — not Command Prompt</div>
-              <p>Windows has two different terminals: <b>PowerShell</b> (blue, preferred) and <b>Command Prompt</b> (black, older). The commands in this guide are written for PowerShell. If you accidentally opened the wrong one, close it and follow the steps above again.</p>
-            </div>
-          </div>
+          <div class="stitle">Open Bob's terminal</div>
+          <p>All commands in this section run inside <b>Bob's built-in terminal</b>. If the terminal panel isn't already open at the bottom of Bob, press <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick, top-left of the keyboard), or go to <b>Terminal → New Terminal</b> in the menu bar. Leave it open for the rest of this section.</p>
         </li>
         <li class="step">
           <span class="badge">2</span>
+          <div class="stitle">Check if Node and uv are already installed</div>
+          <p>You may already have these tools. Run this in Bob's terminal — if all three lines print a version number and Node shows <b>v18 or higher</b>, <b>skip straight to Step 6</b> (Confirm Python and libraries).</p>
+          <div class="cmd"><pre><code>node --version
+npx --version
+uv --version</code></pre></div>
+          <details class="fix tip-d">
+            <summary><span class="caret">▶</span><span class="wtag">💡 What to look for</span></summary>
+            <div class="fixbody"><p>You want to see three version numbers, with <code class="ic">node</code> showing <code class="ic">v18.x.x</code> or higher. If any command says <i>"command not found"</i>, or Node is below v18, continue to Step 3.</p></div>
+          </details>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
           <div class="stitle">Install Node and uv</div>
-          <p>Click the copy button on each code block, paste it into your terminal, and press <kbd>Enter</kbd>. Wait for each command to finish before running the next — you'll know it's done when the cursor reappears on a new line.</p>
+          <p>Click the copy button on each code block, paste it into Bob's terminal, and press <kbd>Enter</kbd>. Wait for each command to finish before running the next — you'll know it's done when the cursor reappears on a new line.</p>
           <div class="os-block" data-os="win">
             <div class="os-flag">Windows</div>
             <p><b>Step 2a — Install Node.</b> Go to <a class="inline" href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org/download</a> in your browser. Click the <b>LTS</b> download button, run the installer, and click through (all defaults are fine). This puts Node and <code class="ic">npx</code> on your computer automatically.</p>
@@ -596,7 +732,7 @@ uv add pymongo pypdf</code></pre></div>
           </div>
         </li>
         <li class="step">
-          <span class="badge">3</span>
+          <span class="badge">4</span>
           <div class="stitle">Confirm Node and uv are installed</div>
           <p>Run each command below — each one should print back a version number. Node must be <b>v18 or higher</b>.</p>
           <div class="os-block" data-os="win">
@@ -607,13 +743,13 @@ uv --version</code></pre></div>
           </div>
           <details class="fix">
             <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> a command says "not found"</summary>
-            <div class="fixbody"><p>Close your terminal completely, reopen it, and try again. If it still fails, re-run step 2 for the tool that's missing.</p></div>
+            <div class="fixbody"><p>Close Bob's terminal, reopen it (<kbd>Ctrl</kbd> + <kbd>`</kbd>), and try again. If it still fails, re-run step 3 for the tool that's missing.</p></div>
           </details>
         </li>
         <li class="step">
-          <span class="badge">4</span>
+          <span class="badge">5</span>
           <div class="stitle">Create the project folder and set up Python</div>
-          <p>Copy and paste the whole block into your terminal at once, then press <kbd>Enter</kbd>:</p>
+          <p>Copy and paste the whole block into Bob's terminal at once, then press <kbd>Enter</kbd>:</p>
           <div class="os-block" data-os="win">
             <div class="os-flag">Windows</div>
             <div class="cmd"><pre><code>mkdir $HOME\mongo-lab
@@ -624,67 +760,46 @@ uv add pymongo pypdf</code></pre></div>
           <p>What each line does: <code class="ic">mkdir</code> creates the folder, <code class="ic">cd</code> moves into it, <code class="ic">uv init</code> sets up the Python sandbox (and downloads Python if you don't have it), <code class="ic">uv add</code> installs the two libraries.</p>
         </li>
         <li class="step">
-          <span class="badge">5</span>
-          <div class="stitle">Confirm Python and the libraries are working</div>
-          <p>Paste this into your terminal and press <kbd>Enter</kbd>:</p>
-          <div class="cmd"><pre><code>uv run python -c "import pymongo, pypdf; print('pymongo', pymongo.version, '| pypdf', pypdf.__version__)"</code></pre></div>
-          <p>You should see a line like <code class="ic">pymongo 4.x.x | pypdf 5.x.x</code>. If you see an <code class="ic">ImportError</code>, re-run step 4.</p>
-        </li>
-        <li class="step">
           <span class="badge">6</span>
-          <div class="stitle">Download the workshop files and add them to mongo-lab</div>
-          <p>Open the shared workshop folder at <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a> and download the following files individually — do <b>not</b> use the folder-level Download button:</p>
-          <ul>
-            <li><code class="ic">policy_basic.pdf</code></li>
-            <li><code class="ic">policy_plus.pdf</code></li>
-            <li><code class="ic">policy_plus_extra.pdf</code></li>
-            <li><code class="ic">load_policies.py</code></li>
-            <li><code class="ic">answer_key.csv</code></li>
-          </ul>
-          <figure class="shot">
-            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, and answer_key.csv">
-            <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
-          </figure>
-          <div class="note">
-            <div class="nt">Password protected</div>
-            <p>The Box folder is password protected — your instructor will give you the password on the day.</p>
-          </div>
-          <div class="os-block" data-os="win">
-            <div class="os-flag">Windows</div>
-            <p>Press <kbd>⊞ Win</kbd> + <kbd>E</kbd> to open <b>File Explorer</b>. Click <b>Downloads</b> in the left sidebar. Now open a second File Explorer window by pressing <kbd>⊞ Win</kbd> + <kbd>E</kbd> again. In this new window, click <b>This PC</b> → open your user folder (it has your name) → open <code class="ic">mongo-lab</code>. Place the two windows side by side, select all 5 workshop files in the Downloads window, and drag them into <code class="ic">mongo-lab</code>.</p>
-            <figure class="shot narrow">
-              <img src="img/placeholder-drag-win.png" alt="[placeholder] Dragging workshop files from Downloads into mongo-lab in File Explorer">
-              <figcaption>Drag all workshop files from <b>Downloads</b> into <b>mongo-lab</b> in File Explorer.</figcaption>
-            </figure>
-          </div>
+          <div class="stitle">Confirm Python and the libraries are working</div>
+          <p>Paste this into Bob's terminal and press <kbd>Enter</kbd>:</p>
+          <div class="cmd"><pre><code>uv run python -c "import pymongo, pypdf; print('pymongo', pymongo.version, '| pypdf', pypdf.__version__)"</code></pre></div>
+          <p>You should see a line like <code class="ic">pymongo 4.x.x | pypdf 5.x.x</code>. If you see an <code class="ic">ImportError</code>, re-run step 5.</p>
         </li>
         <li class="step done">
           <span class="badge">✓</span>
           <div class="stitle">Checkpoint — your machine is ready</div>
-          <p>Node, uv, and both Python libraries are installed. Workshop files are in <code class="ic">mongo-lab</code>. You're ready for Step 01.</p>
+          <p>Node, uv, and both Python libraries are installed. You're ready for Step 01.</p>
         </li>
       </ol></div>
       <div class="os-block" data-os="linux"><ol class="steps">
-        <!-- STEP 1: Open terminal -->
         <li class="step">
           <span class="badge">1</span>
-          <div class="stitle">Open a terminal</div>
-          <p>A terminal is a text window where you type commands directly to your computer. All of the setup in this section happens here. You only need to open it once — keep it open for the rest of the prerequisites.</p>
-          <div class="os-block" data-os="linux">
-            <div class="os-flag">Linux</div>
-            <p>Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>T</kbd> — this opens a terminal on most Linux desktops (Ubuntu, Fedora, Mint). If that shortcut doesn't work, right-click an empty area of the desktop and choose <b>Open Terminal</b>, or search for <b>Terminal</b> in your application launcher.</p>
-          </div>
+          <div class="stitle">Open Bob's terminal</div>
+          <p>All commands in this section run inside <b>Bob's built-in terminal</b>. If the terminal panel isn't already open at the bottom of Bob, press <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick, top-left of the keyboard), or go to <b>Terminal → New Terminal</b> in the menu bar. Leave it open for the rest of this section.</p>
         </li>
         <li class="step">
           <span class="badge">2</span>
+          <div class="stitle">Check if Node and uv are already installed</div>
+          <p>You may already have these tools. Run this in Bob's terminal — if all three lines print a version number and Node shows <b>v18 or higher</b>, <b>skip straight to Step 6</b> (Confirm Python and libraries).</p>
+          <div class="cmd"><pre><code>node --version
+npx --version
+uv --version</code></pre></div>
+          <details class="fix tip-d">
+            <summary><span class="caret">▶</span><span class="wtag">💡 What to look for</span></summary>
+            <div class="fixbody"><p>You want to see three version numbers, with <code class="ic">node</code> showing <code class="ic">v18.x.x</code> or higher. If any command says <i>"command not found"</i>, or Node is below v18, continue to Step 3.</p></div>
+          </details>
+        </li>
+        <li class="step">
+          <span class="badge">3</span>
           <div class="stitle">Install Node and uv</div>
-          <p>Click the copy button on each code block, paste it into your terminal, and press <kbd>Enter</kbd>. Wait for each command to finish before running the next.</p>
+          <p>Click the copy button on each code block, paste it into Bob's terminal, and press <kbd>Enter</kbd>. Wait for each command to finish before running the next.</p>
           <div class="os-block" data-os="linux">
             <div class="os-flag">Linux</div>
             <p><b>Step 2a — Install Node 18+.</b> Paste this and press <kbd>Enter</kbd> (it may ask for your password):</p>
             <div class="cmd"><pre><code>curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt install -y nodejs</code></pre></div>
-            <p>On Fedora/RHEL use <code class="ic">sudo dnf install nodejs</code> (ensure the version is 18+). On Arch use <code class="ic">sudo pacman -S nodejs npm</code>.</p>
+            <p>On Fedora/RHEL use <code class="ic">sudo dnf install nodejs</code> (ensure the version is 18 or higher). On Arch use <code class="ic">sudo pacman -S nodejs npm</code>.</p>
             <p><b>Step 2b — Install uv:</b></p>
             <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
             <p><b>Step 2c — Reload your terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
@@ -692,7 +807,7 @@ sudo apt install -y nodejs</code></pre></div>
           </div>
         </li>
         <li class="step">
-          <span class="badge">3</span>
+          <span class="badge">4</span>
           <div class="stitle">Confirm Node and uv are installed</div>
           <p>Run each command below — each one should print back a version number. Node must be <b>v18 or higher</b>.</p>
           <div class="os-block" data-os="linux">
@@ -703,13 +818,13 @@ uv --version</code></pre></div>
           </div>
           <details class="fix">
             <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> a command says "not found"</summary>
-            <div class="fixbody"><p>Close your terminal completely, reopen it, and try again. If it still fails, re-run step 2 for the tool that's missing.</p></div>
+            <div class="fixbody"><p>Close Bob's terminal, reopen it (<kbd>Ctrl</kbd> + <kbd>`</kbd>), and try again. If it still fails, re-run step 3 for the tool that's missing.</p></div>
           </details>
         </li>
         <li class="step">
-          <span class="badge">4</span>
+          <span class="badge">5</span>
           <div class="stitle">Create the project folder and set up Python</div>
-          <p>Copy and paste the whole block into your terminal at once, then press <kbd>Enter</kbd>:</p>
+          <p>Copy and paste the whole block into Bob's terminal at once, then press <kbd>Enter</kbd>:</p>
           <div class="os-block" data-os="linux">
             <div class="os-flag">Linux</div>
             <div class="cmd"><pre><code>mkdir ~/mongo-lab && cd ~/mongo-lab
@@ -719,44 +834,16 @@ uv add pymongo pypdf</code></pre></div>
           <p>What each line does: <code class="ic">mkdir</code> creates the folder, <code class="ic">cd</code> moves into it, <code class="ic">uv init</code> sets up the Python sandbox (and downloads Python if you don't have it), <code class="ic">uv add</code> installs the two libraries.</p>
         </li>
         <li class="step">
-          <span class="badge">5</span>
-          <div class="stitle">Confirm Python and the libraries are working</div>
-          <p>Paste this into your terminal and press <kbd>Enter</kbd>:</p>
-          <div class="cmd"><pre><code>uv run python -c "import pymongo, pypdf; print('pymongo', pymongo.version, '| pypdf', pypdf.__version__)"</code></pre></div>
-          <p>You should see a line like <code class="ic">pymongo 4.x.x | pypdf 5.x.x</code>. If you see an <code class="ic">ImportError</code>, re-run step 4.</p>
-        </li>
-        <li class="step">
           <span class="badge">6</span>
-          <div class="stitle">Download the workshop files and add them to mongo-lab</div>
-          <p>Open the shared workshop folder at <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a> and download the following files individually — do <b>not</b> use the folder-level Download button:</p>
-          <ul>
-            <li><code class="ic">policy_basic.pdf</code></li>
-            <li><code class="ic">policy_plus.pdf</code></li>
-            <li><code class="ic">policy_plus_extra.pdf</code></li>
-            <li><code class="ic">load_policies.py</code></li>
-            <li><code class="ic">answer_key.csv</code></li>
-          </ul>
-          <figure class="shot">
-            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, and answer_key.csv">
-            <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
-          </figure>
-          <div class="note">
-            <div class="nt">Password protected</div>
-            <p>The Box folder is password protected — your instructor will give you the password on the day.</p>
-          </div>
-          <div class="os-block" data-os="linux">
-            <div class="os-flag">Linux</div>
-            <p>Open your <b>file manager</b> (look for an icon labelled Files, Nautilus, or Dolphin in your taskbar or application menu). Navigate to your <b>Downloads</b> folder. Open a second file manager window using <kbd>Ctrl</kbd> + <kbd>N</kbd>, then navigate to your home folder and open <code class="ic">mongo-lab</code>. Place the two windows side by side, select all 5 workshop files in the Downloads window, and drag them into <code class="ic">mongo-lab</code>.</p>
-            <figure class="shot narrow">
-              <img src="img/placeholder-drag-linux.png" alt="[placeholder] Dragging workshop files from Downloads into mongo-lab in the file manager">
-              <figcaption>Drag all workshop files from <b>Downloads</b> into <b>mongo-lab</b> in your file manager.</figcaption>
-            </figure>
-          </div>
+          <div class="stitle">Confirm Python and the libraries are working</div>
+          <p>Paste this into Bob's terminal and press <kbd>Enter</kbd>:</p>
+          <div class="cmd"><pre><code>uv run python -c "import pymongo, pypdf; print('pymongo', pymongo.version, '| pypdf', pypdf.__version__)"</code></pre></div>
+          <p>You should see a line like <code class="ic">pymongo 4.x.x | pypdf 5.x.x</code>. If you see an <code class="ic">ImportError</code>, re-run step 5.</p>
         </li>
         <li class="step done">
           <span class="badge">✓</span>
           <div class="stitle">Checkpoint — your machine is ready</div>
-          <p>Node, uv, and both Python libraries are installed. Workshop files are in <code class="ic">mongo-lab</code>. You're ready for Step 01.</p>
+          <p>Node, uv, and both Python libraries are installed. You're ready for Step 01.</p>
         </li>
       </ol></div>
 
@@ -764,14 +851,51 @@ uv add pymongo pypdf</code></pre></div>
       <div class="os-block" data-os="vm">
         <div class="callout">
           <div class="ct">Virtual machine path</div>
-          <p>Your instructor has given you access to a Linux VM via your browser. Everything happens inside that VM — you don't install anything on your physical laptop. Follow these steps instead of the ones above.</p>
+          <p>You will have received an email before the lab with a link to access your Linux VM. Everything happens inside that VM — you don't install anything on your physical laptop. Follow these steps instead of the ones above.</p>
         </div>
         <ol class="steps">
 
           <li class="step">
             <span class="badge">1</span>
-            <div class="stitle">Open the VM in your browser and log in</div>
-            <p>A link will be provided to access the VM — it opens a Linux desktop inside your browser tab. Open the link, enter the username and password your instructor provided, and you'll land on a Linux desktop.</p>
+            <div class="stitle">Access your VM via the Tech Zone email</div>
+            <p>Before the lab you will have received an email with a link to IBM Tech Zone. Follow these steps to open your VM:</p>
+            <ol class="substeps">
+              <li>
+                <b>Open the email</b> and click the link provided. It will open a Tech Zone page in your browser.
+              </li>
+              <li>
+                <b>Click the downward arrow</b> on the Tech Zone page to expand your reservation details.
+                <figure class="shot">
+                  <img src="img/VMStep1.png" alt="Tech Zone reservation page showing the downward arrow to expand details">
+                  <figcaption>Click the <b>downward arrow</b> to expand your VM reservation.</figcaption>
+                </figure>
+              </li>
+              <li>
+                <b>Click the URL link</b> that appears in the expanded details. Note down the <b>username and password</b> shown here — you will need them in a moment.
+                <figure class="shot">
+                  <img src="img/VMStep2.png" alt="Tech Zone reservation details showing the URL link and credentials">
+                  <figcaption>Click the <b>URL link</b> and note the <b>username and password</b> shown on this screen.</figcaption>
+                </figure>
+              </li>
+              <li>
+                <b>Click the blue Console button</b> on the page you are directed to.
+                <figure class="shot">
+                  <img src="img/VMStep3.png" alt="VM landing page showing the blue Console button">
+                  <figcaption>Click the blue <b>Console</b> button to open the login screen.</figcaption>
+                </figure>
+              </li>
+              <li>
+                <b>On the login screen</b>, check the <b>Remember username for this session</b> box and make sure the username and password fields are filled in. If they are blank, enter the credentials from the Tech Zone page in step 3. Once everything looks correct, click <b>Connect with RDP</b>.
+                <figure class="shot">
+                  <img src="img/VMStep4.png" alt="RDP login screen showing Remember username checkbox, credential fields, and Connect with RDP button">
+                  <figcaption>Check <b>Remember username for this session</b>, confirm the credentials are filled in, then click <b>Connect with RDP</b>.</figcaption>
+                </figure>
+                <div class="note">
+                  <div class="nt">Where are my credentials?</div>
+                  <p>If the username or password fields are empty, go back to the Tech Zone page (step 3 above) and copy them from there.</p>
+                </div>
+              </li>
+            </ol>
             <div class="note">
               <div class="nt">Everything runs inside this browser tab</div>
               <p>Treat the VM desktop like a separate computer. Files you download, commands you run, and Bob itself all live inside the VM — nothing touches your physical laptop.</p>
@@ -780,31 +904,127 @@ uv add pymongo pypdf</code></pre></div>
 
           <li class="step">
             <span class="badge">2</span>
-            <div class="stitle">Open a terminal inside the VM</div>
-            <p>Once you see the Linux desktop, open a terminal. The quickest way is to <b>right-click an empty area of the desktop</b> and choose <b>Open Terminal</b>. If that doesn't appear, look for a <b>Terminal</b> icon in the taskbar or application menu at the top or bottom of the screen.</p>
-            <p>A terminal window opens with a blinking cursor. Keep it open — all the commands below are typed here.</p>
-            <div class="note">
-              <div class="nt">Pasting into the VM terminal</div>
-              <p>Your normal <kbd>Ctrl+V</kbd> paste may not work directly in the VM terminal. Try right-clicking inside the terminal and choosing <b>Paste</b> instead.</p>
-            </div>
+            <div class="stitle">Get to the desktop and launch Bob</div>
+            <p>Once you are connected to the VM, follow these steps to reach the Linux desktop and open Bob:</p>
+            <ol class="substeps">
+              <li>
+                A prompt may appear — click <b>No thanks</b> to dismiss it and continue to the desktop.
+                <figure class="shot">
+                  <img src="img/VMStep5.png" alt="VM prompt with No thanks option">
+                  <figcaption>Click <b>No thanks</b> to dismiss the prompt.</figcaption>
+                </figure>
+              </li>
+              <li>
+                Click <b>Activities</b> in the top-left corner of the screen to open the application overview.
+                <figure class="shot">
+                  <img src="img/VMStep6.png" alt="Linux desktop showing the Activities button in the top-left">
+                  <figcaption>Click <b>Activities</b> in the top-left to open the overview.</figcaption>
+                </figure>
+              </li>
+              <li>
+                Click the <b>grid of 9 dots</b> in the middle-right of the overview to open the full application launcher, then find and click <b>Bob</b> to launch it.
+                <figure class="shot">
+                  <img src="img/VMStep7.png" alt="Application launcher showing the 9-dot grid and Bob icon">
+                  <figcaption>Click the <b>9-dot grid</b> to open all apps, then click <b>Bob</b>.</figcaption>
+                </figure>
+              </li>
+              <li>
+                <b>A popup may appear</b> asking you to set a keychain password. You can either click <b>Cancel</b> or enter any password you'll remember — either option is fine and won't affect the workshop.
+                <figure class="shot narrow">
+                  <img src="img/VMPopup.png" alt="Keychain password popup that appears when Bob opens on the VM">
+                  <figcaption>Hit <b>Cancel</b> or enter any password — this popup won't affect anything.</figcaption>
+                </figure>
+              </li>
+              <li>
+                <b>If a prompt asks whether you want to migrate Bob chats</b>, click <b>Yes</b>.
+              </li>
+              <li>
+                <b>Click the blue "Log in to Bob" button</b> to start the sign-in flow.
+                <figure class="shot">
+                  <img src="img/VMStep8.png" alt="Bob showing the blue Log in to Bob button">
+                  <figcaption>Click the blue <b>Log in to Bob</b> button.</figcaption>
+                </figure>
+              </li>
+              <li>
+                A browser window will open asking for permission — click <b>Allow</b>.
+                <figure class="shot">
+                  <img src="img/VMStep9.png" alt="Browser permission prompt with Allow button">
+                  <figcaption>Click <b>Allow</b> to grant Bob access.</figcaption>
+                </figure>
+              </li>
+              <li>
+                A dialog will appear asking if you want to open Bob — click <b>Open</b>.
+                <figure class="shot">
+                  <img src="img/VMStep10.png" alt="Dialog asking to open Bob with an Open button">
+                  <figcaption>Click <b>Open</b> to return to Bob.</figcaption>
+                </figure>
+              </li>
+              <li>
+                You'll be taken back to Bob. You should see a prompt — click <b>Open</b> to continue.
+                <figure class="shot">
+                  <img src="img/VMStep11.png" alt="Bob showing a final Open prompt after sign-in">
+                  <figcaption>Click <b>Open</b> — you are now signed in to Bob.</figcaption>
+                </figure>
+              </li>
+            </ol>
+            <details class="fix">
+              <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> you can't sign in to Bob</summary>
+              <div class="fixbody">
+                <p>The VM browser may have stale cookies. Open the browser menu → <b>Settings → Privacy &amp; Security → Clear Data…</b>. Check <b>Cookies and site data</b> and <b>Cached web content</b>, set the time range to <b>All time</b>, and click <b>Clear</b>. Then close and reopen the browser and try signing in again.</p>
+              </div>
+            </details>
           </li>
 
           <li class="step">
             <span class="badge">3</span>
-            <div class="stitle">Install Node and uv</div>
-            <p>Paste each block into the terminal and press <kbd>Enter</kbd>, waiting for each to finish before running the next — you'll know it's done when the cursor reappears on a new line.</p>
-            <p><b>Step 3a — Install Node 18+.</b> This can take <b>a few minutes</b> — leave the terminal running and wait:</p>
-            <div class="cmd"><pre><code>sudo dnf module enable nodejs:18 -y
-sudo dnf install -y nodejs npm</code></pre></div>
-            <p>It may ask for your password — <b>nothing shows as you type, that's normal</b>. Type it and press <kbd>Enter</kbd>. After that the install continues automatically — you don't need to type anything else.</p>
-            <p><b>Step 3b — Install uv</b> (this also downloads and manages Python for you — you don't need to install Python separately):</p>
-            <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
-            <p><b>Step 3c — Reload the terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
-            <div class="cmd"><pre><code>source ~/.bashrc</code></pre></div>
+            <div class="stitle">Open your project folder in Bob</div>
+            <p>Now that you're signed in, open your working folder:</p>
+            <ol class="substeps">
+              <li>Choose <b>File → Open Folder…</b> from the menu bar.</li>
+              <li>Create a new folder called <code class="ic">mongo-lab</code> in your home folder, select it, and click <b>Open</b>.</li>
+              <li>Bob may show a <b>Restricted Mode</b> badge in the bottom-left status bar — click it, then click <b>Trust</b>.</li>
+            </ol>
           </li>
 
           <li class="step">
             <span class="badge">4</span>
+            <div class="stitle">Open Bob's terminal</div>
+            <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick, top-left of the keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>All commands below are typed here</b> — you don't need to open a separate terminal application.</p>
+            <div class="note">
+              <div class="nt">Pasting into Bob's terminal on the VM</div>
+              <p>Your normal <kbd>Ctrl+V</kbd> paste may not work inside the VM. Try <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd>, or right-click inside the terminal panel and choose <b>Paste</b>.</p>
+            </div>
+          </li>
+
+          <li class="step">
+            <span class="badge">5</span>
+            <div class="stitle">Check if Node and uv are already installed</div>
+            <p>Run this in Bob's terminal — if all three lines print a version number and Node shows <b>v18 or higher</b>, <b>skip straight to step 7</b> (Create the project folder and set up Python).</p>
+            <div class="cmd"><pre><code>node --version
+npx --version
+uv --version</code></pre></div>
+            <details class="fix tip-d">
+              <summary><span class="caret">▶</span><span class="wtag">💡 What to look for</span></summary>
+              <div class="fixbody"><p>You want three version numbers, with <code class="ic">node</code> showing <code class="ic">v18.x.x</code> or higher. If any command says <i>"command not found"</i> or Node is below v18, continue to step 6.</p></div>
+            </details>
+          </li>
+
+          <li class="step">
+            <span class="badge">5</span>
+            <div class="stitle">Install Node and uv</div>
+            <p>Paste each block into Bob's terminal and press <kbd>Enter</kbd>, waiting for each to finish before running the next — you'll know it's done when the cursor reappears on a new line.</p>
+            <p><b>Step 5a — Install Node 18+.</b> This can take <b>a few minutes</b> — leave the terminal running and wait:</p>
+            <div class="cmd"><pre><code>sudo dnf module enable nodejs:18 -y
+sudo dnf install -y nodejs npm</code></pre></div>
+            <p>It may ask for your password — <b>nothing shows as you type, that's normal</b>. Type it and press <kbd>Enter</kbd>. After that the install continues automatically.</p>
+            <p><b>Step 5b — Install uv</b> (this also downloads and manages Python for you):</p>
+            <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
+            <p><b>Step 5c — Reload the terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
+            <div class="cmd"><pre><code>source ~/.bashrc</code></pre></div>
+          </li>
+
+          <li class="step">
+            <span class="badge">6</span>
             <div class="stitle">Confirm Node and uv are installed</div>
             <p>Run each of these — each should print a version number. Node must be <b>v18 or higher</b>.</p>
             <div class="cmd"><pre><code>node --version
@@ -813,13 +1033,13 @@ uv --version</code></pre></div>
             <details class="fix">
               <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> any command says "not found"</summary>
               <div class="fixbody">
-                <p>Close the terminal, reopen it, and try again. If it still fails, re-run step 3 for the tool that's missing.</p>
+                <p>Close Bob's terminal (<kbd>Ctrl</kbd> + <kbd>`</kbd>), reopen it, and try again. If it still fails, re-run step 5 for the tool that's missing.</p>
               </div>
             </details>
           </li>
 
           <li class="step">
-            <span class="badge">5</span>
+            <span class="badge">7</span>
             <div class="stitle">Create the project folder and set up Python</div>
             <p>This creates the <code class="ic">mongo-lab</code> folder and uses <code class="ic">uv</code> to set up a Python sandbox inside it — downloading Python if needed, then installing <b>pymongo</b> (talks to MongoDB) and <b>pypdf</b> (reads PDFs). Paste the whole block and press <kbd>Enter</kbd>:</p>
             <div class="cmd"><pre><code>mkdir ~/mongo-lab && cd ~/mongo-lab
@@ -830,36 +1050,10 @@ uv add pymongo pypdf</code></pre></div>
             <p>You should see something like <code class="ic">pymongo 4.x.x | pypdf 5.x.x</code>. If you see an <code class="ic">ImportError</code>, re-run the block above.</p>
           </li>
 
-          <li class="step">
-            <span class="badge">6</span>
-            <div class="stitle">Download the workshop files and add them to mongo-lab</div>
-            <p>Open the <b>browser inside the VM</b> (look for Firefox or Chromium in the taskbar or application menu) and go to <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a>. Download the following files individually — do <b>not</b> use the folder-level Download button:</p>
-            <ul>
-              <li><code class="ic">policy_basic.pdf</code></li>
-              <li><code class="ic">policy_plus.pdf</code></li>
-              <li><code class="ic">policy_plus_extra.pdf</code></li>
-              <li><code class="ic">load_policies.py</code></li>
-              <li><code class="ic">answer_key.csv</code></li>
-            </ul>
-            <figure class="shot">
-              <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, and answer_key.csv">
-              <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
-            </figure>
-            <div class="note">
-              <div class="nt">Password protected</div>
-              <p>The Box folder is password protected — your instructor will give you the password on the day.</p>
-            </div>
-            <p>Once all files are downloaded, open the VM's <b>file manager</b> (look for an icon labelled Files or Nautilus in the taskbar or application menu). Navigate to the <b>Downloads</b> folder. Open a second file manager window using <kbd>Ctrl</kbd> + <kbd>N</kbd>, then navigate to your home folder and open <code class="ic">mongo-lab</code>. Place the two windows side by side, select all 5 workshop files in the Downloads window, and drag them into <code class="ic">mongo-lab</code>.</p>
-            <figure class="shot narrow">
-              <img src="img/placeholder-drag-vm.png" alt="[placeholder] Dragging workshop files from Downloads into mongo-lab in the VM file manager">
-              <figcaption>Drag all workshop files from <b>Downloads</b> into <b>mongo-lab</b> in the VM's file manager.</figcaption>
-            </figure>
-          </li>
-
           <li class="step done">
             <span class="badge">✓</span>
             <div class="stitle">Checkpoint — VM is fully set up</div>
-            <p>Node, uv, and both Python libraries are installed. Workshop files are in <code class="ic">~/mongo-lab</code>. Continue to <b>Step 01</b> to sign in.</p>
+            <p>Bob is open and signed in. Node, uv, and both Python libraries are installed. Continue to <b>Step 02</b> to connect MongoDB.</p>
           </li>
         </ol>
 
@@ -870,103 +1064,6 @@ uv add pymongo pypdf</code></pre></div>
           </div>
         </details>
       </div>
-    </section>
-
-    <!-- 01 BOB -->
-    <section id="bob">
-      <div class="sec-eyebrow">STEP 01 <span class="time">· ~10 min</span></div>
-      <h2>Open IBM Bob</h2>
-      <p class="intro">Bob is IBM's AI-powered code editor and the only thing you run locally today. Already have it from a previous workshop? Open it and skip ahead.</p>
-
-      <details class="fix tip-d">
-        <summary><span class="caret">▶</span><span class="wtag">💡 Already have Bob?</span> skip the install</summary>
-        <div class="fixbody">
-          <p>Open Bob, confirm you're signed in, and jump to <b>Step 02</b>. Nothing here has changed.</p>
-        </div>
-      </details>
-
-      <ol class="steps">
-        <li class="step">
-          <span class="badge">1</span>
-          <div class="stitle">Download and install Bob</div>
-          <p>Go to <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a> and download the build for your computer:</p>
-          <ul>
-            <li><b>macOS</b> — open the <code class="ic">.dmg</code>, drag <b>Bob</b> into Applications, then launch it. If macOS warns you, right-click and choose <b>Open</b>.</li>
-            <li><b>Windows</b> — run the <code class="ic">.exe</code> installer, then open Bob from the Start menu.</li>
-            <li><b>Linux</b> — for <code class="ic">.deb</code>: <code class="ic">sudo dpkg -i &lt;file&gt;.deb</code>. For AppImage: allow executing in Properties, then double-click.</li>
-          </ul>
-          <div class="os-block" data-os="vm">
-            <div class="note">
-              <div class="nt">VM — Bob is already installed, skip this step</div>
-              <p>Bob is pre-installed on your VM. You don't need to download or install anything. Launch Bob from the application menu and go straight to <b>Step 2 — Sign in</b>.</p>
-            </div>
-          </div>
-        </li>
-        <li class="step">
-          <span class="badge">2</span>
-          <div class="stitle">Create a free account and sign in</div>
-          <p>When Bob opens it will prompt you to sign in. If you don't have an account yet:</p>
-          <ol class="substeps">
-            <li>Click <b>Sign up</b> (or go to <a class="inline" href="https://bob.ibm.com" target="_blank" rel="noopener">bob.ibm.com</a> and choose <b>Try for free</b>).</li>
-            <li>Enter your <b>personal email address</b> and create a password — no IBM ID or company account needed.</li>
-            <li>Check your inbox for a verification email from IBM Bob and click the confirmation link. <b>If you don't see it after a minute, check your Spam or Junk folder.</b></li>
-            <li>Return to Bob and sign in with the same email and password.</li>
-          </ol>
-          <div class="note">
-            <div class="nt">Already have an account?</div>
-            <p>Just click <b>Sign in</b> and enter your email and password. Skip straight to step 3.</p>
-          </div>
-          <details class="fix os-block" data-os="vm">
-            <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> you can't sign in on the VM</summary>
-            <div class="fixbody">
-              <p>The VM browser may have stale cookies or a cached session that blocks the sign-in flow. Clear the browser history and try again:</p>
-              <ol style="margin:6px 0 0;padding-left:18px;">
-                <li>In the VM browser, open the menu (☰ top-right) and choose <b>Settings</b> → <b>Privacy &amp; Security</b> → <b>Clear Data…</b> (Firefox) or <b>More tools</b> → <b>Clear browsing data…</b> (Chromium).</li>
-                <li>Check <b>Cookies and site data</b> and <b>Cached web content</b>. Set the time range to <b>All time</b>.</li>
-                <li>Click <b>Clear</b>, then close and reopen the browser.</li>
-                <li>Navigate to <a class="inline" href="https://bob.ibm.com" target="_blank" rel="noopener">bob.ibm.com</a> and sign in again.</li>
-              </ol>
-            </div>
-          </details>
-        </li>
-        <li class="step">
-          <span class="badge">3</span>
-          <div class="stitle">Open your project folder in Bob</div>
-          <p>Choose <b>File → Open Folder…</b> from the menu bar at the top of Bob. Navigate to the <code class="ic">mongo-lab</code> folder you created earlier and click <b>Open</b>.</p>
-          <ul>
-            <li><b>macOS / Linux:</b> it's in your home folder — look for <code class="ic">mongo-lab</code>.</li>
-            <li><b>Windows:</b> open <b>This PC</b>, then your user folder (it has your name), and you'll see <code class="ic">mongo-lab</code> there.</li>
-          </ul>
-          <p>Once opened, Bob will show the Welcome tab with a <b>Restricted Mode</b> badge in the bottom-left — that's your cue for the next step.</p>
-          <figure class="shot">
-            <img src="img/initalBob.png" alt="Bob after opening a new empty folder, showing the Restricted Mode banner and badge">
-            <figcaption>Bob after opening the <b>mongo-lab</b> folder. Notice the <b>Restricted Mode</b> warning at the top and the blue <b>Restricted Mode</b> badge in the status bar bottom-left.</figcaption>
-          </figure>
-        </li>
-        <li class="step">
-          <span class="badge">4</span>
-          <div class="stitle">Trust the folder</div>
-          <p>Click the <b>Restricted Mode</b> badge in the bottom-left status bar.</p>
-          <figure class="shot narrow">
-            <img src="img/RestrictedMode.png" alt="Restricted Mode badge in Bob's status bar">
-            <figcaption>Click this <b>Restricted Mode</b> badge to open the Workspace Trust page.</figcaption>
-          </figure>
-          <p>The <b>Workspace Trust</b> page opens. Click the blue <b>Trust</b> button on the left side.</p>
-          <figure class="shot">
-            <img src="img/WorkspaceTrust.png" alt="Bob's Workspace Trust page showing Trusted Folder vs Restricted Mode comparison and the Trust button">
-            <figcaption>Click <b>Trust</b>. In a trusted folder: tasks run, all settings apply, all extensions activate. In restricted mode none of that works — Bob needs trust to function.</figcaption>
-          </figure>
-          <div class="note">
-            <div class="nt">Why trust the folder?</div>
-            <p>Without trust, Bob runs in Restricted Mode: tasks can't run, 13 extensions are disabled, and 53 workspace settings are ignored. The MCP connection won't work. It's your own folder — trust it.</p>
-          </div>
-        </li>
-        <li class="step done">
-          <span class="badge">✓</span>
-          <div class="stitle">Checkpoint — Bob is ready</div>
-          <p>The <b>Restricted Mode</b> badge is gone from the status bar. Bob is open, you're signed in, and the <code class="ic">mongo-lab</code> folder is trusted and ready.</p>
-        </li>
-      </ol>
     </section>
 
     <!-- 02 CONNECT -->
