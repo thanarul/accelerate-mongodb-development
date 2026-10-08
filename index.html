@@ -155,6 +155,7 @@
   html[data-os="win"] .os-block[data-os="win"]{display:block;}
   html[data-os="linux"] .os-block[data-os="linux"]{display:block;}
   html[data-os="vm"] .os-block[data-os="vm"]{display:block;}
+  html[data-os="vm-setup"] .os-block[data-os="vm-setup"]{display:block;}
   .osi{display:none;}
   html[data-os="mac"] .osi[data-os="mac"]{display:inline;}
   html[data-os="win"] .osi[data-os="win"]{display:inline;}
@@ -233,6 +234,7 @@
     <button data-set="win" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M0 3.449 9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>Windows</button>
     <button data-set="linux" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 0 0-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 0 0-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139zm.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105a.086.086 0 0 1-.004-.021l-.004-.024a1.807 1.807 0 0 1-.15.706.953.953 0 0 1-.213.335.71.71 0 0 0-.088-.042c-.104-.045-.198-.064-.284-.133a1.312 1.312 0 0 0-.22-.066c.05-.06.146-.133.183-.198.053-.128.082-.264.088-.402v-.02a1.21 1.21 0 0 0-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.26.132a.844.844 0 0 0-.17.334 1.107 1.107 0 0 0-.041.4v.015c.007.135.019.202.057.334-.174-.066-.395-.133-.531-.203a1.402 1.402 0 0 1-.05-.334v-.014c0-.199.03-.4.113-.6.093-.2.207-.4.4-.533.171-.135.376-.198.593-.198zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.328.465.077.19.144.4.157.628v.007c.012.202.008.348-.011.475v.011c-.32.14-.577.278-.792.415-.049-.083-.096-.135-.147-.202a.674.674 0 0 0-.219-.133.626.626 0 0 0-.093-.402.804.804 0 0 0-.235-.267c-.09-.066-.18-.135-.28-.135h-.016c-.093 0-.18.03-.265.135a.906.906 0 0 0-.156.334.902.902 0 0 0-.04.4c0 .134.016.2.056.334-.174-.066-.396-.133-.532-.203a1.402 1.402 0 0 1-.05-.334v-.014c0-.199.03-.4.113-.6.093-.2.207-.4.4-.533a.907.907 0 0 1 .61-.204zM8.235 8.279c.257.017.526.132.797.334.396.293.664.789.664 1.354s-.268 1.06-.664 1.354c-.271.202-.54.317-.797.334-.257-.017-.526-.132-.797-.334-.396-.294-.664-.789-.664-1.354s.268-1.061.664-1.354c.271-.202.54-.317.797-.334z"/></svg>Linux</button>
     <button data-set="vm" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h2v2H6zm0 4h8v2H6zm4-4h8v2h-8z"/></svg>VM</button>
+    <button data-set="vm-setup" role="tab"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zM6 10h2v2H6zm0 4h8v2H6zm4-4h8v2h-8z"/></svg>VM - Setup</button>
   </div>
 </div>
 
@@ -241,8 +243,7 @@
     <h2>Workshop steps</h2>
     <nav class="nav" id="nav">
       <a href="#start"><span class="n">00</span><span>Welcome &amp; the problem</span></a>
-      <a href="#download"><span class="n">P</span><span>Download workshop files</span></a>
-      <a href="#bob"><span class="n">P2</span><span>Install &amp; open Bob</span></a>
+      <a href="#bob"><span class="n">P</span><span>Install &amp; open Bob</span></a>
       <a href="#prereqs"><span class="n">01</span><span>Prerequisites</span></a>
       <a href="#connect"><span class="n">02</span><span>Connect MongoDB</span></a>
       <a href="#data"><span class="n">03</span><span>Explore the database</span></a>
@@ -328,43 +329,9 @@
       </div>
     </div>
 
-    <!-- DOWNLOAD WORKSHOP FILES — do this first, before Bob -->
-    <section id="download">
-      <div class="sec-eyebrow">FIRST <span class="time">· ~5 min · do this before anything else</span></div>
-      <h2>Download the workshop files</h2>
-      <p class="intro">Before you install anything, grab the workshop files from Box. That way they'll be sitting in your Downloads folder ready to drag in when you open Bob later — no switching back and forth.</p>
-      <ol class="steps">
-        <li class="step">
-          <span class="badge">1</span>
-          <div class="stitle">Download the files from Box</div>
-          <p>Open the shared workshop folder at <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a> in your browser and download the following files individually — do <b>not</b> use the folder-level Download button:</p>
-          <ul>
-            <li><code class="ic">policy_basic.pdf</code></li>
-            <li><code class="ic">policy_plus.pdf</code></li>
-            <li><code class="ic">policy_plus_extra.pdf</code></li>
-            <li><code class="ic">load_policies.py</code></li>
-            <li><code class="ic">answer_key.csv</code></li>
-          </ul>
-          <figure class="shot">
-            <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, and answer_key.csv">
-            <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
-          </figure>
-          <div class="note">
-            <div class="nt">Password protected</div>
-            <p>The Box folder is password protected — your instructor will give you the password on the day.</p>
-          </div>
-        </li>
-        <li class="step done">
-          <span class="badge">✓</span>
-          <div class="stitle">Checkpoint — files are in Downloads</div>
-          <p>All 5 files are in your <b>Downloads</b> folder. Leave them there — you'll drag them into <code class="ic">mongo-lab</code> during Prerequisites. Continue to the next step.</p>
-        </li>
-      </ol>
-    </section>
-
     <!-- BOB INSTALL -->
     <section id="bob">
-      <div class="sec-eyebrow">SECOND <span class="time">· ~10 min</span></div>
+      <div class="sec-eyebrow">FIRST <span class="time">· ~10 min · do this before anything else</span></div>
       <h2>Install, sign in &amp; open IBM Bob</h2>
       <p class="intro">Bob is IBM's AI coding assistant and the application you'll work in for the entire workshop. Get it installed, signed in, and your project folder open before moving on — the terminal you'll use for all setup commands lives inside Bob.</p>
 
@@ -373,6 +340,12 @@
         <div class="callout">
           <div class="ct">VM users — skip this section</div>
           <p>Bob is pre-installed on your VM and the install/sign-in steps are covered inside the <b>Prerequisites</b> section. Select <b>VM</b> in the top-right and go straight to Prerequisites.</p>
+        </div>
+      </div>
+      <div class="os-block" data-os="vm-setup">
+        <div class="callout">
+          <div class="ct">VM users — skip this section</div>
+          <p>Bob is pre-installed on your VM and the install/sign-in steps are covered inside the <b>Prerequisites</b> section. Select <b>VM - Setup</b> in the top-right and go straight to Prerequisites.</p>
         </div>
       </div>
 
@@ -534,11 +507,12 @@
     <!-- PREREQS -->
     <section id="prereqs">
       <div class="sec-eyebrow">PREREQUISITES <span class="time">· ~15 min</span></div>
-      <h2>Prerequisites — install Node and uv</h2>
+      <h2><span class="os-block" data-os="mac">Prerequisites — install Node and uv</span><span class="os-block" data-os="win">Prerequisites — install Node and uv</span><span class="os-block" data-os="linux">Prerequisites — install Node and uv</span><span class="os-block" data-os="vm">Prerequisites — connect and get started</span><span class="os-block" data-os="vm-setup">Prerequisites — install Node and uv</span></h2>
       <p class="intro os-block" data-os="mac">Bob is installed, signed in, and running. Now install two supporting tools: <b>Node</b> and <b>uv</b>. Run all the commands below in <b>Bob's terminal</b> — the panel at the bottom of Bob. Don't worry if you've never heard of these tools — this section walks you through everything step by step.</p>
       <p class="intro os-block" data-os="win">Bob is installed, signed in, and running. Now install two supporting tools: <b>Node</b> and <b>uv</b>. Run all the commands below in <b>Bob's terminal</b> — the panel at the bottom of Bob. Don't worry if you've never heard of these tools — this section walks you through everything step by step.</p>
       <p class="intro os-block" data-os="linux">Bob is installed, signed in, and running. Now install two supporting tools: <b>Node</b> and <b>uv</b>. Run all the commands below in <b>Bob's terminal</b> — the panel at the bottom of Bob. Don't worry if you've never heard of these tools — this section walks you through everything step by step.</p>
       <p class="intro os-block" data-os="vm">Your instructor has provided a virtual machine — everything is already set up for you. Follow the steps below to connect and get started. No installation needed on your physical laptop.</p>
+      <p class="intro os-block" data-os="vm-setup">Your instructor has provided a virtual machine — everything is already set up for you. Follow the steps below to connect and get started. No installation needed on your physical laptop.</p>
 
       <!-- shown for mac / win / linux only -->
       <div class="os-block" data-os="mac">
@@ -965,8 +939,184 @@ uv add pymongo pypdf</code></pre></div>
 
           <li class="step">
             <span class="badge">2</span>
-            <div class="stitle">Get to the desktop and launch Bob</div>
-            <p>Once you are connected to the VM, follow these steps to reach the Linux desktop and open Bob:</p>
+            <div class="stitle">Launch Bob</div>
+            <p>Once you are connected to the VM, follow these steps to open Bob:</p>
+            <ol class="substeps">
+              <li>
+                A prompt may appear — click <b>No thanks</b> to dismiss it and continue to the desktop.
+                <figure class="shot">
+                  <img src="img/VMStep5.png" alt="VM prompt with No thanks option">
+                  <figcaption>Click <b>No thanks</b> to dismiss the prompt.</figcaption>
+                </figure>
+              </li>
+              <li>
+                Click <b>Activities</b> in the top-left corner of the screen to open the application overview.
+                <figure class="shot">
+                  <img src="img/VMStep6.png" alt="Linux desktop showing the Activities button in the top-left">
+                  <figcaption>Click <b>Activities</b> in the top-left to open the overview.</figcaption>
+                </figure>
+              </li>
+              <li>
+                Click the <b>grid of 9 dots</b> in the middle-right of the overview to open the full application launcher, then find and click <b>Bob</b> to launch it.
+                <figure class="shot">
+                  <img src="img/VMStep7.png" alt="Application launcher showing the 9-dot grid and Bob icon">
+                  <figcaption>Click the <b>9-dot grid</b> to open all apps, then click <b>Bob</b>.</figcaption>
+                </figure>
+              </li>
+              <li>
+                <b>A popup may appear</b> asking you to set a keychain password. You can either click <b>Cancel</b> or enter any password you'll remember — either option is fine and won't affect the workshop.
+                <figure class="shot narrow">
+                  <img src="img/VMPopup.png" alt="Keychain password popup that appears when Bob opens on the VM">
+                  <figcaption>Hit <b>Cancel</b> or enter any password — this popup won't affect anything.</figcaption>
+                </figure>
+              </li>
+              <li>
+                <b>If a prompt asks whether you want to migrate Bob chats</b>, click <b>Yes</b>.
+              </li>
+              <li>
+                <b>Click the blue "Log in to Bob" button</b> to start the sign-in flow.
+                <figure class="shot">
+                  <img src="img/VMStep8.png" alt="Bob showing the blue Log in to Bob button">
+                  <figcaption>Click the blue <b>Log in to Bob</b> button.</figcaption>
+                </figure>
+              </li>
+              <li>
+                A browser window will open asking for permission — click <b>Allow</b>.
+                <figure class="shot">
+                  <img src="img/VMStep9.png" alt="Browser permission prompt with Allow button">
+                  <figcaption>Click <b>Allow</b> to grant Bob access.</figcaption>
+                </figure>
+              </li>
+              <li>
+                A dialog will appear asking if you want to open Bob — click <b>Open</b>.
+                <figure class="shot">
+                  <img src="img/VMStep10.png" alt="Dialog asking to open Bob with an Open button">
+                  <figcaption>Click <b>Open</b> to return to Bob.</figcaption>
+                </figure>
+              </li>
+              <li>
+                You'll be taken back to Bob. You should see a prompt — click <b>Open</b> to continue.
+                <figure class="shot">
+                  <img src="img/VMStep11.png" alt="Bob showing a final Open prompt after sign-in">
+                  <figcaption>Click <b>Open</b> — you are now signed in to Bob.</figcaption>
+                </figure>
+              </li>
+            </ol>
+            <details class="fix">
+              <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> you can't sign in to Bob</summary>
+              <div class="fixbody">
+                <p>The VM browser may have stale cookies. Open the browser menu → <b>Settings → Privacy &amp; Security → Clear Data…</b>. Check <b>Cookies and site data</b> and <b>Cached web content</b>, set the time range to <b>All time</b>, and click <b>Clear</b>. Then close and reopen the browser and try signing in again.</p>
+              </div>
+            </details>
+          </li>
+
+          <li class="step">
+            <span class="badge">3</span>
+            <div class="stitle">Open your project folder in Bob</div>
+            <p>Now that you're signed in, open your working folder:</p>
+            <ol class="substeps">
+              <li>Choose <b>File → Open Folder…</b> from the menu bar.</li>
+              <li>Open the <code class="ic">mongo-lab</code> folder in your home folder, select it, and click <b>Open</b>.</li>
+              <li>Bob may show a <b>Restricted Mode</b> badge in the bottom-left status bar — click it, then click <b>Trust</b>.</li>
+            </ol>
+          </li>
+
+          <li class="step">
+            <span class="badge">4</span>
+            <div class="stitle">Open Bob's terminal</div>
+            <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick, top-left of the keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>All commands below are typed here</b> — you don't need to open a separate terminal application.</p>
+          </li>
+
+          <li class="step done">
+            <span class="badge">✓</span>
+            <div class="stitle">Checkpoint — VM is fully set up</div>
+            <p>Bob is open and signed in. Node, uv, and both Python libraries are installed. Continue to <b>Step 02</b> to connect MongoDB.</p>
+          </li>
+        </ol>
+
+        <details class="fix">
+          <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> you can't reach the internet from the VM</summary>
+          <div class="fixbody">
+            <p>The workshop requires outbound HTTPS to reach MongoDB Atlas and the MCP server. If connections are blocked, ask your IT team to allow outbound traffic on port 443 to <code class="ic">*.mongodb.net</code> and <code class="ic">*.npmjs.org</code>.</p>
+          </div>
+        </details>
+      </div>
+
+      <!-- VM - Setup tab — independent copy with original unedited content -->
+      <div class="os-block" data-os="vm-setup">
+        <div class="callout">
+          <div class="ct">Virtual machine path</div>
+          <p>You will have received an email before the lab with a link to access your Linux VM. Everything happens inside that VM — you don't install anything on your physical laptop. Follow these steps instead of the ones above.</p>
+        </div>
+
+        <div class="callout tip">
+          <div class="ct">How to copy and paste on the VM</div>
+          <p>Your normal <kbd>Ctrl+V</kbd> shortcut won't work directly inside the VM. There are two ways to get text in — use whichever feels easier:</p>
+          <p><b>Option 1 — Clipboard Manager.</b> Look for the clipboard icon in the VM toolbar (usually at the top or side of the browser window). Click it to open the Clipboard Manager, type or paste your text into the box, then click <b>Sync to VM</b>. Once synced, click where you want to paste inside the VM and right-click → <b>Paste</b>.</p>
+          <figure class="shot">
+            <img src="img/ClipboardManager.png" alt="VM Clipboard Manager showing a text input box and a Sync to VM button">
+            <figcaption><b>Clipboard Manager</b> — paste your text in, click <b>Sync to VM</b>, then right-click → Paste inside the VM.</figcaption>
+          </figure>
+          <p><b>Option 2 — Send Text.</b> Look for the <b>Send Text</b> option in the VM toolbar. Paste the text you want into the Send Text box. The VM will type it out character by character. <b>Click your target location first</b> — Send Text types wherever the cursor is focused, so make sure the right field or terminal is active before sending.</p>
+          <figure class="shot">
+            <img src="img/SendText.png" alt="VM Send Text panel showing a text input box where text is typed out into the VM">
+            <figcaption><b>Send Text</b> — click your target first, then paste here and send. The VM types it out for you.</figcaption>
+          </figure>
+        </div>
+
+        <ol class="steps">
+
+          <li class="step">
+            <span class="badge">1</span>
+            <div class="stitle">Access your VM via the Tech Zone email</div>
+            <p>Before the lab you will have received an email with a link to IBM Tech Zone. Follow these steps to open your VM:</p>
+            <ol class="substeps">
+              <li>
+                <b>Open the email</b> and click the link provided. It will open a Tech Zone page in your browser.
+              </li>
+              <li>
+                <b>Click the downward arrow</b> on the Tech Zone page to expand your reservation details.
+                <figure class="shot">
+                  <img src="img/VMStep1.png" alt="Tech Zone reservation page showing the downward arrow to expand details">
+                  <figcaption>Click the <b>downward arrow</b> to expand your VM reservation.</figcaption>
+                </figure>
+              </li>
+              <li>
+                <b>Click the URL link</b> that appears in the expanded details. Note down the <b>username and password</b> shown here — you will need them in a moment.
+                <figure class="shot">
+                  <img src="img/VMStep2.png" alt="Tech Zone reservation details showing the URL link and credentials">
+                  <figcaption>Click the <b>URL link</b> and note the <b>username and password</b> shown on this screen.</figcaption>
+                </figure>
+              </li>
+              <li>
+                <b>Click the blue Console button</b> on the page you are directed to.
+                <figure class="shot">
+                  <img src="img/VMStep3.png" alt="VM landing page showing the blue Console button">
+                  <figcaption>Click the blue <b>Console</b> button to open the login screen.</figcaption>
+                </figure>
+              </li>
+              <li>
+                <b>On the login screen</b>, check the <b>Remember username for this session</b> box and make sure the username and password fields are filled in. If they are blank, enter the credentials from the Tech Zone page in step 3. Once everything looks correct, click <b>Connect with RDP</b>.
+                <figure class="shot">
+                  <img src="img/VMStep4.png" alt="RDP login screen showing Remember username checkbox, credential fields, and Connect with RDP button">
+                  <figcaption>Check <b>Remember username for this session</b>, confirm the credentials are filled in, then click <b>Connect with RDP</b>.</figcaption>
+                </figure>
+                <div class="note">
+                  <div class="nt">Where are my credentials?</div>
+                  <p>If the username or password fields are empty, go back to the Tech Zone page (step 3 above) and copy them from there.</p>
+                </div>
+              </li>
+            </ol>
+            <div class="note">
+              <div class="nt">Everything runs inside this browser tab</div>
+              <p>Treat the VM desktop like a separate computer. Files you download, commands you run, and Bob itself all live inside the VM — nothing touches your physical laptop.</p>
+            </div>
+          </li>
+
+          <li class="step">
+            <span class="badge">2</span>
+            <div class="stitle">Launch Bob</div>
+            <p>Once you are connected to the VM, follow these steps to open Bob:</p>
             <ol class="substeps">
               <li>
                 A prompt may appear — click <b>No thanks</b> to dismiss it and continue to the desktop.
@@ -1053,41 +1203,46 @@ uv add pymongo pypdf</code></pre></div>
             <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick, top-left of the keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>All commands below are typed here</b> — you don't need to open a separate terminal application.</p>
           </li>
 
+          <div class="note must">
+            <div class="nt">Copy commands one at a time</div>
+            <p>Copy and paste each command individually and press <kbd>Enter</kbd> after each one. <b>Do not paste multiple commands together</b> — on the VM the clipboard works differently and running commands in bulk can cause errors that are hard to debug.</p>
+          </div>
+
           <li class="step">
             <span class="badge">5</span>
             <div class="stitle">Check if Node and uv are already installed</div>
-            <p>Run this in Bob's terminal — if all three lines print a version number and Node shows <b>v22 LTS</b>, <b>skip straight to step 7</b> (Add your workshop files and set up Python).</p>
-            <div class="cmd"><pre><code>node --version
-npx --version
-uv --version</code></pre></div>
+            <p>Run each command one at a time in Bob's terminal — if all three print a version number and Node shows <b>v22 LTS</b>, <b>skip straight to step 7</b> (Add your workshop files and set up Python).</p>
+            <div class="cmd"><pre><code>node --version</code></pre></div>
+            <div class="cmd"><pre><code>npx --version</code></pre></div>
+            <div class="cmd"><pre><code>uv --version</code></pre></div>
             <details class="fix tip-d">
               <summary><span class="caret">▶</span><span class="wtag">💡 What to look for</span></summary>
-              <div class="fixbody"><p>You want three version numbers, with <code class="ic">node</code> showing <code class="ic">v22.x.x</code> or higher. If any command says <i>"command not found"</i> or Node is below v22, continue to step 7.</p></div>
+              <div class="fixbody"><p>You want three version numbers, with <code class="ic">node</code> showing <code class="ic">v22.x.x</code> or higher. If any command says <i>"command not found"</i> or Node is below v22, continue to step 7 to install them.</p></div>
             </details>
           </li>
 
           <li class="step">
-            <span class="badge">6</span>
+            <span class="badge">7</span>
             <div class="stitle">Install Node and uv</div>
             <p>Paste each block into Bob's terminal and press <kbd>Enter</kbd>, waiting for each to finish before running the next — you'll know it's done when the cursor reappears on a new line.</p>
-            <p><b>Step 6a — Install Node 22 LTS.</b> This can take <b>a few minutes</b> — leave the terminal running and wait:</p>
-            <div class="cmd"><pre><code>sudo dnf module enable nodejs:22 -y
-sudo dnf install -y nodejs npm</code></pre></div>
+            <p><b>Step 7a — Install Node 22 LTS.</b> Run each line one at a time. This can take <b>a few minutes</b> — wait for the cursor to reappear before running the next:</p>
+            <div class="cmd"><pre><code>sudo dnf module enable nodejs:22 -y</code></pre></div>
+            <div class="cmd"><pre><code>sudo dnf install -y nodejs npm</code></pre></div>
             <p>It may ask for your password — <b>nothing shows as you type, that's normal</b>. Type it and press <kbd>Enter</kbd>. After that the install continues automatically.</p>
-            <p><b>Step 6b — Install uv</b> (this also downloads and manages Python for you):</p>
+            <p><b>Step 7b — Install uv</b> (this also downloads and manages Python for you):</p>
             <div class="cmd"><pre><code>curl -LsSf https://astral.sh/uv/install.sh | sh</code></pre></div>
-            <p><b>Step 6c — Reload the terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
+            <p><b>Step 7c — Reload the terminal</b> so it picks up the new <code class="ic">uv</code> command:</p>
             <div class="cmd"><pre><code>source ~/.bashrc</code></pre></div>
           </li>
 
           <li class="step">
-            <span class="badge">7</span>
+            <span class="badge">8</span>
             <div class="stitle">Add your workshop files and set up Python</div>
             <p><b>Drag your workshop files into mongo-lab.</b> Bob already has <code class="ic">mongo-lab</code> open — you should see it in the Explorer panel on the left. Open the VM's <b>file manager</b> (look for Files or Nautilus in the taskbar). Navigate to the <b>Downloads</b> folder. Open a second file manager window using <kbd>Ctrl</kbd> + <kbd>N</kbd>, then navigate to your home folder and open <code class="ic">mongo-lab</code>. Place both windows side by side, select all 5 files in Downloads, and drag them into <code class="ic">mongo-lab</code>.</p>
-            <p>You should see all 5 files appear in Bob's Explorer panel on the left. Now run the setup in Bob's terminal:</p>
-            <div class="cmd"><pre><code>cd ~/mongo-lab
-uv init
-uv add pymongo pypdf</code></pre></div>
+            <p>You should see all 5 files appear in Bob's Explorer panel on the left. Now run each command one at a time in Bob's terminal:</p>
+            <div class="cmd"><pre><code>cd ~/mongo-lab</code></pre></div>
+            <div class="cmd"><pre><code>uv init</code></pre></div>
+            <div class="cmd"><pre><code>uv add pymongo pypdf</code></pre></div>
             <p>Confirm it worked:</p>
             <div class="cmd"><pre><code>uv run python -c "import pymongo, pypdf; print('pymongo', pymongo.version, '| pypdf', pypdf.__version__)"</code></pre></div>
             <p>You should see something like <code class="ic">pymongo 4.x.x | pypdf 5.x.x</code>. If you see an <code class="ic">ImportError</code>, re-run the <code class="ic">uv init</code> block above.</p>
@@ -1176,47 +1331,9 @@ uv add pymongo pypdf</code></pre></div>
 }</code></pre></div>
           <div class="note must">
             <div class="nt">Replace the three placeholders — keep the quotes</div>
-            <p>Your credentials are in the <b>MCPCredentials.boxnote</b> file inside the Box folder you downloaded from earlier — open it to find the three values. Replace <code class="ic">your-connection-string-here</code>, <code class="ic">your-client-id-here</code>, and <code class="ic">your-client-secret-here</code> with the real values from that file. <b>Keep the surrounding double-quotes</b> — that's required JSON syntax. The connection string starts with <code class="ic">mongodb+srv://</code> — paste the whole thing between the quotes. Do not change any other line.</p>
+            <p>Open the <b>MCP Credentials.boxNote</b> file provided before the lab and copy the three values from it. Replace <code class="ic">your-connection-string-here</code>, <code class="ic">your-client-id-here</code>, and <code class="ic">your-client-secret-here</code> with those values. <b>Keep the surrounding double-quotes</b> — that's required JSON syntax. The connection string starts with <code class="ic">mongodb+srv://</code> — paste the whole thing between the quotes. Do not change any other line.</p>
           </div>
           <p>Save the file — <kbd>⌘S</kbd> on macOS, <kbd>Ctrl+S</kbd> on Windows/Linux.</p>
-        </li>
-
-        <li class="step">
-          <span class="badge">4</span>
-          <div class="stitle">Create a .env file for the Python script</div>
-          <p>The Python script (<code class="ic">load_policies.py</code>) that you'll run in Step 04 also needs your connection string — but it reads from a <code class="ic">.env</code> file rather than <code class="ic">mcp.json</code>. Create it now so it's ready when you need it.</p>
-
-          <ol class="substeps">
-            <li>
-              <b>Show the Explorer.</b> If you don't see the file tree on the left, click the top-most icon in the narrow strip on the far left (it looks like two stacked pages), or press <kbd>⌘</kbd><kbd>⇧</kbd><kbd>E</kbd> (Windows/Linux: <kbd>Ctrl</kbd><kbd>Shift</kbd><kbd>E</kbd>). You should see your project folder, <code class="ic">mongo-lab</code>, at the top.
-            </li>
-            <li>
-              <b>Start a new file.</b> Hover your cursor over the <code class="ic">mongo-lab</code> folder name in the tree — a small row of icons appears to its right. Click the <b>New File</b> icon (a page with a small <b>+</b> on it). A blank name box opens in the tree.
-            </li>
-            <li>
-              <b>Name it exactly <code class="ic">.env</code></b> — start with the dot, nothing before it (not <code class="ic">env</code>, not <code class="ic">my.env</code>). Press <kbd>Enter</kbd>. Bob opens the empty file in the editor.
-            </li>
-            <li>
-              <b>Paste this line</b> into the file, replacing the placeholder with your connection string:
-              <div class="cmd" style="margin-top:8px;"><pre><code>MDB_MCP_CONNECTION_STRING=your-connection-string-here</code></pre></div>
-              <div class="note must">
-                <div class="nt">No quotes — no spaces — exact format</div>
-                <p>Paste the value directly after the <code class="ic">=</code> with <b>no surrounding quotes</b> and <b>no spaces around the =</b>. The connection string starts with <code class="ic">mongodb+srv://</code> — paste the whole thing as-is.</p>
-              </div>
-            </li>
-            <li>
-              <b>Save the file</b> — press <kbd>⌘S</kbd> on macOS or <kbd>Ctrl+S</kbd> on Windows/Linux. The dot (●) on the editor tab turns back into an <b>✕</b> when the file is saved.
-              <details class="fix tip-d" style="margin-top:8px;">
-                <summary><span class="caret">▶</span><span class="wtag">💡 Tip</span> Don't see the dot turn into ✕?</summary>
-                <div class="fixbody"><p>If the tab still shows a dot (●), the file has unsaved changes. Press <kbd>⌘S</kbd> / <kbd>Ctrl+S</kbd> again. If it still doesn't save, click inside the file first to make sure it's the active tab, then try again.</p></div>
-              </details>
-            </li>
-          </ol>
-
-          <figure class="shot narrow">
-            <img src="img/placeholder-env-create.png" alt="[placeholder] Creating a new .env file in Bob's Explorer using the New File icon">
-            <figcaption>Hover over <b>mongo-lab</b> in the Explorer and click the <b>New File</b> icon, then name it <code>.env</code>.</figcaption>
-          </figure>
         </li>
 
         <li class="step">
@@ -1790,7 +1907,7 @@ live pipeline results embedded as JSON in the file. The skill is read-only.</cod
 </div>
 
 <script>
-  var VALID=["mac","win","linux","vm"];
+  var VALID=["mac","win","linux","vm","vm-setup"];
   function setOS(os){
     if(VALID.indexOf(os)===-1) os="mac";
     document.documentElement.setAttribute("data-os",os);
