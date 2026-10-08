@@ -29,7 +29,7 @@
     --red-60:#da1e28;
     --red-10:#fff1f1;
     --sidebar-w:280px;
-    --maxw:800px;
+    --maxw:960px;
     --font-sans:'IBM Plex Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     --font-mono:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,Consolas,monospace;
   }
@@ -167,8 +167,8 @@
   figure.shot img{display:block;width:100%;height:auto;}
   figure.shot figcaption{font-size:12.5px;color:var(--gray-70);padding:8px 12px;border-top:1px solid var(--gray-20);background:var(--white);}
   figure.shot figcaption b{color:var(--gray-100);}
-  figure.shot.narrow{max-width:520px;}
-  figure.shot.tiny{max-width:360px;}
+  figure.shot.narrow{max-width:640px;}
+  figure.shot.tiny{max-width:440px;}
 
   /* ---------- Comparison table ---------- */
   table.vs{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;}
@@ -265,7 +265,7 @@
         <div class="hero-copy">
           <div class="eyebrow">HANDS-ON LAB · ~90 MIN</div>
           <h1>Accelerate MongoDB Development</h1>
-          <p class="lede">A claims adjuster has 58 claims and three insurance policies — <i>Basic</i>, <i>Plus</i>, and <i>Plus Extra</i>. Are these claims actually covered? Today you'll answer that question using <b>MongoDB</b> and <b>IBM Bob</b>, combining live database queries with policy PDF analysis.</p>
+          <p class="lede">Claims are arriving faster than adjusters can work them. Every single one has to be matched against the right section of a policy document — three tiers, three PDFs, dense legal language. Right now a human reads the policy for every claim. Today you build the thing that does the matching, using <b>MongoDB</b> and <b>IBM Bob</b> — and you prove it can be trusted before you let it decide anything.</p>
           <div class="author">
             <div class="author-meta">
               <div class="author-name">By Thanush Arulanantham</div>
@@ -287,23 +287,23 @@
       </div>
 
       <h3>The scenario</h3>
-      <p>You're the developer supporting an insurance operations team. There are <b>58 claims</b> in the database (auto, home, life and health) across three statuses: denied, under review, and settled. The team needs to know: <i>were these claims approved or denied correctly?</i></p>
-      <p>The database stores structured fields — claim descriptions, policy types, amounts, statuses — but the actual <b>coverage rules</b> live in three insurance PDFs. Some of these decisions might be wrong. The only way to know is to check each claim against the policy PDF.</p>
-      <p>The problem isn't missing data. It's that <b>matching a claim description to a policy section is a search problem</b> — and traditional keyword search breaks down the moment a claimant writes "deer ran into my car" instead of "animal collision." You need search that understands <i>meaning</i>, not just matching words. That's where embeddings and vector search come in — and where this workshop begins.</p>
+      <p>You're the developer supporting a claims operations team. Claims arrive faster than adjusters can work them, and every single one has to be matched against the right section of a policy document — three tiers, three PDFs, written in dense legal language. Right now a human reads the policy for every claim.</p>
+      <p>Your job is to build the thing that does the matching. The database already holds <b>58 claims</b> (auto, home, life and health) with structured fields — descriptions, policy types, amounts, statuses. The coverage rules live in three PDFs. The gap between them is the problem.</p>
+      <p>And it's a harder gap than it looks. <b>Matching a claim description to a policy section is a search problem</b> — and traditional keyword search breaks down the moment a claimant writes "deer ran into my car" instead of "animal collision." You need search that understands <i>meaning</i>, not just matching words. That's where embeddings and vector search come in. But before any of this runs in production, you have to prove it gets the right answers. That's also part of your job today.</p>
 
-      <h3>What you'll build — the same three moves for any search problem</h3>
-      <p>This use case is insurance, but the pattern applies to any domain where you need to match unstructured text against a collection of documents:</p>
+      <h3>What you'll build — the same three moves for any matching problem</h3>
+      <p>The use case is insurance, but the pattern is universal — any domain where unstructured claims, tickets, or requests need to be matched against a library of rules or documents:</p>
       <div class="cards">
-        <div class="card"><div class="cn">01 · ground</div><h4>Connect data to docs</h4><p>Load the policy PDFs into MongoDB as searchable sections. Now the coverage rules live in the same database as the claims.</p></div>
-        <div class="card"><div class="cn">02 · search</div><h4>Keyword vs vector</h4><p>Run Atlas keyword search first — see where it works and where it fails. Then run vector search using MongoDB's auto-embed and voyage-4. Compare the results.</p></div>
-        <div class="card"><div class="cn">03 · grade</div><h4>Measure the gap</h4><p>Side-by-side: which method matched each claim correctly? The failures reveal exactly why embeddings exist.</p></div>
+        <div class="card"><div class="cn">01 · bridge</div><h4>Connect data to docs</h4><p>Load the policy PDFs into MongoDB as searchable sections. The coverage rules and the claims live in the same database — now they can talk to each other.</p></div>
+        <div class="card"><div class="cn">02 · match</div><h4>Keyword vs vector</h4><p>Run Atlas keyword search first — see where it works and where it misses. Then run vector search using the voyage-4 embedding model. Compare the results head to head.</p></div>
+        <div class="card"><div class="cn">03 · prove</div><h4>Earn the trust</h4><p>Grade both methods against the answer key. The failures show exactly why semantic search exists — and give you the evidence to know when the system can be trusted to decide.</p></div>
       </div>
 
       <div class="callout tip withbob">
         <img src="img/bob-head.png" alt="Bob">
         <div>
           <div class="ct">No query writing, no embedding code</div>
-          <p>You will not write a search query, call an embedding API, or manage index configuration manually. Bob handles all of that. Your job is to understand what the results mean — and why keyword search sometimes isn't enough.</p>
+          <p>You will not write a search query, call an embedding API, or manage index configuration manually. Bob handles all of that. Your job is to understand what the results mean — and to make the case that the system works before it touches a real decision.</p>
         </div>
       </div>
 
