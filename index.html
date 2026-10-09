@@ -287,6 +287,14 @@
         <div class="ct">Do this first</div>
         <p>Pick your setup path in the top-right — <b>macOS</b>, <b>Windows</b>, <b>Linux</b>, or <b>VM</b> (managed/locked-down machine). The Prerequisites section updates to match.</p>
       </div>
+      <div class="callout tip" id="boxfolder">
+        <div class="ct">Workshop files — Box folder</div>
+        <p>All workshop files live in the shared Box folder: <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a>. The folder is password protected; your instructor will give you the password on the day.</p>
+        <figure class="shot" style="margin-top:10px;">
+          <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, answer_key.csv">
+          <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
+        </figure>
+      </div>
 
       <h3>The scenario</h3>
       <p>You're the developer supporting a claims operations team. Claims arrive faster than adjusters can work them, and every single one has to be matched against the right section of a policy document — three tiers, three PDFs, written in dense legal language. Right now a human reads the policy for every claim.</p>
@@ -1392,8 +1400,29 @@ uv add pymongo pypdf</code></pre></div>
         </li>
         <li class="step">
           <span class="badge">3</span>
+          <div class="stitle">Get your credentials from the Box folder</div>
+          <p>Your connection string, client ID, and client secret are in the shared Box folder at <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a> (see the <a class="inline" href="#boxfolder">Box folder picture at the top of this page</a>). Open the document called <b>MCP Credentials.boxNote</b> and keep it open — you'll copy the three values from it in the next step.</p>
+          <div class="note">
+            <div class="nt">Password protected</div>
+            <p>The Box folder is password protected — your instructor will give you the password on the day.</p>
+          </div>
+        </li>
+        <li class="step">
+          <span class="badge">4</span>
           <div class="stitle">Paste the JSON config into mcp.json — and fill in your credentials</div>
-          <p><code class="ic">mcp.json</code> tells Bob how to launch the MongoDB MCP server. Your three credentials go directly into the <code class="ic">env</code> block as plain string values — replace the three placeholders below with the real values your instructor provides on the day.</p>
+          <p><code class="ic">mcp.json</code> tells Bob how to launch the MongoDB MCP server. Your three credentials go directly into the <code class="ic">env</code> block as plain string values — replace the three placeholders below with the three values from <b>MCP Credentials.boxNote</b>.</p>
+          <div class="os-block" data-os="vm">
+            <div class="callout tip">
+              <div class="ct">VM — use the Clipboard Manager for the credentials</div>
+              <p>Normal <kbd>Ctrl+V</kbd> won't work on the VM. When you copy the connection string, client ID, and client secret, use the <b>Clipboard Manager</b>: paste the value into the box, click <b>Sync to VM</b>, then right-click → <b>Paste</b> in <code class="ic">mcp.json</code>. Do this one value at a time.</p>
+            </div>
+          </div>
+          <div class="os-block" data-os="vm-setup">
+            <div class="callout tip">
+              <div class="ct">VM — use the Clipboard Manager for the credentials</div>
+              <p>Normal <kbd>Ctrl+V</kbd> won't work on the VM. When you copy the connection string, client ID, and client secret, use the <b>Clipboard Manager</b>: paste the value into the box, click <b>Sync to VM</b>, then right-click → <b>Paste</b> in <code class="ic">mcp.json</code>. Do this one value at a time.</p>
+            </div>
+          </div>
           <p>Replace the entire contents of <code class="ic">mcp.json</code> with the block below, then swap in your values:</p>
           <div class="cmd"><pre><code>{
   "mcpServers": {
@@ -1463,6 +1492,11 @@ uv add pymongo pypdf</code></pre></div>
       <h2>Explore the database</h2>
       <p class="intro">Now that you're connected, ask Bob to show you what's in the database. This is your first real query against MongoDB using MCP.</p>
 
+      <div class="callout tip">
+        <div class="ct">Make the Bob chat bigger</div>
+        <p>From here on you won't be touching any files — you'll be working in the Bob chat. Drag the edge of the chat panel wider (or close the Explorer and terminal panels) so Bob's responses and results tables are easier to read.</p>
+      </div>
+
       <ol class="steps">
         <li class="step">
           <span class="badge">1</span>
@@ -1477,7 +1511,7 @@ uv add pymongo pypdf</code></pre></div>
           <p>Want to see real data before diving in? Ask Bob:</p>
           <div class="cmd"><pre><code>Show me a sample document from each collection — for example CLM-029 from claims, its linked policy, and the matching customer record.</code></pre></div>
           <p>You'll see something like this from the <code class="ic">claims</code> collection:</p>
-          <div class="cmd"><pre><code>{
+          <div class="cmd noncopy"><pre><code>{
   "claim_id":    "CLM-029",
   "customer_id": 29,
   "policy_id":   "POL-035",
@@ -1540,7 +1574,7 @@ Run a real search for every claim, one at a time. Show a table: claim, what happ
           <span class="badge">2</span>
           <div class="stitle">Where keyword search fails — the CLM-029 gap</div>
           <p>Look at <b>CLM-029</b> in your results table. The claim description reads:</p>
-          <div class="cmd"><pre><code>"Vehicle stolen overnight from residential driveway.
+          <div class="cmd noncopy"><pre><code>"Vehicle stolen overnight from residential driveway.
 Found the next day stripped of wheels and valuables."</code></pre></div>
           <p>The correct policy section to match here is <b>Unlawful Taking, Conversion And Felonious Abstraction</b>. But keyword search looks for exact word overlap — and the claim never uses the word "unlawful", "taking", or "felonious." It just says <i>"stolen."</i></p>
           <div class="callout">
@@ -1569,35 +1603,6 @@ Found the next day stripped of wheels and valuables."</code></pre></div>
           <p>At the top of the Bob chat panel, switch the mode to <b>Ask</b>. Then send this prompt:</p>
           <div class="cmd"><pre><code>What was your process of your keyword search with the MongoDB database? Show me the query and MongoDB operations if any were used.</code></pre></div>
           <p>Bob will walk through the Atlas search query it used, the <code class="ic">$search</code> aggregation stage, the filters applied (tier, line), and how it scored results. No new database calls are made — this is reflection only.</p>
-          <p>Here's an example of the kind of query Bob generated and ran on your behalf:</p>
-          <div class="cmd"><pre><code>db.coverage_sections.aggregate([
-  {
-    $search: {
-      index: "default",
-      text: {
-        query: "Vehicle stolen overnight from residential driveway. Found the next day stripped of wheels and valuables.",
-        path: "text"
-      }
-    }
-  },
-  {
-    $match: {
-      tier: "plus_extra",
-      line: "auto"
-    }
-  },
-  { $limit: 1 },
-  {
-    $project: {
-      section_title: 1,
-      score: { $meta: "searchScore" }
-    }
-  }
-])</code></pre></div>
-          <div class="callout tip">
-            <div class="ct">This is what Bob wrote for you — instantly</div>
-            <p>That aggregation pipeline has a <code class="ic">$search</code> stage, a filter, a limit, and a projection. Writing this from scratch requires knowing MongoDB's Atlas Search syntax, the correct index name, your field names, and the aggregation pipeline structure. Bob produced it from a plain-English prompt and ran it live against your database — through MCP, with no copy-paste, no terminal, no driver code. That's the power of combining Bob with the MongoDB MCP server.</p>
-          </div>
           <div class="note">
             <div class="nt">Why Ask mode?</div>
             <p>Ask mode prevents Bob from making any changes or running tools. It's safe to review and understand what happened without accidentally triggering a new operation. Switch back to <b>Agent</b> mode when you're ready to continue.</p>
@@ -2009,7 +2014,7 @@ live pipeline results embedded as JSON in the file. The skill is read-only.</cod
     setOS(os);
   })();
 
-  document.querySelectorAll(".cmd").forEach(function(block){
+  document.querySelectorAll(".cmd:not(.noncopy)").forEach(function(block){
     var btn=document.createElement("button");
     btn.className="copy";btn.type="button";btn.textContent="Copy";
     btn.addEventListener("click",function(){
