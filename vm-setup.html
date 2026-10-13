@@ -246,6 +246,7 @@
       <a href="#grade"><span class="n">08</span><span>Grade the results</span></a>
       <a href="#autoclaims"><span class="n">09</span><span>Automate claim decisions</span></a>
       <a href="#riskreport"><span class="n">10</span><span>Portfolio risk report <span style="font-size:11px;color:var(--green-60);font-weight:600;">OPTIONAL</span></span></a>
+      <a href="#recap"><span class="n">★</span><span>Lab recap &amp; takeaways</span></a>
       <a href="#troubleshooting"><span class="n">&#9656;</span><span>Troubleshooting</span></a>
     </nav>
   </aside>
@@ -388,6 +389,10 @@
           <span class="badge">4</span>
           <div class="stitle">Open Bob's terminal</div>
           <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (that's the backtick key, top-left of your keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>Leave this open</b> — all setup commands in the next section are typed here.</p>
+          <figure class="shot">
+            <img src="img/bob-terminal.png" alt="Bob window with the Terminal tab highlighted in the bottom panel, showing a zsh prompt">
+            <figcaption>The <b>Terminal</b> tab in the bottom panel of Bob. You should see a prompt and a blinking cursor.</figcaption>
+          </figure>
         </li>
         <li class="step done">
           <span class="badge">✓</span>
@@ -439,6 +444,10 @@
           <span class="badge">4</span>
           <div class="stitle">Open Bob's terminal</div>
           <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (that's the backtick key, top-left of your keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>Leave this open</b> — all setup commands in the next section are typed here.</p>
+          <figure class="shot">
+            <img src="img/bob-terminal.png" alt="Bob window with the Terminal tab highlighted in the bottom panel, showing a zsh prompt">
+            <figcaption>The <b>Terminal</b> tab in the bottom panel of Bob. You should see a prompt and a blinking cursor.</figcaption>
+          </figure>
         </li>
         <li class="step done">
           <span class="badge">✓</span>
@@ -490,6 +499,10 @@
           <span class="badge">4</span>
           <div class="stitle">Open Bob's terminal</div>
           <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (that's the backtick key, top-left of your keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>Leave this open</b> — all setup commands in the next section are typed here.</p>
+          <figure class="shot">
+            <img src="img/bob-terminal.png" alt="Bob window with the Terminal tab highlighted in the bottom panel, showing a zsh prompt">
+            <figcaption>The <b>Terminal</b> tab in the bottom panel of Bob. You should see a prompt and a blinking cursor.</figcaption>
+          </figure>
         </li>
         <li class="step done">
           <span class="badge">✓</span>
@@ -1069,6 +1082,10 @@ uv add pymongo pypdf</code></pre></div>
             <span class="badge">4</span>
             <div class="stitle">Open Bob's terminal</div>
             <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick, top-left of the keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>All commands below are typed here</b> — you don't need to open a separate terminal application.</p>
+            <figure class="shot">
+              <img src="img/bob-terminal.png" alt="Bob window with the Terminal tab highlighted in the bottom panel, showing a zsh prompt">
+              <figcaption>The <b>Terminal</b> tab in the bottom panel of Bob. You should see a prompt and a blinking cursor.</figcaption>
+            </figure>
           </li>
 
           <li class="step done">
@@ -1253,6 +1270,10 @@ uv add pymongo pypdf</code></pre></div>
             <span class="badge">4</span>
             <div class="stitle">Open Bob's terminal</div>
             <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick, top-left of the keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>All commands below are typed here</b> — you don't need to open a separate terminal application.</p>
+            <figure class="shot">
+              <img src="img/bob-terminal.png" alt="Bob window with the Terminal tab highlighted in the bottom panel, showing a zsh prompt">
+              <figcaption>The <b>Terminal</b> tab in the bottom panel of Bob. You should see a prompt and a blinking cursor.</figcaption>
+            </figure>
           </li>
 
           <div class="note must">
@@ -1401,14 +1422,22 @@ uv add pymongo pypdf</code></pre></div>
           <p><code class="ic">mcp.json</code> tells Bob how to launch the MongoDB MCP server. Your three credentials go directly into the <code class="ic">env</code> block as plain string values — replace the three placeholders below with the three values from <b>MCP Credentials.boxNote</b>.</p>
           <div class="os-block" data-os="vm">
             <div class="callout tip">
-              <div class="ct">VM — use the Clipboard Manager for the credentials</div>
-              <p>Normal <kbd>Ctrl+V</kbd> won't work on the VM. When you copy the connection string, client ID, and client secret, use the <b>Clipboard Manager</b>: paste the value into the box, click <b>Sync to VM</b>, then right-click → <b>Paste</b> in <code class="ic">mcp.json</code>. Do this one value at a time.</p>
+              <div class="ct">VM — use the Clipboard Manager for copying and pasting</div>
+              <p>Normal <kbd>Ctrl+V</kbd> won't work directly on the VM. When copying and pasting the MCP configuration block and your connection credentials (connection string, client ID, and client secret) into <code class="ic">mcp.json</code>, use the <b>Clipboard Manager</b> from the VM toolbar: paste the text into the box, click <b>Sync to VM</b>, then right-click &rarr; <b>Paste</b> inside <code class="ic">mcp.json</code>.</p>
+            </div>
+            <div class="note">
+              <div class="nt">Paste messed up or invalid formatting?</div>
+              <p>If the paste gets distorted or the code inside <code class="ic">mcp.json</code> isn't formatted correctly, don't worry—just ask Bob in the chat: <i>"Fix the formatting and syntax of my mcp.json file"</i> and Bob will correct the JSON structure for you automatically.</p>
             </div>
           </div>
           <div class="os-block" data-os="vm-setup">
             <div class="callout tip">
-              <div class="ct">VM — use the Clipboard Manager for the credentials</div>
-              <p>Normal <kbd>Ctrl+V</kbd> won't work on the VM. When you copy the connection string, client ID, and client secret, use the <b>Clipboard Manager</b>: paste the value into the box, click <b>Sync to VM</b>, then right-click → <b>Paste</b> in <code class="ic">mcp.json</code>. Do this one value at a time.</p>
+              <div class="ct">VM — use the Clipboard Manager for copying and pasting</div>
+              <p>Normal <kbd>Ctrl+V</kbd> won't work directly on the VM. When copying and pasting the MCP configuration block and your connection credentials (connection string, client ID, and client secret) into <code class="ic">mcp.json</code>, use the <b>Clipboard Manager</b> from the VM toolbar: paste the text into the box, click <b>Sync to VM</b>, then right-click &rarr; <b>Paste</b> inside <code class="ic">mcp.json</code>.</p>
+            </div>
+            <div class="note">
+              <div class="nt">Paste messed up or invalid formatting?</div>
+              <p>If the paste gets distorted or the code inside <code class="ic">mcp.json</code> isn't formatted correctly, don't worry—just ask Bob in the chat: <i>"Fix the formatting and syntax of my mcp.json file"</i> and Bob will correct the JSON structure for you automatically.</p>
             </div>
           </div>
           <p>Replace the entire contents of <code class="ic">mcp.json</code> with the block below, then swap in your values:</p>
@@ -1945,6 +1974,48 @@ live pipeline results embedded as JSON in the file. The skill is read-only.</cod
           <p>The dashboard renders from JSON variables embedded in the file. If Bob didn't finish writing before you opened it, close the browser tab, wait for Bob to confirm the file is written, then reopen. If it's still blank, ask Bob: <i>"Did you embed the pipeline results as JSON in risk-dashboard.html? Show me the SNAPSHOT variable."</i></p>
         </div>
       </details>
+    </section>
+
+    <!-- LAB RECAP & TAKEAWAYS -->
+    <section id="recap">
+      <div class="sec-eyebrow">RECAP <span class="time">· 5 min read</span></div>
+      <h2>Lab recap &amp; what you achieved</h2>
+      <p class="intro">In about 90 minutes, you went from raw, unstructured policy documents to an automated, AI-assisted insurance adjudication pipeline running on MongoDB Atlas and IBM Bob.</p>
+
+      <h3>What you achieved today</h3>
+      <div class="cards">
+        <div class="card">
+          <div class="cn">01 · unified data</div>
+          <h4>Connected docs to data</h4>
+          <p>Extracted policy sections across multiple tiers (Basic, Plus, Plus Extra), embedded them with <code class="ic">voyage-4</code>, and stored them directly in MongoDB Atlas—unifying structured operational claims with unstructured policy knowledge.</p>
+        </div>
+        <div class="card">
+          <div class="cn">02 · semantic search</div>
+          <h4>Keyword vs. vector search</h4>
+          <p>Tested Atlas search methods against real-world claims. You saw firsthand where lexical search fails on plain-English paraphrasing, how vector search captures true meaning, and graded both against an objective answer key.</p>
+        </div>
+        <div class="card">
+          <div class="cn">03 · autonomous skills</div>
+          <h4>Automated operations safely</h4>
+          <p>Built a custom Bob Agent skill (<code class="ic">/process-auto-claims</code>) to evaluate queue backlogs, score similarity, apply business thresholds, and safely write decisions back with human-in-the-loop confirmation.</p>
+        </div>
+      </div>
+
+      <h3>Why this lab was useful — key takeaways</h3>
+      <ul>
+        <li><b>One unified database for operational data, search, and AI:</b> You didn't need to spin up or synchronize a separate vector database. MongoDB Atlas handles structured transactions, lexical search indexes, and vector embeddings in a single resilient store.</li>
+        <li><b>10x developer velocity with IBM Bob:</b> You explored collections, ran aggregations, built vector search queries, benchmarked accuracy, and authored automation skills using natural language and MCP—without writing tedious boilerplate by hand.</li>
+        <li><b>Trustable, verifiable AI architecture:</b> Instead of blindly trusting AI outputs, you graded retrieval accuracy against ground truth, calibrated similarity thresholds (0.60–0.75 for plain English vs. legal text), and established guardrails before triggering database writes.</li>
+        <li><b>Reusable enterprise pattern:</b> The architecture you built—<i>Ingest &rarr; Embed &rarr; Hybrid Search &rarr; Custom Agent Skill &rarr; Decision &amp; Analytics</i>—applies universally across customer support routing, IT incident triage, contract compliance, HR benefits, and regulatory reviews.</li>
+      </ul>
+
+      <div class="callout tip withbob">
+        <img src="img/bob-head.png" alt="Bob">
+        <div>
+          <div class="ct">Take this pattern to your next project</div>
+          <p>You now have a complete, production-ready blueprint for building AI-powered apps on MongoDB with IBM Bob. Explore your own datasets, build custom skills for your team's repetitive workflows, and leverage Atlas Vector Search to bring intelligent semantic matching to your applications.</p>
+        </div>
+      </div>
     </section>
 
     <!-- TROUBLESHOOTING -->

@@ -159,6 +159,7 @@
   html[data-os="mac"] .osi[data-os="mac"]{display:inline;}
   html[data-os="win"] .osi[data-os="win"]{display:inline;}
   html[data-os="linux"] .osi[data-os="linux"]{display:inline;}
+  html[data-os="vm"] .osi[data-os="vm"]{display:inline;}
   .os-flag{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-50);margin:0 0 4px;display:flex;align-items:center;gap:7px;}
   .os-flag::before{content:"";width:8px;height:8px;background:var(--blue-60);display:inline-block;}
 
@@ -241,8 +242,8 @@
     <h2>Workshop steps</h2>
     <nav class="nav" id="nav">
       <a href="#start"><span class="n">00</span><span>Welcome &amp; the problem</span></a>
-      <a href="#bob"><span class="n">P</span><span>Install &amp; open Bob</span></a>
-      <a href="#prereqs"><span class="n">01</span><span>Prerequisites</span></a>
+      <a href="#bob"><span class="n osi" data-os="mac">01</span><span class="n osi" data-os="win">01</span><span class="n osi" data-os="linux">01</span><span class="n osi" data-os="vm">P</span><span class="osi" data-os="mac">Install &amp; open Bob</span><span class="osi" data-os="win">Install &amp; open Bob</span><span class="osi" data-os="linux">Install &amp; open Bob</span><span class="osi" data-os="vm">Prerequisites (Skip)</span></a>
+      <a href="#prereqs"><span class="n osi" data-os="mac">P</span><span class="n osi" data-os="win">P</span><span class="n osi" data-os="linux">P</span><span class="n osi" data-os="vm">01</span><span class="osi" data-os="mac">Prerequisites</span><span class="osi" data-os="win">Prerequisites</span><span class="osi" data-os="linux">Prerequisites</span><span class="osi" data-os="vm">Step 01 — Connect VM</span></a>
       <a href="#connect"><span class="n">02</span><span>Connect MongoDB</span></a>
       <a href="#data"><span class="n">03</span><span>Explore the database</span></a>
       <a href="#loadpolicies"><span class="n">04</span><span>Load policy PDFs</span></a>
@@ -252,6 +253,7 @@
       <a href="#grade"><span class="n">08</span><span>Grade the results</span></a>
       <a href="#autoclaims"><span class="n">09</span><span>Automate claim decisions</span></a>
       <a href="#riskreport"><span class="n">10</span><span>Portfolio risk report <span style="font-size:11px;color:var(--green-60);font-weight:600;">OPTIONAL</span></span></a>
+      <a href="#recap"><span class="n">★</span><span>Lab recap &amp; takeaways</span></a>
       <a href="#troubleshooting"><span class="n">&#9656;</span><span>Troubleshooting</span></a>
     </nav>
   </aside>
@@ -337,15 +339,25 @@
 
     <!-- BOB INSTALL -->
     <section id="bob">
-      <div class="sec-eyebrow">FIRST <span class="time">· ~10 min · do this before anything else</span></div>
-      <h2>Install, sign in &amp; open IBM Bob</h2>
+      <div class="sec-eyebrow">
+        <span class="os-block" data-os="mac">STEP 01 <span class="time">· ~10 min</span></span>
+        <span class="os-block" data-os="win">STEP 01 <span class="time">· ~10 min</span></span>
+        <span class="os-block" data-os="linux">STEP 01 <span class="time">· ~10 min</span></span>
+        <span class="os-block" data-os="vm">PREREQUISITES <span class="time">· ~10 min · skip to Step 01</span></span>
+      </div>
+      <h2>
+        <span class="os-block" data-os="mac">Install, sign in &amp; open IBM Bob</span>
+        <span class="os-block" data-os="win">Install, sign in &amp; open IBM Bob</span>
+        <span class="os-block" data-os="linux">Install, sign in &amp; open IBM Bob</span>
+        <span class="os-block" data-os="vm">Prerequisites — Install, sign in &amp; open IBM Bob</span>
+      </h2>
       <p class="intro">Bob is IBM's AI coding assistant and the application you'll work in for the entire workshop. Get it installed, signed in, and your project folder open before moving on — the terminal you'll use for all setup commands lives inside Bob.</p>
 
-      <!-- VM users skip this section entirely — Bob is handled in the Prerequisites VM tab -->
+      <!-- VM users skip this section entirely — Bob is handled in Step 01 -->
       <div class="os-block" data-os="vm">
         <div class="callout">
-          <div class="ct">VM users — skip this section</div>
-          <p>Bob is pre-installed on your VM and the install/sign-in steps are covered inside the <b>Prerequisites</b> section. Select <b>VM</b> in the top-right and go straight to Prerequisites.</p>
+          <div class="ct">VM users — skip to Step 01</div>
+          <p>Bob is pre-installed on your VM and the connection/sign-in steps are covered in <b>Step 01 (Connect to your VM and get started)</b> below. Go straight to Step 01.</p>
         </div>
       </div>
 
@@ -392,6 +404,10 @@
           <span class="badge">4</span>
           <div class="stitle">Open Bob's terminal</div>
           <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (that's the backtick key, top-left of your keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>Leave this open</b> — all setup commands in the next section are typed here.</p>
+          <figure class="shot">
+            <img src="img/bob-terminal.png" alt="Bob window with the Terminal tab highlighted in the bottom panel, showing a zsh prompt">
+            <figcaption>The <b>Terminal</b> tab in the bottom panel of Bob. You should see a prompt and a blinking cursor.</figcaption>
+          </figure>
         </li>
         <li class="step done">
           <span class="badge">✓</span>
@@ -443,6 +459,10 @@
           <span class="badge">4</span>
           <div class="stitle">Open Bob's terminal</div>
           <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (that's the backtick key, top-left of your keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>Leave this open</b> — all setup commands in the next section are typed here.</p>
+          <figure class="shot">
+            <img src="img/bob-terminal.png" alt="Bob window with the Terminal tab highlighted in the bottom panel, showing a zsh prompt">
+            <figcaption>The <b>Terminal</b> tab in the bottom panel of Bob. You should see a prompt and a blinking cursor.</figcaption>
+          </figure>
         </li>
         <li class="step done">
           <span class="badge">✓</span>
@@ -494,6 +514,10 @@
           <span class="badge">4</span>
           <div class="stitle">Open Bob's terminal</div>
           <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (that's the backtick key, top-left of your keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>Leave this open</b> — all setup commands in the next section are typed here.</p>
+          <figure class="shot">
+            <img src="img/bob-terminal.png" alt="Bob window with the Terminal tab highlighted in the bottom panel, showing a zsh prompt">
+            <figcaption>The <b>Terminal</b> tab in the bottom panel of Bob. You should see a prompt and a blinking cursor.</figcaption>
+          </figure>
         </li>
         <li class="step done">
           <span class="badge">✓</span>
@@ -504,10 +528,15 @@
       </div>
     </section>
 
-    <!-- PREREQS -->
+    <!-- PREREQS / STEP 01 -->
     <section id="prereqs">
-      <div class="sec-eyebrow">PREREQUISITES <span class="time">· ~15 min</span></div>
-      <h2><span class="os-block" data-os="mac">Prerequisites — install Node and uv</span><span class="os-block" data-os="win">Prerequisites — install Node and uv</span><span class="os-block" data-os="linux">Prerequisites — install Node and uv</span><span class="os-block" data-os="vm">Prerequisites — connect and get started</span></h2>
+      <div class="sec-eyebrow">
+        <span class="os-block" data-os="mac">PREREQUISITES <span class="time">· ~15 min</span></span>
+        <span class="os-block" data-os="win">PREREQUISITES <span class="time">· ~15 min</span></span>
+        <span class="os-block" data-os="linux">PREREQUISITES <span class="time">· ~15 min</span></span>
+        <span class="os-block" data-os="vm">STEP 01 <span class="time">· ~15 min</span></span>
+      </div>
+      <h2><span class="os-block" data-os="mac">Prerequisites — install Node and uv</span><span class="os-block" data-os="win">Prerequisites — install Node and uv</span><span class="os-block" data-os="linux">Prerequisites — install Node and uv</span><span class="os-block" data-os="vm">Step 01 — Connect to your VM and get started</span></h2>
       <p class="intro os-block" data-os="mac">Bob is installed, signed in, and running. Now install two supporting tools: <b>Node</b> and <b>uv</b>. Run all the commands below in <b>Bob's terminal</b> — the panel at the bottom of Bob. Don't worry if you've never heard of these tools — this section walks you through everything step by step.</p>
       <p class="intro os-block" data-os="win">Bob is installed, signed in, and running. Now install two supporting tools: <b>Node</b> and <b>uv</b>. Run all the commands below in <b>Bob's terminal</b> — the panel at the bottom of Bob. Don't worry if you've never heard of these tools — this section walks you through everything step by step.</p>
       <p class="intro os-block" data-os="linux">Bob is installed, signed in, and running. Now install two supporting tools: <b>Node</b> and <b>uv</b>. Run all the commands below in <b>Bob's terminal</b> — the panel at the bottom of Bob. Don't worry if you've never heard of these tools — this section walks you through everything step by step.</p>
@@ -730,7 +759,7 @@ uv add pymongo pypdf</code></pre></div>
         <li class="step done">
           <span class="badge">✓</span>
           <div class="stitle">Checkpoint — your machine is ready</div>
-          <p>Node, uv, and both Python libraries are installed. You're ready for Step 01.</p>
+          <p>Node, uv, and both Python libraries are installed. You're ready for <b>Step 02</b>.</p>
         </li>
       </ol></div>
       <div class="os-block" data-os="win"><ol class="steps">
@@ -818,7 +847,7 @@ uv add pymongo pypdf</code></pre></div>
         <li class="step done">
           <span class="badge">✓</span>
           <div class="stitle">Checkpoint — your machine is ready</div>
-          <p>Node, uv, and both Python libraries are installed. You're ready for Step 01.</p>
+          <p>Node, uv, and both Python libraries are installed. You're ready for <b>Step 02</b>.</p>
         </li>
       </ol></div>
       <div class="os-block" data-os="linux"><ol class="steps">
@@ -909,7 +938,7 @@ uv add pymongo pypdf</code></pre></div>
         <li class="step done">
           <span class="badge">✓</span>
           <div class="stitle">Checkpoint — your machine is ready</div>
-          <p>Node, uv, and both Python libraries are installed. You're ready for Step 01.</p>
+          <p>Node, uv, and both Python libraries are installed. You're ready for <b>Step 02</b>.</p>
         </li>
       </ol></div>
 
@@ -1072,11 +1101,15 @@ uv add pymongo pypdf</code></pre></div>
             <span class="badge">4</span>
             <div class="stitle">Open Bob's terminal</div>
             <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick, top-left of the keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>All commands below are typed here</b> — you don't need to open a separate terminal application.</p>
+            <figure class="shot">
+              <img src="img/bob-terminal.png" alt="Bob window with the Terminal tab highlighted in the bottom panel, showing a zsh prompt">
+              <figcaption>The <b>Terminal</b> tab in the bottom panel of Bob. You should see a prompt and a blinking cursor.</figcaption>
+            </figure>
           </li>
 
           <li class="step done">
             <span class="badge">✓</span>
-            <div class="stitle">Checkpoint — VM is fully set up</div>
+            <div class="stitle">Checkpoint — Step 01 complete</div>
             <p>Bob is open and signed in. Continue to <b>Step 02</b> to connect MongoDB.</p>
             <div class="callout tip" style="margin-top:12px;">
               <div class="ct">Optional steps — workshop files</div>
@@ -1152,8 +1185,8 @@ uv add pymongo pypdf</code></pre></div>
           <p><code class="ic">mcp.json</code> tells Bob how to launch the MongoDB MCP server. Your three credentials go directly into the <code class="ic">env</code> block as plain string values — replace the three placeholders below with the three values from <b>MCP Credentials.boxNote</b>.</p>
           <div class="os-block" data-os="vm">
             <div class="callout tip">
-              <div class="ct">VM — use the Clipboard Manager for the credentials</div>
-              <p>Normal <kbd>Ctrl+V</kbd> won't work on the VM. When you copy the connection string, client ID, and client secret, use the <b>Clipboard Manager</b>: paste the value into the box, click <b>Sync to VM</b>, then right-click → <b>Paste</b> in <code class="ic">mcp.json</code>. Do this one value at a time.</p>
+              <div class="ct">VM — use the Clipboard Manager for copying and pasting</div>
+              <p>Normal <kbd>Ctrl+V</kbd> won't work directly on the VM. When copying and pasting the MCP configuration block and your connection credentials (connection string, client ID, and client secret) into <code class="ic">mcp.json</code>, use the <b>Clipboard Manager</b> from the VM toolbar: paste the text into the box, click <b>Sync to VM</b>, then right-click &rarr; <b>Paste</b> inside <code class="ic">mcp.json</code>.</p>
             </div>
           </div>
           <p>Replace the entire contents of <code class="ic">mcp.json</code> with the block below, then swap in your values:</p>
@@ -1181,6 +1214,14 @@ uv add pymongo pypdf</code></pre></div>
           <div class="note must">
             <div class="nt">Replace the three placeholders — keep the quotes</div>
             <p>Open the <b>MCP Credentials.boxNote</b> file provided before the lab and copy the three values from it. Replace <code class="ic">your-connection-string-here</code>, <code class="ic">your-client-id-here</code>, and <code class="ic">your-client-secret-here</code> with those values. <b>Keep the surrounding double-quotes</b> — that's required JSON syntax. The connection string starts with <code class="ic">mongodb+srv://</code> — paste the whole thing between the quotes. Do not change any other line.</p>
+          </div>
+          <div class="os-block" data-os="vm">
+            <details class="fix">
+              <summary><span class="caret">▶</span><span class="wtag">⚠ Only if</span> the paste messes up or formatting is invalid</summary>
+              <div class="fixbody">
+                <p>If the paste gets distorted or the code inside <code class="ic">mcp.json</code> isn't formatted correctly, don't worry—just ask Bob in the chat: <i>"Fix the formatting and syntax of my mcp.json file"</i> and Bob will correct the JSON structure for you automatically.</p>
+              </div>
+            </details>
           </div>
           <p>Save the file — <kbd>⌘S</kbd> on macOS, <kbd>Ctrl+S</kbd> on Windows/Linux.</p>
         </li>
@@ -1333,7 +1374,7 @@ Found the next day stripped of wheels and valuables."</code></pre></div>
         <li class="step">
           <span class="badge">1</span>
           <div class="stitle">Switch to Ask mode and reflect</div>
-          <p>At the top of the Bob chat panel, switch the mode to <b>Ask</b>. Then send this prompt:</p>
+          <p>At the bottom of the Bob chat panel, switch the mode to <b>Ask</b>. Then send this prompt:</p>
           <div class="cmd"><pre><code>What was your process of your keyword search with the MongoDB database? Show me the query and MongoDB operations if any were used.</code></pre></div>
           <p>Bob will walk through the Atlas search query it used, the <code class="ic">$search</code> aggregation stage, the filters applied (tier, line), and how it scored results. No new database calls are made — this is reflection only.</p>
           <div class="note">
@@ -1460,7 +1501,11 @@ Run a real search for every claim Show a table: claim, what happened, keyword se
           <p>Bob will create a <code class="ic">SKILL.md</code> file at <code class="ic">.bob/skills/process-auto-claims/SKILL.md</code> in your project. Approve the file write when Bob asks.</p>
           <div class="note">
             <div class="nt">Start a new chat after the skill is created</div>
-            <p>Bob loads skills at the start of a conversation. Once the file is written, open a new chat before invoking the skill — otherwise Bob won't see it yet. To open a new chat: click the <b>pencil / compose icon</b> at the top of the Bob chat panel (next to the mode selector). A fresh conversation opens in the same window.</p>
+            <p>Bob loads skills at the start of a conversation. Once the file is written, open a new chat before invoking the skill — otherwise Bob won't see it yet. To open a new chat: click the <b>plus (+) button</b> at the bottom of the Bob chat panel next to the mode selector (or press <kbd>⌘N</kbd> on macOS / <kbd>Ctrl+N</kbd> on Windows/Linux). A fresh conversation opens in the same window.</p>
+            <figure class="shot narrow" style="margin-top:10px;">
+              <img src="img/bob-chat-panel.png" alt="Bob chat panel showing the plus (+) button and mode selector at the bottom">
+              <figcaption>The <b>+</b> button at the bottom of the chat panel (next to the mode selector) starts a new task/chat.</figcaption>
+            </figure>
           </div>
         </li>
 
@@ -1470,7 +1515,7 @@ Run a real search for every claim Show a table: claim, what happened, keyword se
           <p>In a new chat, invoke the skill:</p>
           <div class="cmd"><pre><code>/process-auto-claims</code></pre></div>
           <p>Bob will fetch the auto claims currently under review, run a vector search for each against <code class="ic">coverage_sections</code>, and show you a table like this:</p>
-          <div class="cmd"><pre><code>#   Claim     Tier        Amount    What Happened                      Matched Policy Section                                  Score   Verdict
+          <div class="cmd noncopy"><pre><code>#   Claim     Tier        Amount    What Happened                      Matched Policy Section                                  Score   Verdict
 ─   ──────    ────────    ──────    ────────────────────────────────   ──────────────────────────────────────────────────────  ─────   ─────────────────────
 1   CLM-034   Basic       $10,800   Car slid on highway, hit barrier.  Direct Physical Loss By Impact Or Upset                 0.667   ❌ DENIED
                                     Suspension and bumper damaged.     STATUS: NOT IN FORCE (Basic does not include collision)
@@ -1690,6 +1735,48 @@ live pipeline results embedded as JSON in the file. The skill is read-only.</cod
           <p>The dashboard renders from JSON variables embedded in the file. If Bob didn't finish writing before you opened it, close the browser tab, wait for Bob to confirm the file is written, then reopen. If it's still blank, ask Bob: <i>"Did you embed the pipeline results as JSON in risk-dashboard.html? Show me the SNAPSHOT variable."</i></p>
         </div>
       </details>
+    </section>
+
+    <!-- LAB RECAP & TAKEAWAYS -->
+    <section id="recap">
+      <div class="sec-eyebrow">RECAP <span class="time">· 5 min read</span></div>
+      <h2>Lab recap &amp; what you achieved</h2>
+      <p class="intro">In about 90 minutes, you went from raw, unstructured policy documents to an automated, AI-assisted insurance adjudication pipeline running on MongoDB Atlas and IBM Bob.</p>
+
+      <h3>What you achieved today</h3>
+      <div class="cards">
+        <div class="card">
+          <div class="cn">01 · unified data</div>
+          <h4>Connected docs to data</h4>
+          <p>Extracted policy sections across multiple tiers (Basic, Plus, Plus Extra), embedded them with <code class="ic">voyage-4</code>, and stored them directly in MongoDB Atlas—unifying structured operational claims with unstructured policy knowledge.</p>
+        </div>
+        <div class="card">
+          <div class="cn">02 · semantic search</div>
+          <h4>Keyword vs. vector search</h4>
+          <p>Tested Atlas search methods against real-world claims. You saw firsthand where lexical search fails on plain-English paraphrasing, how vector search captures true meaning, and graded both against an objective answer key.</p>
+        </div>
+        <div class="card">
+          <div class="cn">03 · autonomous skills</div>
+          <h4>Automated operations safely</h4>
+          <p>Built a custom Bob Agent skill (<code class="ic">/process-auto-claims</code>) to evaluate queue backlogs, score similarity, apply business thresholds, and safely write decisions back with human-in-the-loop confirmation.</p>
+        </div>
+      </div>
+
+      <h3>Why this lab was useful — key takeaways</h3>
+      <ul>
+        <li><b>One unified database for operational data, search, and AI:</b> You didn't need to spin up or synchronize a separate vector database. MongoDB Atlas handles structured transactions, lexical search indexes, and vector embeddings in a single resilient store.</li>
+        <li><b>10x developer velocity with IBM Bob:</b> You explored collections, ran aggregations, built vector search queries, benchmarked accuracy, and authored automation skills using natural language and MCP—without writing tedious boilerplate by hand.</li>
+        <li><b>Trustable, verifiable AI architecture:</b> Instead of blindly trusting AI outputs, you graded retrieval accuracy against ground truth, calibrated similarity thresholds (0.60–0.75 for plain English vs. legal text), and established guardrails before triggering database writes.</li>
+        <li><b>Reusable enterprise pattern:</b> The architecture you built—<i>Ingest &rarr; Embed &rarr; Hybrid Search &rarr; Custom Agent Skill &rarr; Decision &amp; Analytics</i>—applies universally across customer support routing, IT incident triage, contract compliance, HR benefits, and regulatory reviews.</li>
+      </ul>
+
+      <div class="callout tip withbob">
+        <img src="img/bob-head.png" alt="Bob">
+        <div>
+          <div class="ct">Take this pattern to your next project</div>
+          <p>You now have a complete, production-ready blueprint for building AI-powered apps on MongoDB with IBM Bob. Explore your own datasets, build custom skills for your team's repetitive workflows, and leverage Atlas Vector Search to bring intelligent semantic matching to your applications.</p>
+        </div>
+      </div>
     </section>
 
     <!-- TROUBLESHOOTING -->
