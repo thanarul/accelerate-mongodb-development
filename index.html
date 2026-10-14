@@ -114,6 +114,9 @@
   .filelabel{font-family:var(--font-mono);font-size:12px;color:var(--gray-70);background:var(--gray-10);border:1px solid var(--gray-20);border-bottom:none;padding:6px 12px;display:inline-block;margin-top:8px;}
   .filelabel + .cmd{margin-top:0;}
   .runline{font-size:13px;color:var(--gray-50);margin:2px 0 4px;}
+  .outlabel{display:inline-block;margin-top:8px;padding:6px 12px;background:var(--red-60);color:#fff;font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;}
+  .outlabel + .cmd{margin-top:0;}
+  .cmd.sampleout{border-left:3px dashed var(--red-60);opacity:.92;}
 
   /* ---------- Inline critical note ---------- */
   .note{border-left:3px solid var(--yellow-20);background:var(--yellow-bg);padding:11px 15px;margin:10px 0;font-size:14.5px;}
@@ -265,7 +268,7 @@
     <div class="hero" id="start">
       <div class="hero-top">
         <div class="hero-copy">
-          <div class="eyebrow">HANDS-ON LAB · ~90 MIN</div>
+          <div class="eyebrow">HANDS-ON LAB · ~2 HRS</div>
           <h1>Accelerate MongoDB Development with Bob</h1>
           <p class="lede">Claims are arriving faster than adjusters can work them. Every single one has to be matched against the right section of a policy document — three tiers, three PDFs, dense legal language. Right now a human reads the policy for every claim. Today you build the thing that does the matching, using <b>MongoDB</b> and <b>IBM Bob</b> — and you prove it can be trusted before you let it decide anything.</p>
           <div class="author">
@@ -365,7 +368,7 @@
       <!-- Shown for mac / win / linux only -->
       <div class="os-block" data-os="mac">
       <details class="fix tip-d">
-        <summary><span class="caret">▶</span><span class="wtag">💡 Already have Bob installed and signed in?</span> skip to step 3</summary>
+        <summary><span class="caret">▶</span><span class="wtag">💡 Already have Bob installed and signed in?</span> skip to step 4</summary>
         <div class="fixbody">
           <p>Launch Bob, open the <code class="ic">mongo-lab</code> folder (or create it now), trust it, then open the terminal panel (<kbd>Ctrl</kbd> + <kbd>`</kbd>) and continue to Prerequisites.</p>
         </div>
@@ -375,6 +378,10 @@
           <span class="badge">1</span>
           <div class="stitle">Download and install Bob</div>
           <p>Go to <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a> and download the build for your computer. Look for the <b>macOS</b> download — open the <code class="ic">.dmg</code>, drag <b>Bob</b> into Applications, then launch it. If macOS warns you <i>"can't be opened because it is from an unidentified developer"</i>, right-click the app and choose <b>Open</b>, then click <b>Open</b> again in the dialog.</p>
+          <figure class="shot">
+            <img src="img/IBM-Bob-Download.png" alt="IBM Bob download page showing download options for macOS, Windows, and Linux">
+            <figcaption>The Bob download page. Click <b>Download for macOS</b>, or use the <b>macOS</b> card and pick <b>Mac ARM</b> (Apple silicon) or <b>Mac Intel</b>.</figcaption>
+          </figure>
         </li>
         <li class="step">
           <span class="badge">2</span>
@@ -393,8 +400,17 @@
         </li>
         <li class="step">
           <span class="badge">3</span>
+          <div class="stitle">Skip the import prompt</div>
+          <p>The first time Bob opens, it shows a <b>Welcome to Bob</b> screen asking whether to import settings and extensions from another editor. Click <b>Skip for now</b> — you don't need to import anything.</p>
+          <figure class="shot">
+            <img src="img/BobPopup.png" alt="Welcome to Bob screen with import options and the Skip for now link circled in red">
+            <figcaption>Click <b>Skip for now</b> (circled). This screenshot was taken on Windows, so the window frame on your Mac may look slightly different — the screen and the <b>Skip for now</b> link are the same.</figcaption>
+          </figure>
+        </li>
+        <li class="step">
+          <span class="badge">4</span>
           <div class="stitle">Open your project folder</div>
-          <p>Choose <b>File → Open Folder…</b> from the menu bar. Create a new folder called <code class="ic">mongo-lab</code> somewhere easy to find (your home folder or Desktop is fine), select it, and click <b>Open</b>.</p>
+          <p>Choose <b>File → Open Folder…</b> from the menu bar. Create a new folder called <code class="ic">mongo-lab</code> directly inside your home folder (not on the Desktop or in Documents), select it, and click <b>Open</b>.</p>
           <p>Bob may show a <b>Restricted Mode</b> badge in the bottom-left status bar — click it, then click <b>Trust</b>.</p>
           <figure class="shot">
             <img src="img/WorkspaceTrust.png" alt="Workspace Trust dialog showing Restricted Mode warning with the Trust button circled">
@@ -406,7 +422,7 @@
           </div>
         </li>
         <li class="step">
-          <span class="badge">4</span>
+          <span class="badge">5</span>
           <div class="stitle">Open Bob's terminal</div>
           <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (that's the backtick key, top-left of your keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>Leave this open</b> — all setup commands in the next section are typed here.</p>
           <figure class="shot">
@@ -424,7 +440,7 @@
 
       <div class="os-block" data-os="win">
       <details class="fix tip-d">
-        <summary><span class="caret">▶</span><span class="wtag">💡 Already have Bob installed and signed in?</span> skip to step 3</summary>
+        <summary><span class="caret">▶</span><span class="wtag">💡 Already have Bob installed and signed in?</span> skip to step 4</summary>
         <div class="fixbody">
           <p>Launch Bob, open the <code class="ic">mongo-lab</code> folder (or create it now), trust it, then open the terminal panel (<kbd>Ctrl</kbd> + <kbd>`</kbd>) and continue to Prerequisites.</p>
         </div>
@@ -434,6 +450,10 @@
           <span class="badge">1</span>
           <div class="stitle">Download and install Bob</div>
           <p>Go to <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a> and download the build for your computer. Look for the <b>Windows</b> download — run the <code class="ic">.exe</code> installer, click through the prompts (all defaults are fine), then open Bob from the Start menu.</p>
+          <figure class="shot">
+            <img src="img/IBM-Bob-Download.png" alt="IBM Bob download page showing download options for macOS, Windows, and Linux">
+            <figcaption>The Bob download page. <b>Note:</b> this screenshot was taken on a Mac, so the big button says <b>Download for macOS</b>. On your Windows PC it will look different — the big button will say <b>Download for Windows</b>, or you can use the <b>Windows</b> card (<b>Windows x64 (User)</b>).</figcaption>
+          </figure>
         </li>
         <li class="step">
           <span class="badge">2</span>
@@ -452,8 +472,17 @@
         </li>
         <li class="step">
           <span class="badge">3</span>
+          <div class="stitle">Skip the import prompt</div>
+          <p>The first time Bob opens, it shows a <b>Welcome to Bob</b> screen asking whether to import settings and extensions from another editor. Click <b>Skip for now</b> — you don't need to import anything.</p>
+          <figure class="shot">
+            <img src="img/BobPopup.png" alt="Welcome to Bob screen with import options and the Skip for now link circled in red">
+            <figcaption>Click <b>Skip for now</b> (circled).</figcaption>
+          </figure>
+        </li>
+        <li class="step">
+          <span class="badge">4</span>
           <div class="stitle">Open your project folder</div>
-          <p>Choose <b>File → Open Folder…</b> from the menu bar. Create a new folder called <code class="ic">mongo-lab</code> somewhere easy to find (your home folder or Desktop is fine), select it, and click <b>Open</b>.</p>
+          <p>Choose <b>File → Open Folder…</b> from the menu bar. Create a new folder called <code class="ic">mongo-lab</code> directly inside your home folder (not on the Desktop or in Documents), select it, and click <b>Open</b>.</p>
           <p>Bob may show a <b>Restricted Mode</b> badge in the bottom-left status bar — click it, then click <b>Trust</b>.</p>
           <figure class="shot">
             <img src="img/WorkspaceTrust.png" alt="Workspace Trust dialog showing Restricted Mode warning with the Trust button circled">
@@ -465,7 +494,7 @@
           </div>
         </li>
         <li class="step">
-          <span class="badge">4</span>
+          <span class="badge">5</span>
           <div class="stitle">Open Bob's terminal</div>
           <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (that's the backtick key, top-left of your keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>Leave this open</b> — all setup commands in the next section are typed here.</p>
           <figure class="shot">
@@ -483,7 +512,7 @@
 
       <div class="os-block" data-os="linux">
       <details class="fix tip-d">
-        <summary><span class="caret">▶</span><span class="wtag">💡 Already have Bob installed and signed in?</span> skip to step 3</summary>
+        <summary><span class="caret">▶</span><span class="wtag">💡 Already have Bob installed and signed in?</span> skip to step 4</summary>
         <div class="fixbody">
           <p>Launch Bob, open the <code class="ic">mongo-lab</code> folder (or create it now), trust it, then open the terminal panel (<kbd>Ctrl</kbd> + <kbd>`</kbd>) and continue to Prerequisites.</p>
         </div>
@@ -492,7 +521,11 @@
         <li class="step">
           <span class="badge">1</span>
           <div class="stitle">Download and install Bob</div>
-          <p>Go to <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a> and download the build for your computer. Look for the <b>Linux</b> download — for <code class="ic">.deb</code>: run <code class="ic">sudo dpkg -i &lt;file&gt;.deb</code>. For AppImage: right-click → Properties → allow executing as program, then double-click.</p>
+          <p>Go to <a class="inline" href="https://bob.ibm.com/download" target="_blank" rel="noopener">bob.ibm.com/download</a> and download the build for your computer. Look for the <b>Linux</b> download.</p>
+          <figure class="shot">
+            <img src="img/IBM-Bob-Download.png" alt="IBM Bob download page showing download options for macOS, Windows, and Linux">
+            <figcaption>The Bob download page. <b>Note:</b> this screenshot was taken on a Mac, so the big button says <b>Download for macOS</b>. On your Linux computer it will look different — use the <b>Linux</b> card and pick the build that matches your system.</figcaption>
+          </figure>
         </li>
         <li class="step">
           <span class="badge">2</span>
@@ -511,8 +544,17 @@
         </li>
         <li class="step">
           <span class="badge">3</span>
+          <div class="stitle">Skip the import prompt</div>
+          <p>The first time Bob opens, it shows a <b>Welcome to Bob</b> screen asking whether to import settings and extensions from another editor. Click <b>Skip for now</b> — you don't need to import anything.</p>
+          <figure class="shot">
+            <img src="img/BobPopup.png" alt="Welcome to Bob screen with import options and the Skip for now link circled in red">
+            <figcaption>Click <b>Skip for now</b> (circled). This screenshot was taken on Windows, so the window frame on your Linux computer may look slightly different — the screen and the <b>Skip for now</b> link are the same.</figcaption>
+          </figure>
+        </li>
+        <li class="step">
+          <span class="badge">4</span>
           <div class="stitle">Open your project folder</div>
-          <p>Choose <b>File → Open Folder…</b> from the menu bar. Create a new folder called <code class="ic">mongo-lab</code> somewhere easy to find (your home folder or Desktop is fine), select it, and click <b>Open</b>.</p>
+          <p>Choose <b>File → Open Folder…</b> from the menu bar. Create a new folder called <code class="ic">mongo-lab</code> directly inside your home folder (not on the Desktop or in Documents), select it, and click <b>Open</b>.</p>
           <p>Bob may show a <b>Restricted Mode</b> badge in the bottom-left status bar — click it, then click <b>Trust</b>.</p>
           <figure class="shot">
             <img src="img/WorkspaceTrust.png" alt="Workspace Trust dialog showing Restricted Mode warning with the Trust button circled">
@@ -524,7 +566,7 @@
           </div>
         </li>
         <li class="step">
-          <span class="badge">4</span>
+          <span class="badge">5</span>
           <div class="stitle">Open Bob's terminal</div>
           <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (that's the backtick key, top-left of your keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>Leave this open</b> — all setup commands in the next section are typed here.</p>
           <figure class="shot">
@@ -599,7 +641,7 @@
         <li class="step">
           <span class="badge">2</span>
           <div class="stitle">Check if Node and uv are already installed</div>
-          <p>You may already have these tools. Run this in Bob's terminal — if all three lines print a version number and Node shows <b>v22 LTS</b>, you're done with this section. <b>Skip straight to Step 6</b> (Confirm Python and libraries).</p>
+          <p>You may already have these tools. Run this in Bob's terminal — if all three lines print a version number and Node shows <b>v22 LTS</b>, <b>skip straight to Step 5</b> (Add your workshop files and set up Python).</p>
           <div class="cmd"><pre><code>node --version
 npx --version
 uv --version</code></pre></div>
@@ -785,7 +827,7 @@ uv add pymongo pypdf</code></pre></div>
         <li class="step">
           <span class="badge">2</span>
           <div class="stitle">Check if Node and uv are already installed</div>
-          <p>You may already have these tools. Run this in Bob's terminal — if all three lines print a version number and Node shows <b>v22 LTS</b>, <b>skip straight to Step 6</b> (Confirm Python and libraries).</p>
+          <p>You may already have these tools. Run this in Bob's terminal — if all three lines print a version number and Node shows <b>v22 LTS</b>, <b>skip straight to Step 5</b> (Add your workshop files and set up Python).</p>
           <div class="cmd"><pre><code>node --version
 npx --version
 uv --version</code></pre></div>
@@ -880,7 +922,7 @@ uv add pymongo pypdf</code></pre></div>
         <li class="step">
           <span class="badge">2</span>
           <div class="stitle">Check if Node and uv are already installed</div>
-          <p>You may already have these tools. Run this in Bob's terminal — if all three lines print a version number and Node shows <b>v22 LTS</b>, <b>skip straight to Step 6</b> (Confirm Python and libraries).</p>
+          <p>You may already have these tools. Run this in Bob's terminal — if all three lines print a version number and Node shows <b>v22 LTS</b>, <b>skip straight to Step 5</b> (Add your workshop files and set up Python).</p>
           <div class="cmd"><pre><code>node --version
 npx --version
 uv --version</code></pre></div>
@@ -1123,23 +1165,13 @@ uv add pymongo pypdf</code></pre></div>
             </ol>
           </li>
 
-          <li class="step">
-            <span class="badge">4</span>
-            <div class="stitle">Open Bob's terminal</div>
-            <p>Press <kbd>Ctrl</kbd> + <kbd>`</kbd> (backtick, top-left of the keyboard next to <kbd>1</kbd>), or go to <b>Terminal → New Terminal</b> in the menu bar. A panel opens at the bottom of Bob with a blinking cursor. <b>All commands below are typed here</b> — you don't need to open a separate terminal application.</p>
-            <figure class="shot">
-              <img src="img/bob-terminal.png" alt="Bob window with the Terminal tab highlighted in the bottom panel, showing a zsh prompt">
-              <figcaption>The <b>Terminal</b> tab in the bottom panel of Bob. You should see a prompt and a blinking cursor.</figcaption>
-            </figure>
-          </li>
-
           <li class="step done">
             <span class="badge">✓</span>
             <div class="stitle">Checkpoint — Step 01 complete</div>
             <p>Bob is open and signed in. Continue to <b>Step 02</b> to connect MongoDB.</p>
             <div class="callout tip" style="margin-top:12px;">
-              <div class="ct">Optional steps — workshop files</div>
-              <p>If you plan to do the optional sections (Steps 09 and 10), you'll need the workshop files. Open the shared folder at <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a> in the VM browser and download the files when you reach those steps. Your instructor will provide the password.</p>
+              <div class="ct">Later steps — workshop files</div>
+              <p>For Step 09 (and the optional Step 10), you'll need the workshop files. Open the shared folder at <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a> in the VM browser and download the files when you reach those steps. Your instructor will provide the password.</p>
               <figure class="shot" style="margin-top:10px;">
                 <img src="img/box.png" alt="IBM X Mongo Box folder showing policy PDFs, load_policies.py, answer_key.csv">
                 <figcaption>The <b>IBM X Mongo</b> Box folder — download each file individually.</figcaption>
@@ -1199,7 +1231,7 @@ uv add pymongo pypdf</code></pre></div>
         <li class="step">
           <span class="badge">3</span>
           <div class="stitle">Get your credentials from the Box folder</div>
-          <p>Your connection string, client ID, and client secret are in the shared Box folder at <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a> (see the <a class="inline" href="#boxfolder">Box folder picture at the top of this page</a>). Open the document called <b>MCP Credentials.boxNote</b> and keep it open — you'll copy the three values from it in the next step.</p>
+          <p>Your connection string, client ID, and client secret are in the shared Box folder at <a class="inline" href="https://ibm.box.com/s/fucndm8mnk1ucyvphb2hf9xftfyl9z5g" target="_blank" rel="noopener">ibm.box.com/v/toronto-devday</a> (see the <a class="inline" href="#boxfolder">Box folder picture at the top of this page</a>). Open the document called <b>MCPCredentials.txt</b> and keep it open — you'll copy the three values from it in the next step.</p>
           <div class="note">
             <div class="nt">Password protected</div>
             <p>The Box folder is password protected — your instructor will give you the password on the day.</p>
@@ -1208,7 +1240,7 @@ uv add pymongo pypdf</code></pre></div>
         <li class="step">
           <span class="badge">4</span>
           <div class="stitle">Paste the JSON config into mcp.json — and fill in your credentials</div>
-          <p><code class="ic">mcp.json</code> tells Bob how to launch the MongoDB MCP server. Your three credentials go directly into the <code class="ic">env</code> block as plain string values — replace the three placeholders below with the three values from <b>MCP Credentials.boxNote</b>.</p>
+          <p><code class="ic">mcp.json</code> tells Bob how to launch the MongoDB MCP server. Your three credentials go directly into the <code class="ic">env</code> block as plain string values — replace the three placeholders below with the three values from <b>MCPCredentials.txt</b>.</p>
           <div class="os-block" data-os="vm">
             <div class="callout tip">
               <div class="ct">VM — use the Clipboard Manager for copying and pasting</div>
@@ -1239,7 +1271,7 @@ uv add pymongo pypdf</code></pre></div>
 }</code></pre></div>
           <div class="note must">
             <div class="nt">Replace the three placeholders — keep the quotes</div>
-            <p>Open the <b>MCP Credentials.boxNote</b> file provided before the lab and copy the three values from it. Replace <code class="ic">your-connection-string-here</code>, <code class="ic">your-client-id-here</code>, and <code class="ic">your-client-secret-here</code> with those values. <b>Keep the surrounding double-quotes</b> — that's required JSON syntax. The connection string starts with <code class="ic">mongodb+srv://</code> — paste the whole thing between the quotes. Do not change any other line.</p>
+            <p>Open the <b>MCPCredentials.txt</b> file provided before the lab and copy the three values from it. Replace <code class="ic">your-connection-string-here</code>, <code class="ic">your-client-id-here</code>, and <code class="ic">your-client-secret-here</code> with those values. <b>Keep the surrounding double-quotes</b> — that's required JSON syntax. The connection string starts with <code class="ic">mongodb+srv://</code> — paste the whole thing between the quotes. Do not change any other line.</p>
           </div>
           <div class="os-block" data-os="vm">
             <details class="fix">
@@ -1374,8 +1406,13 @@ Run a real search for every claim, one at a time. Show a table: claim, what happ
           <span class="badge">2</span>
           <div class="stitle">Where keyword search fails — the CLM-029 gap</div>
           <p>Look at <b>CLM-029</b> in your results table. The claim description reads:</p>
-          <div class="cmd noncopy"><pre><code>"Vehicle stolen overnight from residential driveway.
+          <div class="outlabel">Example claim text from the database — do NOT copy or paste this</div>
+          <div class="cmd noncopy sampleout"><pre><code>"Vehicle stolen overnight from residential driveway.
 Found the next day stripped of wheels and valuables."</code></pre></div>
+          <div class="note must">
+            <div class="nt">This is for reading only — not something you type</div>
+            <p>This is the text already stored in the CLM-029 claim, shown so you can see why keyword search struggles with it. There is nothing to copy or send to Bob here. Just look for this claim in the results table from Step 1.</p>
+          </div>
           <p>The correct policy section to match here is <b>Unlawful Taking, Conversion And Felonious Abstraction</b>. But keyword search looks for exact word overlap — and the claim never uses the word "unlawful", "taking", or "felonious." It just says <i>"stolen."</i></p>
           <div class="callout">
             <div class="ct">Why keyword search misses this</div>
@@ -1439,7 +1476,7 @@ Run a real search for every claim Show a table: claim, what happened, keyword se
         <li class="step">
           <span class="badge">2</span>
           <div class="stitle">Reflect on the vector search query</div>
-          <p>Stay in <b>Ask</b> mode (or switch to it now) and send this prompt:</p>
+          <p>Switch Bob back to <b>Ask</b> mode and send this prompt:</p>
           <div class="cmd"><pre><code>What was your process of your vector search with the MongoDB database? Show me the query and MongoDB operations if any were used.</code></pre></div>
           <p>Bob will show you the <code class="ic">$vectorSearch</code> aggregation stage it used — compare it mentally to the <code class="ic">$search</code> text query from Step 06. Notice how the vector search query embeds the claim description on the fly rather than matching terms.</p>
         </li>
@@ -1488,9 +1525,9 @@ Run a real search for every claim Show a table: claim, what happened, keyword se
       </ol>
     </section>
 
-    <!-- 09 AUTOMATE (OPTIONAL) -->
+    <!-- 09 AUTOMATE -->
     <section id="autoclaims">
-      <div class="sec-eyebrow">STEP 09 <span class="time">· ~15 min · optional</span></div>
+      <div class="sec-eyebrow">STEP 09 <span class="time">· ~15 min</span></div>
       <h2>Automate claim decisions</h2>
       <p class="intro">You've checked coverage for individual claims — now automate the whole queue. You'll install a Bob skill called <code class="ic">process-auto-claims</code> that fetches every auto claim under review, checks each one against the policy sections using vector search, shows you a verdict table, and — only after you confirm — writes the decisions back to the database.</p>
 
@@ -1541,7 +1578,8 @@ Run a real search for every claim Show a table: claim, what happened, keyword se
           <p>In a new chat, invoke the skill:</p>
           <div class="cmd"><pre><code>/process-auto-claims</code></pre></div>
           <p>Bob will fetch the auto claims currently under review, run a vector search for each against <code class="ic">coverage_sections</code>, and show you a table like this:</p>
-          <div class="cmd noncopy"><pre><code>#   Claim     Tier        Amount    What Happened                      Matched Policy Section                                  Score   Verdict
+          <div class="outlabel">Example of what Bob shows you — do NOT copy or paste this</div>
+          <div class="cmd noncopy sampleout"><pre><code>#   Claim     Tier        Amount    What Happened                      Matched Policy Section                                  Score   Verdict
 ─   ──────    ────────    ──────    ────────────────────────────────   ──────────────────────────────────────────────────────  ─────   ─────────────────────
 1   CLM-034   Basic       $10,800   Car slid on highway, hit barrier.  Direct Physical Loss By Impact Or Upset                 0.667   ❌ DENIED
                                     Suspension and bumper damaged.     STATUS: NOT IN FORCE (Basic does not include collision)
@@ -1559,6 +1597,10 @@ Run a real search for every claim Show a table: claim, what happened, keyword se
 4 auto claims under review  |  3 to approve ($26,000)  |  1 to deny ($10,800)
 
 Type CONFIRM to apply these decisions, or CANCEL to discard.</code></pre></div>
+          <div class="note must">
+            <div class="nt">This is Bob's output — not something you type</div>
+            <p>The table above is what Bob <b>prints on your screen</b>. There is nothing to copy here. The last line is Bob asking you a question; don't type anything until you've reviewed the table in the next step.</p>
+          </div>
 
           <div class="callout tip">
             <div class="ct">Why are the scores between 0.60 and 0.75?</div>
@@ -1679,8 +1721,8 @@ grouped bar chart of segment exposure (inline SVG). All figures come from the
 live pipeline results embedded as JSON in the file. The skill is read-only.</code></pre></div>
           <p>Bob will create <code class="ic">.bob/skills/claims-risk-report/SKILL.md</code>. Approve the file write, then open a <b>new chat</b> before invoking it.</p>
           <div class="note">
-            <div class="nt">Skill already created?</div>
-            <p>If you're following this guide end-to-end, the skill file already exists from a previous step. Skip straight to step 2 — open a new chat and invoke it.</p>
+            <div class="nt">Already created this skill?</div>
+            <p>If <code class="ic">.bob/skills/claims-risk-report/SKILL.md</code> already exists in your project, skip straight to step 2 — open a new chat and invoke it.</p>
           </div>
         </li>
 
@@ -1690,7 +1732,22 @@ live pipeline results embedded as JSON in the file. The skill is read-only.</cod
           <p>In a new chat, invoke it:</p>
           <div class="cmd"><pre><code>/claims-risk-report</code></pre></div>
           <p>Bob runs all five pipelines against the live database, generates the AI narrative, then writes <code class="ic">risk-dashboard.html</code>. This takes about 30–60 seconds. Open the dashboard:</p>
-          <div class="cmd"><pre><code>open risk-dashboard.html</code></pre></div>
+          <div class="os-block" data-os="mac">
+            <div class="os-flag">macOS</div>
+            <div class="cmd"><pre><code>open risk-dashboard.html</code></pre></div>
+          </div>
+          <div class="os-block" data-os="win">
+            <div class="os-flag">Windows</div>
+            <div class="cmd"><pre><code>start risk-dashboard.html</code></pre></div>
+          </div>
+          <div class="os-block" data-os="linux">
+            <div class="os-flag">Linux</div>
+            <div class="cmd"><pre><code>xdg-open risk-dashboard.html</code></pre></div>
+          </div>
+          <div class="os-block" data-os="vm">
+            <div class="os-flag">VM</div>
+            <div class="cmd"><pre><code>xdg-open risk-dashboard.html</code></pre></div>
+          </div>
           <p>The dashboard contains six sections:</p>
           <table class="vs" style="margin-top:10px;">
             <thead><tr><th>Section</th><th>What it shows</th><th>MongoDB pattern used</th></tr></thead>
@@ -1767,7 +1824,7 @@ live pipeline results embedded as JSON in the file. The skill is read-only.</cod
     <section id="recap">
       <div class="sec-eyebrow">RECAP <span class="time">· 5 min read</span></div>
       <h2>Lab recap &amp; what you achieved</h2>
-      <p class="intro">In about 90 minutes, you went from raw, unstructured policy documents to an automated, AI-assisted insurance adjudication pipeline running on MongoDB Atlas and IBM Bob.</p>
+      <p class="intro">In about 2 hours, you went from raw, unstructured policy documents to an automated, AI-assisted insurance adjudication pipeline running on MongoDB Atlas and IBM Bob.</p>
 
       <h3>What you achieved today</h3>
       <div class="cards">
