@@ -384,7 +384,7 @@
             <li>Click <b>Sign up</b> (or go to <a class="inline" href="https://bob.ibm.com" target="_blank" rel="noopener">bob.ibm.com</a> and choose <b>Try for free</b>).</li>
             <li>Enter your <b>personal email address</b> and create a password — no IBM ID or company account needed.</li>
             <li>Check your inbox for a verification email from IBM Bob and click the confirmation link. <b>If you don't see it after a minute, check your Spam or Junk folder.</b></li>
-            <li>Return to Bob and sign in with the same email and password.</li>
+            <li>Switch back to the <b>Bob desktop application</b> you installed in step 1 (not the browser), and sign in with the same email and password.</li>
           </ol>
           <div class="note">
             <div class="nt">Already have an account?</div>
@@ -443,7 +443,7 @@
             <li>Click <b>Sign up</b> (or go to <a class="inline" href="https://bob.ibm.com" target="_blank" rel="noopener">bob.ibm.com</a> and choose <b>Try for free</b>).</li>
             <li>Enter your <b>personal email address</b> and create a password — no IBM ID or company account needed.</li>
             <li>Check your inbox for a verification email from IBM Bob and click the confirmation link. <b>If you don't see it after a minute, check your Spam or Junk folder.</b></li>
-            <li>Return to Bob and sign in with the same email and password.</li>
+            <li>Switch back to the <b>Bob desktop application</b> you installed in step 1 (not the browser), and sign in with the same email and password.</li>
           </ol>
           <div class="note">
             <div class="nt">Already have an account?</div>
@@ -502,7 +502,7 @@
             <li>Click <b>Sign up</b> (or go to <a class="inline" href="https://bob.ibm.com" target="_blank" rel="noopener">bob.ibm.com</a> and choose <b>Try for free</b>).</li>
             <li>Enter your <b>personal email address</b> and create a password — no IBM ID or company account needed.</li>
             <li>Check your inbox for a verification email from IBM Bob and click the confirmation link. <b>If you don't see it after a minute, check your Spam or Junk folder.</b></li>
-            <li>Return to Bob and sign in with the same email and password.</li>
+            <li>Switch back to the <b>Bob desktop application</b> you installed in step 1 (not the browser), and sign in with the same email and password.</li>
           </ol>
           <div class="note">
             <div class="nt">Already have an account?</div>
@@ -801,6 +801,14 @@ uv --version</code></pre></div>
           <div class="os-block" data-os="win">
             <div class="os-flag">Windows</div>
             <p><b>Step 3a — Install Node.</b> Go to <a class="inline" href="https://nodejs.org/en/download" target="_blank" rel="noopener">nodejs.org/download</a> in your browser. Click the <b>LTS</b> download button, run the installer, and click through (all defaults are fine). This puts Node and <code class="ic">npx</code> on your computer automatically.</p>
+            <figure class="shot">
+              <img src="img/NodeJS.png" alt="Node.js download page with a red arrow pointing to the green installer download button">
+              <figcaption>Click the green installer button the arrow points to. Even though this screenshot says <b>macOS Installer</b>, on your screen it will say <b>Windows</b> because you're on a Windows PC.</figcaption>
+            </figure>
+            <div class="note">
+              <div class="nt">PowerShell will open by itself</div>
+              <p>While Node downloads and installs, a <b>PowerShell window will open on its own</b> — this is expected, so leave it alone. While it works, open a <b>new</b> PowerShell terminal (Win + R → type <b>powershell</b> → Enter) and continue with Step 3b below to install uv.</p>
+            </div>
             <p><b>Step 3b — Install uv.</b> Paste this into PowerShell and press <kbd>Enter</kbd>:</p>
             <div class="cmd"><pre><code>powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"</code></pre></div>
             <p>When it finishes, <b>close PowerShell and reopen it</b> (Win + R → powershell → Enter) so the new <code class="ic">uv</code> command is available.</p>
